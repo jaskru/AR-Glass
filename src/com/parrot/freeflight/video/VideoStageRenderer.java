@@ -22,8 +22,10 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.parrot.freeflight.R;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 import com.parrot.freeflight.ui.hud.Sprite;
+import com.parrot.freeflight.utils.TextResourceReader;
 
 public class VideoStageRenderer implements Renderer {
 
@@ -44,26 +46,8 @@ public class VideoStageRenderer implements Renderer {
     private int program;
 
 
-    private final String vertexShaderCode =
-        "uniform mat4 uMVPMatrix;   \n" +
-        "attribute vec4 vPosition; \n" +
-        "attribute vec2 aTextureCoord;\n" +
-        "varying vec2 vTextureCoord;\n" +
-        "void main(){              \n" +
-        "  gl_Position = uMVPMatrix * vPosition; \n" +
-        "  vTextureCoord = aTextureCoord;\n" +
-        "}                         \n";
-
-    private final String fragmentShaderCode =
-        "precision mediump float;  \n" +
-        "varying vec2 vTextureCoord;\n" +
-        "uniform sampler2D sTexture;\n" +
-        "uniform float fAlpha ;\n" +
-        "void main(){              \n" +
-        " vec4 color = texture2D(sTexture, vTextureCoord); \n" +
-        " gl_FragColor = vec4(color.xyz, color.w * fAlpha );\n" +
-		" //gl_FragColor = vec4(0.6, 0.7, 0.2, 1.0); \n" +
-        "}                         \n";
+    private final String vertexShaderCode;
+    private final String fragmentShaderCode;
 
     private long startTime;
 
@@ -79,6 +63,11 @@ public class VideoStageRenderer implements Renderer {
 
 		idSpriteMap = new Hashtable<Integer, Sprite>();
 		sprites = new ArrayList<Sprite>(4);
+
+        vertexShaderCode = TextResourceReader.readTextFileFromResource(context,
+                                                                       R.raw.vertex_shader_code);
+        fragmentShaderCode = TextResourceReader
+                .readTextFileFromResource(context, R.raw.fragment_shader_code);
 	}
 
 
@@ -150,9 +139,19 @@ public class VideoStageRenderer implements Renderer {
 
 	    startTime = System.currentTimeMillis();
 
-	    // Drawing scene
+        // Drawing scene on the left half of the screen
+        GLES20.glViewport(0, 0, screenWidth / 2, screenHeight);
+        GLES20.glScissor(0, 0, screenWidth / 2, screenHeight);
 		bgSprite.onDraw(gl, 0, 0);
 
+        // Drawing scene on the right half of the screen
+        GLES20.glViewport(screenWidth / 2, 0, screenWidth / 2, screenHeight);
+        GLES20.glScissor(screenWidth / 2, 0, screenWidth / 2, screenHeight);
+        bgSprite.onDraw(gl, 0, 0);
+
+        // Restore the viewport to the full screen
+        GLES20.glViewport(0, 0, screenWidth, screenHeight);
+        GLES20.glScissor(0, 0, screenWidth, screenHeight);
 		synchronized (sprites) {
     		int spritesSize = sprites.size();
 
@@ -178,7 +177,6 @@ public class VideoStageRenderer implements Renderer {
 		screenWidth = width;
 		screenHeight = height;
 
-        GLES20.glViewport(0, 0, width, height);
 		Matrix.orthoM(mProjMatrix, 0, 0, width, 0, height, 0, 2f);
 
 		bgSprite.setViewAndProjectionMatrices(mVMatrix, mProjMatrix);
@@ -214,6 +212,7 @@ public class VideoStageRenderer implements Renderer {
 
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_SCISSOR_TEST);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
