@@ -1,5 +1,5 @@
 LOCAL_PATH := $(call my-dir)
-SDK_PATH := /home/fhuya/workspace/libs/ARDrone_SDK_2_0_1/ARDroneLib
+SDK_PATH := /home/fhuya/playground/sandbox/libs/ARDrone_SDK_2_0_1/ARDroneLib
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := sdk 

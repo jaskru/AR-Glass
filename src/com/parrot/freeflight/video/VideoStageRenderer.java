@@ -143,11 +143,13 @@ public class VideoStageRenderer implements Renderer {
         GLES20.glViewport(0, 0, screenWidth / 2, screenHeight);
         GLES20.glScissor(0, 0, screenWidth / 2, screenHeight);
 		bgSprite.onDraw(gl, 0, 0);
+        GLES20.glFlush();
 
         // Drawing scene on the right half of the screen
         GLES20.glViewport(screenWidth / 2, 0, screenWidth / 2, screenHeight);
         GLES20.glScissor(screenWidth / 2, 0, screenWidth / 2, screenHeight);
         bgSprite.onDraw(gl, 0, 0);
+        GLES20.glFlush();
 
         // Restore the viewport to the full screen
         GLES20.glViewport(0, 0, screenWidth, screenHeight);
@@ -168,6 +170,7 @@ public class VideoStageRenderer implements Renderer {
     			}
     		}
 		}
+        GLES20.glFlush();
 	}
 
 

@@ -32,9 +32,9 @@
 							</builder>
 							<tool id="com.android.gcc.compiler.998924136" name="Android GCC Compiler" superClass="com.android.gcc.compiler">
 								<option id="com.android.gcc.option.includePath.676368295" superClass="com.android.gcc.option.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/fhuya/workspace/libs/ARDrone_SDK_2_0_1/ARDroneLib/Soft/Lib"/>
-									<listOptionValue builtIn="false" value="/home/fhuya/workspace/libs/ARDrone_SDK_2_0_1/ARDroneLib/VP_SDK"/>
-									<listOptionValue builtIn="false" value="/home/fhuya/workspace/libs/ARDrone_SDK_2_0_1/ARDroneLib/Soft/Common"/>
+									<listOptionValue builtIn="false" value="/home/fhuya/playground/sandbox/libs/ARDrone_SDK_2_0_1/ARDroneLib/Soft/Lib"/>
+									<listOptionValue builtIn="false" value="/home/fhuya/playground/sandbox/libs/ARDrone_SDK_2_0_1/ARDroneLib/VP_SDK"/>
+									<listOptionValue builtIn="false" value="/home/fhuya/playground/sandbox/libs/ARDrone_SDK_2_0_1/ARDroneLib/Soft/Common"/>
 								</option>
 								<inputType id="com.android.gcc.inputType.203652479" superClass="com.android.gcc.inputType"/>
 							</tool>
@@ -63,4 +63,5 @@
 			<resource resourceType="PROJECT" workspacePath="/adfreeflight"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
