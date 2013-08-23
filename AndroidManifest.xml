@@ -40,13 +40,13 @@
         android:name="android.hardware.wifi"
         android:required="true" />
 
-<application
+    <application
         android:name=".FreeFlightApplication"
         android:allowClearUserData="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/FreeFlightTheme">
+        android:theme="@style/FreeFlightTheme" >
         <activity
             android:name=".activities.SplashActivity"
             android:configChanges="orientation"
@@ -55,10 +55,8 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:screenOrientation="landscape" 
-            android:theme="@style/FreeFlight.SplashScreen"
-            >
-            
+            android:screenOrientation="landscape"
+            android:theme="@style/FreeFlight.SplashScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -67,9 +65,11 @@
         </activity>
         <activity
             android:name=".activities.ConnectActivity"
+            android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
             android:noHistory="true"
-            android:screenOrientation="landscape" android:excludeFromRecents="true" android:stateNotNeeded="true"/>
+            android:screenOrientation="landscape"
+            android:stateNotNeeded="true" />
         <activity
             android:name=".activities.ControlDroneActivity"
             android:configChanges="touchscreen|keyboardHidden|orientation"

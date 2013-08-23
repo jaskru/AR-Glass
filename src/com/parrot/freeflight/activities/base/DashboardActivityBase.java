@@ -19,12 +19,11 @@ import com.parrot.freeflight.ui.StatusBar;
 
 @SuppressLint("Registered")
 // There is no need to register this activity in the manifest as this is a base activity for others.
-public class DashboardActivityBase extends ParrotActivity 
-implements OnClickListener,
-MediaStorageReceiverDelegate
+public class DashboardActivityBase extends ParrotActivity implements OnClickListener,
+        MediaStorageReceiverDelegate
 {
 	protected static final String TAG = "DashboardActivity";
-	
+
 	public enum EPhotoVideoState
 	{
 	    UNKNOWN,
@@ -32,9 +31,9 @@ MediaStorageReceiverDelegate
 	    NO_MEDIA,
 	    NO_SDCARD
 	}
-	
+
 	private StatusBar header = null;
-	
+
 	private CheckedTextView btnFreeFlight;
 	private CheckedTextView btnAcademy;
 	private CheckedTextView btnPhotosVideos;
@@ -45,7 +44,7 @@ MediaStorageReceiverDelegate
     private AlertDialog alertDialog;
 
     private MediaStorageReceiver externalStorageStateReceiver;
-    
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -56,12 +55,11 @@ MediaStorageReceiverDelegate
 		View headerView = findViewById(R.id.header_preferences);
 
 		header = new StatusBar(this, headerView);
-				
+
 		initUI();
 		initListeners();
 		initBroadcastReceivers();
 	}
-	
 
 	private void initBroadcastReceivers()
     {
@@ -69,9 +67,9 @@ MediaStorageReceiverDelegate
     }
 
 
-    private void initUI() 
+    private void initUI()
 	{
-		btnFreeFlight     = (CheckedTextView) findViewById(R.id.btnFreeFlight);
+        btnFreeFlight = (CheckedTextView) findViewById(R.id.btnFreeFlight);
 		btnAcademy        = (CheckedTextView) findViewById(R.id.btnAcademy);
 		btnPhotosVideos   = (CheckedTextView) findViewById(R.id.btnPhotosVideos);
 		btnFirmwareUpdate = (CheckedTextView) findViewById(R.id.btnFirmwareUpdate);
@@ -90,14 +88,14 @@ MediaStorageReceiverDelegate
 		btnGetYourDrone.setOnClickListener(this);
 	}
 
-	
+
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
 	}
 
-	
+
 	@Override
 	protected void onPause()
 	{
@@ -107,22 +105,22 @@ MediaStorageReceiverDelegate
         if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
         }
-        
+
         externalStorageStateReceiver.unregisterFromEvents(this);
 	}
 
-	
+
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
 		header.startUpdating();
 		requestUpdateButtonsState();
-		
+
 		externalStorageStateReceiver.registerForEvents(this);
 	}
 
-	
+
 	public void requestUpdateButtonsState()
 	{
 		if (Looper.myLooper() == null)
@@ -136,8 +134,9 @@ MediaStorageReceiverDelegate
 		btnGetYourDrone.setChecked(isGuestSpaceEnabled());
 	}
 
-	
-	public void onClick(View v)
+
+	@Override
+    public void onClick(View v)
 	{
 		switch (v.getId())
 		{
@@ -208,13 +207,13 @@ MediaStorageReceiverDelegate
 		return false;
 	}
 
-	
+
 	protected EPhotoVideoState getPhotoVideoState()
 	{
 	    return EPhotoVideoState.NO_SDCARD;
 	}
-	
-	
+
+
 	@Deprecated
 	protected boolean isPhotoVideosEnabled()
 	{
@@ -293,7 +292,8 @@ MediaStorageReceiverDelegate
 
 		Runnable runnable = new Runnable()
 		{
-			public void run()
+			@Override
+            public void run()
 			{
 				parent.removeViewAt(index);
 				parent.addView(oldView, index);
@@ -312,6 +312,7 @@ MediaStorageReceiverDelegate
                 .setCancelable(false)
                 .setNegativeButton(getString(android.R.string.ok), new DialogInterface.OnClickListener()
                 {
+                    @Override
                     public void onClick(DialogInterface dialog, int id)
                     {
                         dialog.dismiss();
@@ -320,7 +321,7 @@ MediaStorageReceiverDelegate
                         }
                     }
                 }).create();
-        
+
         alertDialog.show();
     }
 
@@ -341,7 +342,7 @@ MediaStorageReceiverDelegate
 
     @Override
     public void onMediaEject()
-    {   
+    {
         // Left unimplemented
     }
 
