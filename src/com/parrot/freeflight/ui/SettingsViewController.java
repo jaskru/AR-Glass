@@ -20,7 +20,6 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -61,6 +60,7 @@ public class SettingsViewController
     private CheckBox togglePairing;
     private CheckBox toggleVideoOnUsb;
     private CheckBox toggleLoopingEnabled;
+    private CheckBox toggleOculusMode;
     // private CheckBox toggleAltitudeLimited;
     // private CheckBox toggleAdaptiveVideo;
     private CheckBox toggleOutdoorHull;
@@ -236,6 +236,8 @@ public class SettingsViewController
         toggleLeftHanded = (CheckBox) settingsViews.get(devicePageIdx).findViewById(R.id.toggleLeftHanded);
         toggleVideoOnUsb = (CheckBox) settingsViews.get(ardronePageIdx).findViewById(R.id.toggleUsbRecord);
         toggleLoopingEnabled = (CheckBox) settingsViews.get(ardronePageIdx).findViewById(R.id.toggleLoopingEnabled);
+        toggleOculusMode = (CheckBox) settingsViews.get(ardronePageIdx).findViewById(
+                R.id.toggleOculusMode);
         // toggleAdaptiveVideo = (ToggleButton)
         // dialog.findViewById(R.id.toggleAdaptiveVideo);
         // toggleAltitudeLimited = (ToggleButton)
@@ -246,7 +248,8 @@ public class SettingsViewController
 
         toggleButtons = new CheckBox[] {
                 toggleJoypadMode, toggleAbsoluteControl, toggleLeftHanded,
-                togglePairing, toggleVideoOnUsb, toggleLoopingEnabled,
+                                        togglePairing, toggleVideoOnUsb, toggleLoopingEnabled,
+                                        toggleOculusMode,
                 toggleOutdoorFlight, toggleOutdoorHull
         };
 
@@ -255,7 +258,7 @@ public class SettingsViewController
         btnScrollRight = container.findViewById(R.id.btnNext);
         btnScrollRight.setOnClickListener(this);
 
-        btnCalibrateMagneto = (Button) settingsViews.get(devicePageIdx).findViewById(R.id.btnCalibration);
+        btnCalibrateMagneto = settingsViews.get(devicePageIdx).findViewById(R.id.btnCalibration);
         clickButtons = new View[] {
                 btnDefaultSettings = container.findViewById(R.id.btnDefaultSettings),
                 btnFlatTrim = container.findViewById(R.id.btnFlatTrim),
@@ -404,10 +407,12 @@ public class SettingsViewController
     {
 
         tiltMaxSeekListener = new OnSeekBarChangeListener() {
+            @Override
             public void onStartTrackingTouch(SeekBar seekBar)
             {}
 
 
+            @Override
             public void onStopTrackingTouch(SeekBar seekBar)
             {
                 if (globalOnSeekChangedListener != null)
@@ -415,6 +420,7 @@ public class SettingsViewController
             }
 
 
+            @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser)
             {
@@ -424,10 +430,12 @@ public class SettingsViewController
         };
 
         interfaceOpacitySeekListener = new OnSeekBarChangeListener() {
+            @Override
             public void onStartTrackingTouch(SeekBar seekBar)
             {}
 
 
+            @Override
             public void onStopTrackingTouch(SeekBar seekBar)
             {
                 if (globalOnSeekChangedListener != null)
@@ -435,6 +443,7 @@ public class SettingsViewController
             }
 
 
+            @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser)
             {
@@ -445,10 +454,12 @@ public class SettingsViewController
         };
 
         yawSpeedMaxSeekListener = new OnSeekBarChangeListener() {
+            @Override
             public void onStartTrackingTouch(SeekBar seekBar)
             {}
 
 
+            @Override
             public void onStopTrackingTouch(SeekBar seekBar)
             {
                 if (globalOnSeekChangedListener != null)
@@ -456,6 +467,7 @@ public class SettingsViewController
             }
 
 
+            @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser)
             {
@@ -465,10 +477,12 @@ public class SettingsViewController
         };
 
         vertSpeedMaxSeekListener = new OnSeekBarChangeListener() {
+            @Override
             public void onStartTrackingTouch(SeekBar seekBar)
             {}
 
 
+            @Override
             public void onStopTrackingTouch(SeekBar seekBar)
             {
                 if (globalOnSeekChangedListener != null)
@@ -476,6 +490,7 @@ public class SettingsViewController
             }
 
 
+            @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser)
             {
@@ -485,10 +500,12 @@ public class SettingsViewController
         };
 
         tiltSeekListener = new OnSeekBarChangeListener() {
+            @Override
             public void onStartTrackingTouch(SeekBar seekBar)
             {}
 
 
+            @Override
             public void onStopTrackingTouch(SeekBar seekBar)
             {
                 if (globalOnSeekChangedListener != null)
@@ -496,6 +513,7 @@ public class SettingsViewController
             }
 
 
+            @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser)
             {
@@ -506,6 +524,7 @@ public class SettingsViewController
 
         altitudeLimitSeekListener = new OnSeekBarChangeListener() {
 
+            @Override
             public void onStopTrackingTouch(SeekBar seekBar)
             {
                 if (globalOnSeekChangedListener != null) {
@@ -514,6 +533,7 @@ public class SettingsViewController
             }
 
 
+            @Override
             public void onStartTrackingTouch(SeekBar seekBar)
             {
                 // TODO Auto-generated method stub
@@ -521,6 +541,7 @@ public class SettingsViewController
             }
 
 
+            @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser)
             {
@@ -533,12 +554,12 @@ public class SettingsViewController
     public void setNetworkNameOnEditorActionListener(OnEditorActionListener listener)
     {
         this.editNetworkNameActionListener = listener;
-        
+
         editNetworkName.setOnEditorActionListener(new OnEditorActionListener() {
-            
+
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-            {   
+            {
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 // Avoid the focus to be put in the field automatically
@@ -551,9 +572,10 @@ public class SettingsViewController
                 }
             }
         });
-        
+
         editNetworkName.setOnTouchListener(new OnTouchListener() {
 
+            @Override
             public boolean onTouch(View v, MotionEvent event)
             {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -1003,18 +1025,21 @@ public class SettingsViewController
     }
 
 
+    @Override
     public void onPageScrollStateChanged(int state)
     {
         // Left unimplemented
     }
 
 
+    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
     {
         // Left unimplemented
     }
 
 
+    @Override
     public void onPageSelected(int position)
     {
         if (position == 0 && btnScrollLeft.getVisibility() != View.INVISIBLE) {
@@ -1039,6 +1064,7 @@ public class SettingsViewController
     }
 
 
+    @Override
     public void onClick(View v)
     {
 

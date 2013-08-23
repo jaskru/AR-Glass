@@ -1,6 +1,7 @@
 
 package com.parrot.freeflight.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,9 +18,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioGroup;
@@ -42,6 +41,7 @@ import com.parrot.freeflight.ui.SettingsViewController;
 import com.parrot.freeflight.ui.listeners.OnSeekChangedListener;
 import com.parrot.freeflight.utils.FontUtils;
 
+@SuppressLint("ValidFragment")
 public class SettingsDialog extends DialogFragment
         implements
         OnCheckedChangeListener,
@@ -71,7 +71,6 @@ public class SettingsDialog extends DialogFragment
     private boolean magnetoAvailable;
     private boolean acceleroAvailable;
 
-
     public SettingsDialog(Context context, SettingsDialogDelegate delegate, DroneControlService service,
             boolean magnetoAvailable)
     {
@@ -84,6 +83,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -263,6 +263,7 @@ public class SettingsDialog extends DialogFragment
 
         AsyncTask<Integer, Integer, Boolean> resetSettingsTask = new AsyncTask<Integer, Integer, Boolean>()
         {
+            @Override
             protected Boolean doInBackground(Integer... params)
             {
 
@@ -303,6 +304,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
+    @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
         switch (buttonView.getId())
@@ -327,6 +329,9 @@ public class SettingsDialog extends DialogFragment
         case R.id.toggleLoopingEnabled:
             appSettings.setFlipEnabled(isChecked);
             break;
+            case R.id.toggleOculusMode:
+                appSettings.setOculusModeEnabled(isChecked);
+                break;
         case R.id.toggleOutdoorHull:
             droneSettings.setOutdoorHull(isChecked);
             break;
@@ -347,6 +352,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
+    @Override
     public void onChanged(SeekBar seek, int value)
     {
         switch (seek.getId()) {
@@ -373,6 +379,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
+    @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
     {
         if (v.getId() == R.id.editNetworkName) {
@@ -425,6 +432,7 @@ public class SettingsDialog extends DialogFragment
                             .setIcon(android.R.drawable.ic_dialog_info)
                             .setPositiveButton(android.R.string.ok, new OnClickListener() {
 
+                                @Override
                                 public void onClick(DialogInterface dialog, int which)
                                 {
                                     dialog.dismiss();
@@ -444,6 +452,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
+    @Override
     public void onCheckedChanged(RadioGroup group, int checkedId)
     {
         switch (checkedId) {
@@ -457,6 +466,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
+    @Override
     public void onClick(View v)
     {
         switch (v.getId()) {
@@ -512,6 +522,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
+    @Override
     public void onDroneConfigChanged()
     {
         fillUiControls();
