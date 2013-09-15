@@ -3,8 +3,6 @@ package com.parrot.freeflight.activities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -34,7 +32,6 @@ import com.parrot.freeflight.ui.VideoController;
 import com.parrot.freeflight.ui.adapters.GalleryAdapter;
 import com.parrot.freeflight.ui.adapters.GalleryAdapterDelegate;
 import com.parrot.freeflight.utils.DeviceCapabilitiesUtils;
-import com.parrot.freeflight.utils.NookUtils;
 import com.parrot.freeflight.utils.ShareUtils;
 import com.parrot.freeflight.vo.MediaVO;
 
@@ -50,7 +47,7 @@ public class GalleryActivity extends ParrotActivity
         OnPageChangeListener,
         GalleryAdapterDelegate,
         OnGestureListener
-        
+
 {
     private static final String TAG = GalleryActivity.class.getSimpleName();
     public static String SELECTED_ELEMENT = "SELECTED_ELEMENT";
@@ -64,12 +61,11 @@ public class GalleryActivity extends ParrotActivity
 
     private int currentItem;
     private boolean shouldResumeVideo = false;
-    
+
     private GalleryAdapter adapter;
     private GetMediaObjectsListTask initMediaTask;
-    
-    private GestureDetector gestureDetector;
 
+    private GestureDetector gestureDetector;
 
     private void initHeader()
     {
@@ -79,18 +75,14 @@ public class GalleryActivity extends ParrotActivity
         bar.initBackButton();
         bar.changeBackground(ActionBar.Background.ACCENT_HALF_TRANSP);
         bar.hide(false);
-
-        if (!NookUtils.isNook()) {
-            bar.initShareButton(this);
-        }
-        
+        bar.initShareButton(this);
         gestureDetector = new GestureDetector(this, this);
     }
 
-
     private void initMediaTask(MediaFilter filter, final int selectedElement)
     {
-        if (initMediaTask == null || (initMediaTask != null && initMediaTask.getStatus() != Status.RUNNING)) {
+        if ( initMediaTask == null ||
+             (initMediaTask != null && initMediaTask.getStatus() != Status.RUNNING) ) {
             initMediaTask = new GetMediaObjectsListTask(this, filter)
             {
                 @Override
@@ -110,7 +102,6 @@ public class GalleryActivity extends ParrotActivity
         }
     }
 
-
     private void initView(final int selectedElement)
     {
         vc = new VideoController(findViewById(R.id.media_controller));
@@ -127,48 +118,47 @@ public class GalleryActivity extends ParrotActivity
         vc.hide();
     }
 
-
+    @Override
     public void onClick(final View v)
     {
-        if (v.getId() == R.id.btnShare) {
+        if ( v.getId() == R.id.btnShare ) {
             onShareClicked();
         }
     }
-
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-      
+
         setContentView(R.layout.gallery_screen);
 
         initHeader();
         final Intent intent = getIntent();
-        
-        if (savedInstanceState != null) {
+
+        if ( savedInstanceState != null ) {
             currentItem = savedInstanceState.getInt(SELECTED_ELEMENT, 0);
-        } else {
-            if (currentItem == 0) {
+        }
+        else {
+            if ( currentItem == 0 ) {
                 currentItem = intent.getIntExtra(SELECTED_ELEMENT, 0);
             }
         }
 
-        MediaFilter mediaFilter = MediaFilter.values()[intent.getIntExtra(MEDIA_FILTER, MediaFilter.ALL.ordinal())];
+        MediaFilter mediaFilter = MediaFilter.values()[intent.getIntExtra(MEDIA_FILTER,
+                MediaFilter.ALL.ordinal())];
         initMediaTask(mediaFilter, currentItem);
     }
-
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        
-        if (initMediaTask != null && initMediaTask.getStatus() == Status.RUNNING) {
+
+        if ( initMediaTask != null && initMediaTask.getStatus() == Status.RUNNING ) {
             initMediaTask.cancel(false);
         }
     }
-    
 
     protected void onMediaScanCompleted(final int selectedElement, final List<MediaVO> result)
     {
@@ -180,48 +170,48 @@ public class GalleryActivity extends ParrotActivity
         initMediaTask = null;
     }
 
-
+    @Override
     public void onPageScrolled(final int arg0, final float arg1, final int arg2)
     {
         // Left unimplemented
     }
 
-
+    @Override
     public void onPageScrollStateChanged(final int state)
     {
         switch (state) {
-        case ViewPager.SCROLL_STATE_DRAGGING:
-            Log.d(TAG, "onPageScrollStateChanged: DRAGGING");
-            
-            if (!bar.isVisible()) {
-                bar.show(true);
-            }
-            
-            vc.hide();
-            
-            if (viewCurrItem != null) {
-                VideoView video = (VideoView) viewCurrItem.findViewById(R.id.video_view);
-                if (video != null) {
-                    video.stopPlayback();
-                    setMediaViewVisible(false);
-                    vc.attachVideo(null);
+            case ViewPager.SCROLL_STATE_DRAGGING:
+                Log.d(TAG, "onPageScrollStateChanged: DRAGGING");
+
+                if ( !bar.isVisible() ) {
+                    bar.show(true);
                 }
 
-                viewCurrItem = null;
-            }
-            
-            break;
-        case ViewPager.SCROLL_STATE_SETTLING:
-            Log.d(TAG, "onPageScrollStateChanged: SETTLING");
-            break;
-        case ViewPager.SCROLL_STATE_IDLE:
-            Log.d(TAG, "onPageScrollStateChanged: IDLE");
-            break;
+                vc.hide();
+
+                if ( viewCurrItem != null ) {
+                    VideoView video = (VideoView) viewCurrItem.findViewById(R.id.video_view);
+                    if ( video != null ) {
+                        video.stopPlayback();
+                        setMediaViewVisible(false);
+                        vc.attachVideo(null);
+                    }
+
+                    viewCurrItem = null;
+                }
+
+                break;
+            case ViewPager.SCROLL_STATE_SETTLING:
+                Log.d(TAG, "onPageScrollStateChanged: SETTLING");
+                break;
+            case ViewPager.SCROLL_STATE_IDLE:
+                Log.d(TAG, "onPageScrollStateChanged: IDLE");
+                break;
         }
 
     }
 
-
+    @Override
     public void onPageSelected(int position)
     {
         currentItem = position;
@@ -229,52 +219,51 @@ public class GalleryActivity extends ParrotActivity
         setTitle(++position + " " + getString(R.string.of) + " " + mediaList.size());
     }
 
-
     @Override
     protected void onPause()
     {
         super.onPause();
-        
-        if (vc != null) {
-	        shouldResumeVideo = !vc.isPaused();
-	        vc.pause();
-	        
-	        bar.hide(true);
-	        vc.hide();
+
+        if ( vc != null ) {
+            shouldResumeVideo = !vc.isPaused();
+            vc.pause();
+
+            bar.hide(true);
+            vc.hide();
         }
     }
 
-
     @Override
     public void onPlayButtonClicked(ViewGroup parent)
-    {  
-    	if (DeviceCapabilitiesUtils.getMaxSupportedVideoRes() == EVideoRecorderCapability.NOT_SUPPORTED) {
-    		playVideoInExternalPlayer();
-    		return;
-    	}
-    	
+    {
+        if ( DeviceCapabilitiesUtils.getMaxSupportedVideoRes() == EVideoRecorderCapability.NOT_SUPPORTED ) {
+            playVideoInExternalPlayer();
+            return;
+        }
+
         VideoView videoView = null;
-        
+
         /*
          * There should be only one video view in view hierarchy in order for
          * video to work. That is why we use video stub that is transformed
          * into video view when user press play button.
          */
-        ViewStub videoStub = (ViewStub)parent.findViewById(R.id.video_view_stub);
-     
-        if (videoStub != null) {
-        	videoView = (VideoView) videoStub.inflate();
-        } else {
-        	// Looks like VideoView has been already inflated. Looking for it.
-        	videoView = (VideoView) parent.findViewById(R.id.video_view);
-        	
-        	if (videoView == null) {
-        		// Nope, something went wrong here. Calling error handler.
-        		playVideoInExternalPlayer();
-        		return;
-        	}
+        ViewStub videoStub = (ViewStub) parent.findViewById(R.id.video_view_stub);
+
+        if ( videoStub != null ) {
+            videoView = (VideoView) videoStub.inflate();
         }
-        
+        else {
+            // Looks like VideoView has been already inflated. Looking for it.
+            videoView = (VideoView) parent.findViewById(R.id.video_view);
+
+            if ( videoView == null ) {
+                // Nope, something went wrong here. Calling error handler.
+                playVideoInExternalPlayer();
+                return;
+            }
+        }
+
         videoView.setOnErrorListener(new OnErrorListener() {
             @Override
             public boolean onError(final MediaPlayer mp, final int what, final int extra)
@@ -283,44 +272,42 @@ public class GalleryActivity extends ParrotActivity
             }
         });
 
-      
         final MediaVO media = mediaList.get(currentItem);
-    
-        if (media.isVideo()) {
+
+        if ( media.isVideo() ) {
             viewCurrItem = parent;
             setMediaViewVisible(true);
             vc.attachVideo(videoView);
-            
+
             final VideoView videoViewControl = videoView;
-            
+
             videoView.postDelayed(new Runnable() {
                 @Override
                 public void run()
                 {
                     videoViewControl.setVideoURI(media.getUri());
-                    videoViewControl.start();       
+                    videoViewControl.start();
                     bar.hide(true);
                 }
             }, 100);
         }
     }
 
-
     @Override
     protected void onResume()
     {
         super.onResume();
-        
-        if (vc != null) {
-            if (shouldResumeVideo) {
+
+        if ( vc != null ) {
+            if ( shouldResumeVideo ) {
                 vc.resume();
-            } else {
+            }
+            else {
                 vc.resume();
                 vc.pause();
             }
         }
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState)
@@ -331,134 +318,132 @@ public class GalleryActivity extends ParrotActivity
         outState.putInt(SELECTED_ELEMENT, gallery.getCurrentItem());
     }
 
-
     protected void onShareClicked()
     {
         final MediaVO media = mediaList.get(currentItem);
 
-        if (media.isVideo()) {
+        if ( media.isVideo() ) {
             ShareUtils.shareVideo(this, media.getPath());
-        } else {
+        }
+        else {
             ShareUtils.sharePhoto(this, media.getPath());
         }
     }
 
-
-	public boolean onTouch(final View v, final MotionEvent event) 
-	{
-	    gestureDetector.onTouchEvent(event);
-		return false;
-	}
-	
+    @Override
+    public boolean onTouch(final View v, final MotionEvent event)
+    {
+        gestureDetector.onTouchEvent(event);
+        return false;
+    }
 
     protected boolean onVideoPlayFailed(MediaPlayer mp, int what, int extra)
     {
-		if (mp != null) {
-    		mp.stop();
-    	}
-    	
-    	playVideoInExternalPlayer();
-        
+        if ( mp != null ) {
+            mp.stop();
+        }
+
+        playVideoInExternalPlayer();
+
         setMediaViewVisible(false);
 
         return true;
     }
 
-
-	private void playVideoInExternalPlayer() 
-	{
+    private void playVideoInExternalPlayer()
+    {
         vc.hide();
-        
-        Log.d(TAG, "Error occured while trying to play video via embedded player. Trying to play video in external player");
+
+        Log.d(TAG,
+                "Error occured while trying to play video via embedded player. Trying to play video in external player");
         Intent intent = new Intent(Intent.ACTION_VIEW);
 
         overridePendingTransition(R.anim.nothing, R.anim.nothing);
-        
-        MediaVO media = (MediaVO) mediaList.get(currentItem);
+
+        MediaVO media = mediaList.get(currentItem);
         intent.setDataAndType(media.getUri(), "video/mp4");
         startActivity(intent);
-	}
+    }
 
-	
-	private void setMediaViewVisible(boolean visible) 
-	{
-		if (viewCurrItem == null) {
-			return;
-		}
-
-		VideoView videoView = (VideoView) viewCurrItem
-				.findViewById(R.id.video_view);
-		View btnPlay = viewCurrItem.findViewById(R.id.btn_play);
-		View thumb = viewCurrItem.findViewById(R.id.image);
-
-		if (visible) {
-			if (videoView != null) {
-				videoView.setVisibility(View.VISIBLE);
-			} else {
-				Log.w(TAG,
-						"Can't make video view visible. It has not been found in view hierarchy.");
-			}
-			thumb.setVisibility(View.INVISIBLE);
-			btnPlay.setVisibility(View.INVISIBLE);
-		} else {
-			thumb.setVisibility(View.VISIBLE);
-			btnPlay.setVisibility(View.VISIBLE);
-
-			if (videoView != null) {
-				videoView.setVisibility(View.GONE);
-			} else {
-				Log.w(TAG,
-						"Unable to make video view invisible. It has not been found in view hierarchy.");
-			}
-		}
-	}
-
-
-    private void setTitle(final String value)
+    private void setMediaViewVisible(boolean visible)
     {
-        if (bar != null) {
-            bar.initTitle(value);
+        if ( viewCurrItem == null ) {
+            return;
+        }
+
+        VideoView videoView = (VideoView) viewCurrItem
+                .findViewById(R.id.video_view);
+        View btnPlay = viewCurrItem.findViewById(R.id.btn_play);
+        View thumb = viewCurrItem.findViewById(R.id.image);
+
+        if ( visible ) {
+            if ( videoView != null ) {
+                videoView.setVisibility(View.VISIBLE);
+            }
+            else {
+                Log.w(TAG,
+                        "Can't make video view visible. It has not been found in view hierarchy.");
+            }
+            thumb.setVisibility(View.INVISIBLE);
+            btnPlay.setVisibility(View.INVISIBLE);
+        }
+        else {
+            thumb.setVisibility(View.VISIBLE);
+            btnPlay.setVisibility(View.VISIBLE);
+
+            if ( videoView != null ) {
+                videoView.setVisibility(View.GONE);
+            }
+            else {
+                Log.w(TAG,
+                        "Unable to make video view invisible. It has not been found in view hierarchy.");
+            }
         }
     }
 
+    private void setTitle(final String value)
+    {
+        if ( bar != null ) {
+            bar.initTitle(value);
+        }
+    }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e)
     {
         final MediaVO imageDetailVO = mediaList.get(currentItem);
 
-         if (bar.isVisible()) {
-             bar.hide(true);
-    
-             if (imageDetailVO.isVideo() && viewCurrItem != null) {
-                 vc.hide();
-             }
-         } else {
-             bar.show(true);
-    
-             if (imageDetailVO.isVideo() && viewCurrItem != null) {
-                 if (viewCurrItem.findViewById(R.id.video_view)
-                         .getVisibility() == View.VISIBLE) {
-                     vc.show();
-                 }
-             }
-         }
+        if ( bar.isVisible() ) {
+            bar.hide(true);
+
+            if ( imageDetailVO.isVideo() && viewCurrItem != null ) {
+                vc.hide();
+            }
+        }
+        else {
+            bar.show(true);
+
+            if ( imageDetailVO.isVideo() && viewCurrItem != null ) {
+                if ( viewCurrItem.findViewById(R.id.video_view)
+                        .getVisibility() == View.VISIBLE ) {
+                    vc.show();
+                }
+            }
+        }
         return true;
     }
 
-    
     @Override
     public boolean onDown(MotionEvent e)
     {
-       // Left unimplemented
+        // Left unimplemented
         return false;
     }
-
 
     @Override
     public void onShowPress(MotionEvent e)
     {
-       // Left unimplemented
+        // Left unimplemented
     }
 
     @Override
@@ -468,13 +453,11 @@ public class GalleryActivity extends ParrotActivity
         return false;
     }
 
-
     @Override
     public void onLongPress(MotionEvent e)
     {
         // Left unimplemented
     }
-
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)

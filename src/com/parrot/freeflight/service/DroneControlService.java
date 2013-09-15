@@ -46,8 +46,8 @@ import com.parrot.freeflight.utils.FTPUtils;
 import com.parrot.freeflight.utils.FileUtils;
 import com.parrot.freeflight.utils.GPSHelper;
 
-public class DroneControlService extends Service 
-implements 
+public class DroneControlService extends Service
+implements
 Runnable,
 DroneAcademyMediaListener,
 LocationListener
@@ -85,7 +85,7 @@ LocationListener
 	private static final int CONTROL_SET_ROLL  = 3;
 
 
-	private final IBinder binder = new LocalBinder();	
+	private final IBinder binder = new LocalBinder();
 	private DroneProxy droneProxy;
 
 	private Thread navdataUpdateThread;
@@ -127,7 +127,7 @@ LocationListener
 	}
 
 
-	public class LocalBinder extends Binder 
+	public class LocalBinder extends Binder
 	{
 		public DroneControlService getService() {
 			return DroneControlService.this;
@@ -136,7 +136,7 @@ LocationListener
 
 
 	@Override
-	public void onCreate() 
+	public void onCreate()
 	{
 		super.onCreate();
 		droneVersion = EDroneVersion.UNKNOWN;
@@ -185,10 +185,10 @@ LocationListener
 
 
 	@Override
-	public void onDestroy() 
+	public void onDestroy()
 	{
 	    super.onDestroy();
-		
+
 	    disconnect();
 
 		if (wakeLock != null && wakeLock.isHeld()) {
@@ -198,7 +198,7 @@ LocationListener
 		Log.d(TAG, "All threads have been stopped");
 
 		stopWorkerThreads();
-		
+
 		// TODO: This is not correct but without killing our process
 		// ArDrone lib will hang on next launch. Should be removed when
 		// library is fixed.
@@ -212,7 +212,7 @@ LocationListener
 		intentCache.put(VIDEO_RECORDING_STATE_CHANGED_ACTION, new Intent(VIDEO_RECORDING_STATE_CHANGED_ACTION));
 		intentCache.put(DRONE_EMERGENCY_STATE_CHANGED_ACTION, new Intent(DRONE_EMERGENCY_STATE_CHANGED_ACTION));
 		intentCache.put(DRONE_FLYING_STATE_CHANGED_ACTION,    new Intent(DRONE_FLYING_STATE_CHANGED_ACTION));
-		intentCache.put(DRONE_BATTERY_CHANGED_ACTION,         new Intent(DRONE_BATTERY_CHANGED_ACTION));      
+		intentCache.put(DRONE_BATTERY_CHANGED_ACTION,         new Intent(DRONE_BATTERY_CHANGED_ACTION));
 		intentCache.put(DRONE_FIRMWARE_CHECK_ACTION,          new Intent(DRONE_FIRMWARE_CHECK_ACTION));
 		intentCache.put(DRONE_STATE_READY_ACTION,             new Intent(DRONE_STATE_READY_ACTION));
 		intentCache.put(DRONE_CONNECTION_CHANGED_ACTION,      new Intent(DRONE_CONNECTION_CHANGED_ACTION));
@@ -225,11 +225,11 @@ LocationListener
 
 
 	/*
-	 *	Connection methods 
+	 *	Connection methods
 	 */
 
 	/**
-	 * Connects to the ArDrone 
+	 * Connects to the ArDrone
 	 */
 	protected void connect()
 	{
@@ -245,7 +245,7 @@ LocationListener
 	}
 
 	/**
-	 * Pauses data exchange between ArDrone and the service. 
+	 * Pauses data exchange between ArDrone and the service.
 	 */
 	public void pause()
 	{
@@ -253,7 +253,7 @@ LocationListener
 	}
 
 	/**
-	 * Restores data exchange between ArDrone and the service. 
+	 * Restores data exchange between ArDrone and the service.
 	 */
 	public void resume()
 	{
@@ -273,7 +273,7 @@ LocationListener
 	/**
 	 * Makes ArDrone fly or land
 	 */
-	public void triggerTakeOff() 
+	public void triggerTakeOff()
 	{
 		droneProxy.triggerTakeOff();
 	}
@@ -282,13 +282,13 @@ LocationListener
 	/**
 	 * Makes the drone to turn around in order to calibrate its compass
 	 */
-	public void calibrateMagneto() 
+	public void calibrateMagneto()
 	{
 		droneProxy.calibrateMagneto();
 	}
 
 
-	/** 
+	/**
 	 * Makes the drone to do left flip
 	 */
 	public void doLeftFlip()
@@ -300,7 +300,7 @@ LocationListener
 	/**
 	 * Makes ArDrone to stop engines and fall
 	 */
-	public void triggerEmergency() 
+	public void triggerEmergency()
 	{
 		droneProxy.triggerEmergency();
 	}
@@ -310,7 +310,7 @@ LocationListener
 	 * Gets config from the drone.
 	 * When config is updated - DRONE_CONFIG_STATE_CHANGED_ACTION will be fired.
 	 */
-	public void triggerConfigUpdate() 
+	public void triggerConfigUpdate()
 	{
 		droneProxy.triggerConfigUpdateNative();
 	}
@@ -431,32 +431,32 @@ LocationListener
 	/**
 	 * Capture the photo from the drone camera. Will trigger NEW_MEDIA_IS_AVAILABLE_ACTION action to be sent.
 	 */
-	public void takePhoto() 
-	{   
+	public void takePhoto()
+	{
 	    droneProxy.takePhoto();
 	}
 
 
 	/**
-	 * Will start video recording if it is stopped or stop video recording if it was started. 
+	 * Will start video recording if it is stopped or stop video recording if it was started.
 	 * Will trigger NEW_MEDIA_IS_AVAILABLE_ACTION action to be sent if new video file become available.
 	 */
 	public void record()
 	{
-        droneProxy.record();    
+        droneProxy.record();
 	}
 
 
 	public boolean isMediaStorageAvailable()
     {
-        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED); 
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
 
     /**
 	 * Performs flat trim
 	 */
-	public void flatTrim() 
+	public void flatTrim()
 	{
 		droneProxy.flatTrimNative();
 	}
@@ -485,7 +485,7 @@ LocationListener
 
 	/**
 	 * Sends ArDrone the Pitch value. Makes drone to move forward or backward
-	 * @param power - value between -1 and 1. 
+	 * @param power - value between -1 and 1.
 	 */
 	public void setPitch(final float value)
 	{
@@ -560,9 +560,9 @@ LocationListener
 		if (currState != null) {
 		    currState.onFinalize();
 		}
-		
-		this.currState = state;	
-		
+
+		this.currState = state;
+
 		if (state != null) {
 		    state.onPrepare();
 		}
@@ -647,7 +647,7 @@ LocationListener
 	}
 
 
-	protected void onBatteryStateChanged(int batteryStatus) 
+	protected void onBatteryStateChanged(int batteryStatus)
 	{
 		Intent intent = intentCache.get(DRONE_BATTERY_CHANGED_ACTION);
 		intent.putExtra(EXTRA_DRONE_BATTERY, batteryStatus);
@@ -661,10 +661,10 @@ LocationListener
 		Intent intent = intentCache.get(DRONE_CONFIG_STATE_CHANGED_ACTION);
 
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-	}	
+	}
 
 
-	private void onEmergencyStateChanged(int emergency) 
+	private void onEmergencyStateChanged(int emergency)
 	{
 		Intent intent = intentCache.get(DRONE_EMERGENCY_STATE_CHANGED_ACTION);
 		intent.putExtra(EXTRA_EMERGENCY_CODE, emergency);
@@ -676,7 +676,7 @@ LocationListener
 	private void onRecordChanged(boolean inProgress, boolean usbActive, int remaining)
 	{
 		this.usbActive = usbActive;
-		
+
 		Intent intent = intentCache.get(VIDEO_RECORDING_STATE_CHANGED_ACTION);
 		intent.putExtra(EXTRA_USB_ACTIVE, usbActive);
 		intent.putExtra(EXTRA_RECORDING_STATE, inProgress);
@@ -704,15 +704,15 @@ LocationListener
 	}
 
 
-	private void onDroneReady() 
-	{	
+	private void onDroneReady()
+	{
 		Intent intent = intentCache.get(DRONE_STATE_READY_ACTION);
 
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 
-	protected void startCommand(DroneServiceCommand cmd) 
+	protected void startCommand(DroneServiceCommand cmd)
 	{
 		synchronized (commandQueue) {
 			commandQueue.add(cmd);
@@ -736,18 +736,18 @@ LocationListener
 			navdataUpdateThread.join(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}       
+		}
 
         synchronized (commandQueueLock) {
             commandQueueLock.notify();
         }
 
-        
+
         // TODO: Commented this out in order to fix bug https://mantis.parrot.biz/view.php?id=80831
-        // as it causes app to join threads too long. Also right after this method 
+        // as it causes app to join threads too long. Also right after this method
         // kill process is called, so anyway app is going to die hard.
         // Need to find solution how to quickly stop all threads within 1 second.
-        
+
 //		try {
 //			workerThread.join(3000);
 //		} catch (InterruptedException e) {
@@ -756,7 +756,8 @@ LocationListener
 	}
 
 
-	public void run() 
+	@Override
+    public void run()
 	{
 		while (!stopThreads) {
 			synchronized (commandQueueLock) {
@@ -793,19 +794,19 @@ LocationListener
 	}
 
 
-	public void setMagnetoEnabled(boolean absoluteControlEnabled) 
-	{	
+	public void setMagnetoEnabled(boolean absoluteControlEnabled)
+	{
 		droneProxy.setMagnetoEnabled(absoluteControlEnabled);
 	}
 
 
 	public boolean isDroneConnected()
-	{	
+	{
 		return currState instanceof ConnectedServiceState || currState instanceof PausedServiceState;
 	}
 
 
-	public void requestDroneStatus() 
+	public void requestDroneStatus()
 	{
 		onBatteryStateChanged(prevNavData.batteryStatus);
 		onRecordChanged(prevNavData.recording, prevNavData.usbActive, prevNavData.usbRemainingTime);
@@ -833,7 +834,7 @@ LocationListener
 				}
 			}
 
-			droneVersion = version;;
+            droneVersion = version;
 		}
 
 		return droneVersion;
@@ -854,14 +855,15 @@ LocationListener
 	// some alert has occured
 	private Runnable navdataUpdateRunnable = new Runnable() {
 
-		public void run() {
+		@Override
+        public void run() {
 
 			droneProxy.initNavdata();
 
-			while (!stopThreads) {			
+			while (!stopThreads) {
 				droneProxy.updateNavdata();
 				NavData navData = droneProxy.getNavdata();
-   
+
 				if (navData.emergencyState != prevNavData.emergencyState) {
 					onEmergencyStateChanged(navData.emergencyState);
 				}
@@ -870,12 +872,12 @@ LocationListener
 					onBatteryStateChanged(navData.batteryStatus);
 				}
 
-				if (navData.recording != prevNavData.recording || navData.usbRemainingTime != prevNavData.usbRemainingTime || navData.usbActive != prevNavData.usbActive || 
+				if (navData.recording != prevNavData.recording || navData.usbRemainingTime != prevNavData.usbRemainingTime || navData.usbActive != prevNavData.usbActive ||
 						navData.cameraReady != prevNavData.cameraReady ||
-						navData.recordReady != prevNavData.recordReady || 
-						navData.flying != prevNavData.flying) 
+						navData.recordReady != prevNavData.recordReady ||
+						navData.flying != prevNavData.flying)
 				{
-	
+
 					onRecordChanged(navData.recording, navData.usbActive, navData.usbRemainingTime);
 					onCameraReadyChanged(navData.cameraReady);
 					onRecordReadyChanged(navData.recordReady);
@@ -885,7 +887,7 @@ LocationListener
 					} else {
 						onLanded();
 					}
-					
+
 	               if ((navData.recording != prevNavData.recording) && navData.recording && navData.usbActive && navData.usbRemainingTime == 0 && droneProxy.getConfig().isRecordOnUsb()) {
                         // Stopping recording because we have not enough space left on USB.
                         Log.i(TAG, "Not enough space left on USB drive. Stopping recording.");
@@ -904,7 +906,7 @@ LocationListener
 						prevVideoFrames = navData.numFrames;
 					} else {
 
-						float fps = (float)(navData.numFrames - prevNavData.numFrames) / (float)((System.currentTimeMillis() - startTime) / 1000.0f);
+						float fps = (navData.numFrames - prevNavData.numFrames) / ((System.currentTimeMillis() - startTime) / 1000.0f);
 						startTime = System.currentTimeMillis();
 
 						debugListener.onShowFps((int)fps);
@@ -934,19 +936,20 @@ LocationListener
 	};
 
 
-	public void setProgressiveCommandEnabled(boolean b) 
+	public void setProgressiveCommandEnabled(boolean b)
 	{
 		droneProxy.setCommandFlag(DroneProgressiveCommandFlag.ARDRONE_PROGRESSIVE_CMD_ENABLE.ordinal(), b);
 	}
 
 
-	public void setProgressiveCommandCombinedYawEnabled(boolean b) 
+	public void setProgressiveCommandCombinedYawEnabled(boolean b)
 	{
 		droneProxy.setCommandFlag(DroneProgressiveCommandFlag.ARDRONE_PROGRESSIVE_CMD_COMBINED_YAW_ACTIVE.ordinal(), b);
 	}
 
 
-	public void onNewMediaIsAvailable(final String path)
+	@Override
+    public void onNewMediaIsAvailable(final String path)
 	{
 		final File file = new File(path);
 		// We need to add folder/name.jpg info to .jpg files.
@@ -984,16 +987,16 @@ LocationListener
 						file.getParentFile().delete();
 
                         File newFile = getResultFile();
-                        
+
                         gallery.insertMedia(newFile);
-                       
+
                         // Notify the rest of the app that new media become available
                         Intent intent = intentCache.get(NEW_MEDIA_IS_AVAILABLE_ACTION);
                         intent.putExtra (EXTRA_MEDIA_PATH, newFile.getAbsolutePath());
 
                         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 					}
-				}  
+				}
 			};
 
 			moveFile.execute(file, newFile);
@@ -1001,12 +1004,14 @@ LocationListener
 	}
 
 
+    @Override
     public void onNewMediaToQueue(String path)
 	{
 		mediaDownloaded.add(path);
 	}
 
-	public void onQueueComplete()
+	@Override
+    public void onQueueComplete()
 	{
 		for (String path : mediaDownloaded)
 		{
@@ -1016,7 +1021,8 @@ LocationListener
 	}
 
 
-	public void onLocationChanged(Location location)
+	@Override
+    public void onLocationChanged(Location location)
 	{
 		if (location.hasAltitude() && location.hasAccuracy() && location.getAccuracy() < 100) {
 			droneProxy.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude());
@@ -1029,19 +1035,22 @@ LocationListener
 	}
 
 
-	public void onProviderDisabled(String provider)
+	@Override
+    public void onProviderDisabled(String provider)
 	{
 		// Left unimplemented
 	}
 
 
-	public void onProviderEnabled(String provider)
+	@Override
+    public void onProviderEnabled(String provider)
 	{
 		// Left unimplemented
 	}
 
 
-	public void onStatusChanged(String provider, int status, Bundle extras)
+	@Override
+    public void onStatusChanged(String provider, int status, Bundle extras)
 	{
 		// Left unimplemented
 	}
