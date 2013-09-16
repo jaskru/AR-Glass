@@ -4,6 +4,7 @@
  */
 package com.parrot.freeflight.controllers;
 
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -45,8 +46,6 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
     private float pitchGazBase;
     private float rollYawBase;
 
-    private boolean mWasDestroyed;
-
     private boolean running;
 
     private boolean acceleroEnabled;
@@ -60,9 +59,22 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
     private JoystickListener rollPitchListener;
     private JoystickListener gazYawListener;
 
-    private DeviceOrientationManager mOrientationManager;
+    private final DeviceOrientationManager mOrientationManager;
 
-    public VirtualJoystick(final ControlDroneActivity droneControl) {
+    private final ApplicationSettings mSettings;
+
+    // This is minimal time interval between touches
+    private static final int DOUBLE_TAP_TIMESTAMP_DELTA = 200;
+    // This is minimal distance between two touches.
+    private static final int COORDINATE_DELTA = 50;
+
+    // Time stamp of previous touch
+    private long timestampLast;
+    // Coordinates of previous touch
+    private float xLast;
+    private float yLast;
+
+    VirtualJoystick(final ControlDroneActivity droneControl) {
         super(droneControl);
 
         screenRotationIndex = droneControl.getWindow().getWindowManager().getDefaultDisplay()
@@ -73,18 +85,17 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
         mOrientationManager = new DeviceOrientationManager(new DeviceSensorManagerWrapper(
                 droneControl.getApplicationContext()), this);
         mOrientationManager.onCreate();
+
+        mSettings = mDroneControl.getSettings();
     }
 
     @Override
-    public boolean init() {
-        checkIfAlive();
+    protected boolean initImpl() {
 
         if ( !mDroneControl.isInTouchMode() )
             return false;
 
-        final ApplicationSettings settings = mDroneControl.getSettings();
-
-        magnetoEnabled = settings.isAbsoluteControlEnabled();
+        magnetoEnabled = mSettings.isAbsoluteControlEnabled();
 
         if ( magnetoEnabled ) {
             if ( mDroneControl.getDroneVersion() == EDroneVersion.DRONE_1 ||
@@ -92,15 +103,14 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
                 // Drone 1 doesn't have compass, so we need to switch magneto
                 // off.
                 magnetoEnabled = false;
-                settings.setAbsoluteControlEnabled(false);
+                mSettings.setAbsoluteControlEnabled(false);
             }
         }
 
         mDroneControl.setMagntoEnabled(magnetoEnabled);
 
-        applyJoypadConfig(settings.getControlMode(), settings.isLeftHanded());
+        applyJoypadConfig(mSettings.getControlMode(), mSettings.isLeftHanded());
 
-        mDroneControl.getView().setController(this);
         return true;
     }
 
@@ -110,9 +120,22 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
      * @see com.parrot.freeflight.controllers.Controller#onEvent(android.view.MotionEvent)
      */
     @Override
-    public boolean onEvent(View view, MotionEvent event) {
-        checkIfAlive();
+    protected boolean onGenericMotionImpl(View view, MotionEvent event) {
+        return false;
+    }
 
+    @Override
+    protected boolean onKeyDownImpl(int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    protected boolean onKeyUpImpl(int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    protected boolean onTouchImpl(View view, MotionEvent event) {
         boolean result = false;
 
         if ( mJoystickLeft != null && mJoystickLeft.processTouch(view, event) )
@@ -121,14 +144,28 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
         if ( mJoystickRight != null && mJoystickRight.processTouch(view, event) )
             result = true;
 
+        // check for double tap
+        if ( mSettings.isFlipEnabled() &&
+             event.getActionMasked() == MotionEvent.ACTION_POINTER_UP ) {
+            long currTimestamp = event.getEventTime();
+
+            if ( event.getPointerCount() > 1 ) {
+                if ( currTimestamp - timestampLast < DOUBLE_TAP_TIMESTAMP_DELTA &&
+                     Math.abs(event.getX(1) - xLast) < COORDINATE_DELTA &&
+                     Math.abs(event.getY(1) - yLast) < COORDINATE_DELTA ) {
+                    // Double tap detected.
+                    mDroneControl.doLeftFlip();
+                    result = true;
+                }
+            }
+        }
+
         return result;
     }
 
     @Override
-    public Sprite[] getSprites() {
-        checkIfAlive();
-
-        final float joypadOpacity = mDroneControl.getSettings().getInterfaceOpacity() / 100f;
+    protected Sprite[] getSpritesImpl() {
+        final float joypadOpacity = mSettings.getInterfaceOpacity() / 100f;
 
         if ( mJoystickLeft != null ) {
             mJoystickLeft.setAlign(Align.BOTTOM_LEFT);
@@ -246,34 +283,32 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
         JoystickBase joystickLeft = (!isLeftHanded ? mJoystickLeft : mJoystickRight);
         JoystickBase joystickRight = (!isLeftHanded ? mJoystickRight : mJoystickLeft);
 
-        ApplicationSettings settings = mDroneControl.getSettings();
-
         if ( leftType == JoystickType.ANALOGUE ) {
             if ( joystickLeft == null || !(joystickLeft instanceof AnalogueJoystick) ||
-                 joystickLeft.isAbsoluteControl() != settings.isAbsoluteControlEnabled() ) {
+                 joystickLeft.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled() ) {
                 joystickLeft = JoystickFactory.createAnalogueJoystick(mDroneControl,
-                        settings.isAbsoluteControlEnabled(), rollPitchListener);
+                        mSettings.isAbsoluteControlEnabled(), rollPitchListener);
             }
             else {
                 joystickLeft.setOnAnalogueChangedListener(rollPitchListener);
-                joystickRight.setAbsolute(settings.isAbsoluteControlEnabled());
+                joystickRight.setAbsolute(mSettings.isAbsoluteControlEnabled());
             }
         }
         else if ( leftType == JoystickType.ACCELERO ) {
             if ( joystickLeft == null || !(joystickLeft instanceof AcceleroJoystick) ||
-                 joystickLeft.isAbsoluteControl() != settings.isAbsoluteControlEnabled() ) {
+                 joystickLeft.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled() ) {
                 joystickLeft = JoystickFactory.createAcceleroJoystick(mDroneControl,
-                        settings.isAbsoluteControlEnabled(), rollPitchListener);
+                        mSettings.isAbsoluteControlEnabled(), rollPitchListener);
             }
             else {
                 joystickLeft.setOnAnalogueChangedListener(rollPitchListener);
-                joystickRight.setAbsolute(settings.isAbsoluteControlEnabled());
+                joystickRight.setAbsolute(mSettings.isAbsoluteControlEnabled());
             }
         }
 
         if ( rightType == JoystickType.ANALOGUE ) {
             if ( joystickRight == null || !(joystickRight instanceof AnalogueJoystick) ||
-                 joystickRight.isAbsoluteControl() != settings.isAbsoluteControlEnabled() ) {
+                 joystickRight.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled() ) {
                 joystickRight = JoystickFactory.createAnalogueJoystick(mDroneControl, false,
                         gazYawListener);
             }
@@ -284,7 +319,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
         }
         else if ( rightType == JoystickType.ACCELERO ) {
             if ( joystickRight == null || !(joystickRight instanceof AcceleroJoystick) ||
-                 joystickRight.isAbsoluteControl() != settings.isAbsoluteControlEnabled() ) {
+                 joystickRight.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled() ) {
                 joystickRight = JoystickFactory.createAcceleroJoystick(mDroneControl, false,
                         gazYawListener);
             }
@@ -310,8 +345,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
      * @see com.parrot.freeflight.controllers.Controller#resume()
      */
     @Override
-    public void resume() {
-        checkIfAlive();
+    protected void resumeImpl() {
         mOrientationManager.resume();
     }
 
@@ -321,8 +355,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
      * @see com.parrot.freeflight.controllers.Controller#pause()
      */
     @Override
-    public void pause() {
-        checkIfAlive();
+    protected void pauseImpl() {
         mOrientationManager.pause();
     }
 
@@ -332,10 +365,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
      * @see com.parrot.freeflight.controllers.Controller#destroy()
      */
     @Override
-    public void destroy() {
-        checkIfAlive();
-        mWasDestroyed = true;
-
+    protected void destroyImpl() {
         mOrientationManager.destroy();
     }
 
@@ -431,13 +461,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
      * @see com.parrot.freeflight.controllers.Controller#getDeviceOrientationManager()
      */
     @Override
-    public DeviceOrientationManager getDeviceOrientationManager() {
-        checkIfAlive();
+    protected DeviceOrientationManager getDeviceOrientationManagerImpl() {
         return mOrientationManager;
-    }
-
-    private void checkIfAlive() {
-        if ( mWasDestroyed )
-            throw new IllegalStateException("Can't reuse controller after it has been destroyed.");
     }
 }

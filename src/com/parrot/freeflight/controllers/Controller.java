@@ -4,14 +4,20 @@
  */
 package com.parrot.freeflight.controllers;
 
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnGenericMotionListener;
+import android.view.View.OnTouchListener;
 
 import com.parrot.freeflight.activities.ControlDroneActivity;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
 import com.parrot.freeflight.ui.hud.Sprite;
 
-public abstract class Controller {
+// TODO: check if possible to move HudView sprites into a subclass of this
+// That subclass would be parent to the controller that are enabled in touch mode.
+public abstract class Controller implements KeyEvent.Callback, OnGenericMotionListener,
+        OnTouchListener {
 
     public enum ControllerType {
         GAMEPAD {
@@ -36,24 +42,102 @@ public abstract class Controller {
         public abstract Controller getImpl(final ControlDroneActivity droneControl);
     }
 
-    protected ControlDroneActivity mDroneControl;
+    private boolean mWasDestroyed;
+    protected final ControlDroneActivity mDroneControl;
 
-    public Controller(final ControlDroneActivity droneControl) {
+    Controller(final ControlDroneActivity droneControl) {
         mDroneControl = droneControl;
     }
 
-    public abstract boolean init();
+    public boolean init() {
+        checkIfAlive();
+        return initImpl();
+    }
 
-    public abstract Sprite[] getSprites();
+    protected abstract boolean initImpl();
 
-    public abstract DeviceOrientationManager getDeviceOrientationManager();
+    public Sprite[] getSprites() {
+        checkIfAlive();
+        return getSpritesImpl();
+    }
 
-    public abstract boolean onEvent(View view, MotionEvent event);
+    protected abstract Sprite[] getSpritesImpl();
 
-    public abstract void resume();
+    public DeviceOrientationManager getDeviceOrientationManager() {
+        checkIfAlive();
+        return getDeviceOrientationManagerImpl();
+    }
 
-    public abstract void pause();
+    protected abstract DeviceOrientationManager getDeviceOrientationManagerImpl();
 
-    // TODO: Remove the controller sprites on destroy
-    public abstract void destroy();
+    @Override
+    public boolean onGenericMotion(View view, MotionEvent event) {
+        checkIfAlive();
+        return onGenericMotionImpl(view, event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        checkIfAlive();
+        return onKeyDownImpl(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        checkIfAlive();
+        return onKeyUpImpl(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        checkIfAlive();
+        return false;
+    }
+
+    @Override
+    public boolean onKeyMultiple(int keyCode, int count, KeyEvent event) {
+        checkIfAlive();
+        return false;
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        checkIfAlive();
+        return onTouchImpl(view, event);
+    }
+
+    protected abstract boolean onKeyDownImpl(int keyCode, KeyEvent event);
+
+    protected abstract boolean onKeyUpImpl(int keyCode, KeyEvent event);
+
+    protected abstract boolean onGenericMotionImpl(View view, MotionEvent event);
+
+    protected abstract boolean onTouchImpl(View view, MotionEvent event);
+
+    public void resume() {
+        checkIfAlive();
+        resumeImpl();
+    }
+
+    protected abstract void resumeImpl();
+
+    public void pause() {
+        checkIfAlive();
+        pauseImpl();
+    }
+
+    protected abstract void pauseImpl();
+
+    public void destroy() {
+        checkIfAlive();
+        mWasDestroyed = true;
+        destroyImpl();
+    }
+
+    protected abstract void destroyImpl();
+
+    protected void checkIfAlive() {
+        if ( mWasDestroyed )
+            throw new IllegalStateException("Can't reuse controller after it has been destroyed.");
+    }
 }

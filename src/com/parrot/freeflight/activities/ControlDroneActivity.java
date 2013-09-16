@@ -8,7 +8,6 @@
 package com.parrot.freeflight.activities;
 
 import java.io.File;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -27,8 +26,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,8 +38,6 @@ import com.parrot.freeflight.controllers.Controller;
 import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.drone.DroneConfig.EDroneVersion;
 import com.parrot.freeflight.drone.NavData;
-import com.parrot.freeflight.gestures.EnhancedGestureDetector;
-import com.parrot.freeflight.gestures.EnhancedGestureDetector.OnDoubleDownListener;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiver;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiverDelegate;
 import com.parrot.freeflight.receivers.DroneCameraReadyActionReceiverDelegate;
@@ -57,7 +52,6 @@ import com.parrot.freeflight.receivers.DroneVideoRecordStateReceiverDelegate;
 import com.parrot.freeflight.receivers.DroneVideoRecordingStateReceiver;
 import com.parrot.freeflight.receivers.WifiSignalStrengthChangedReceiver;
 import com.parrot.freeflight.receivers.WifiSignalStrengthReceiverDelegate;
-import com.parrot.freeflight.remotecontrollers.ButtonController;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
 import com.parrot.freeflight.service.DroneControlService;
 import com.parrot.freeflight.settings.ApplicationSettings;
@@ -106,17 +100,10 @@ public class ControlDroneActivity
 
     private boolean pauseVideoWhenOnSettings;
 
-    private boolean running;
-
     private boolean flying;
     private boolean recording;
     private boolean cameraReady;
     private boolean prevRecording;
-
-    private short mPitchValue = 0;
-    private short mGazValue = 0;
-
-    private List<ButtonController> buttonControllers;
 
     private ServiceConnection mConnection = new ServiceConnection()
     {
@@ -147,100 +134,6 @@ public class ControlDroneActivity
         }
     };
 
-    private final GestureDetector.OnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-            if ( view.isInTouchMode() )
-                return;
-
-            // Land the drone if it's flying
-            if ( flying && droneControlService != null )
-                droneControlService.triggerTakeOff();
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            if ( view.isInTouchMode() )
-                return false;
-
-            short value = running ? mGazValue : mPitchValue;
-
-            value += (distanceX / 20);
-            if ( value > 100 )
-                value = 100;
-
-            if ( value < -100 )
-                value = -100;
-
-            if ( running ) {
-                mGazValue = value;
-                if ( droneControlService != null )
-                    droneControlService.setGaz(mGazValue / 100f);
-            }
-            else {
-                mPitchValue = value;
-                view.setPitchValue(-1 * mPitchValue);
-
-                if ( droneControlService != null )
-                    droneControlService.setPitch(mPitchValue / 100f);
-            }
-            return true;
-        }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent event) {
-            if ( view.isInTouchMode() )
-                return false;
-
-            // Take photo
-            onTakePhoto();
-
-            return true;
-        }
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent event) {
-            if ( view.isInTouchMode() )
-                return false;
-
-            // Trigger take off/landing
-            if ( droneControlService != null )
-                droneControlService.triggerTakeOff();
-
-            return true;
-        }
-    };
-
-    private final EnhancedGestureDetector.OnDoubleDownListener mDoubleDownListener = new OnDoubleDownListener() {
-
-        @Override
-        public void onDoubleDownStarted() {
-            if ( view.isInTouchMode() )
-                return;
-
-            // Enable controls
-            running = true;
-            if ( droneControlService != null ) {
-                droneControlService.setProgressiveCommandCombinedYawEnabled(true);
-            }
-        }
-
-        @Override
-        public void onDoubleDownEnded() {
-            if ( view.isInTouchMode() )
-                return;
-
-            // Disable controls
-            running = false;
-            mGazValue = 0;
-            if ( droneControlService != null ) {
-                droneControlService.setProgressiveCommandCombinedYawEnabled(false);
-                droneControlService.setGaz(0);
-            }
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -250,8 +143,7 @@ public class ControlDroneActivity
             return;
         }
 
-        view = new HudViewController(this, mGestureListener);
-        view.getGestureDetector().setOnDoubleDownListener(mDoubleDownListener);
+        view = new HudViewController(this);
 
         settings = getSettings();
 
@@ -260,8 +152,6 @@ public class ControlDroneActivity
 
         pauseVideoWhenOnSettings = getResources().getBoolean(
                 R.bool.settings_pause_video_when_opened);
-
-        running = false;
 
         wifiSignalReceiver = new WifiSignalStrengthChangedReceiver(this);
         videoRecordingStateReceiver = new DroneVideoRecordingStateReceiver(this);
@@ -276,6 +166,10 @@ public class ControlDroneActivity
 
         // TODO: Create the controller based on user preference
         mController = Controller.ControllerType.VIRTUAL_JOYSTICK.getImpl(this);
+
+        // Add the controller sprites (if any)
+        view.addControllerSprites(mController.getSprites());
+
         DeviceOrientationManager orientationManager = mController.getDeviceOrientationManager();
 
         if ( orientationManager != null && !orientationManager.isAcceleroAvailable() ) {
@@ -289,20 +183,13 @@ public class ControlDroneActivity
 
     }
 
-    @Override
-    public boolean onGenericMotionEvent(MotionEvent event) {
-        if ( view != null )
-            view.getGestureDetector().onTouchEvent(event);
-        return true;
-    }
-
     public boolean isInTouchMode() {
         if ( view == null )
             return false;
         return view.isInTouchMode();
     }
 
-    public HudViewController getView() {
+    public HudViewController getHudView() {
         return view;
     }
 
@@ -343,39 +230,39 @@ public class ControlDroneActivity
             droneControlService.setProgressiveCommandCombinedYawEnabled(enable);
     }
 
+    public void triggerDroneTakeOff() {
+        if ( droneControlService != null )
+            droneControlService.triggerTakeOff();
+    }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if ( mController != null && mController.onGenericMotion(view.getRootView(), event) )
+            return true;
+        return super.onGenericMotionEvent(event);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        if ( applyKeyEvent(event) ) {
+        if ( mController != null && mController.onKeyDown(keyCode, event) )
             return true;
-        }
-        else {
-            return super.onKeyDown(keyCode, event);
-        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
-        if ( applyKeyEvent(event) ) {
+        if ( mController != null && mController.onKeyUp(keyCode, event) )
             return true;
-        }
-        else {
-            return super.onKeyUp(keyCode, event);
-        }
+        return super.onKeyUp(keyCode, event);
     }
 
-    private boolean applyKeyEvent(KeyEvent theEvent)
-    {
-        boolean result = false;
-        if ( this.buttonControllers != null ) {
-            for ( ButtonController controller : this.buttonControllers ) {
-                if ( controller.onKeyEvent(theEvent) ) {
-                    result = true;
-                }
-            }
-        }
-        return result;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if ( mController != null && mController.onTouch(view.getRootView(), event) )
+            return true;
+        return super.onTouchEvent(event);
     }
 
     private void initListeners()
@@ -454,35 +341,11 @@ public class ControlDroneActivity
                 finish();
             }
         });
+    }
 
-        view.setDoubleTapClickListener(new OnDoubleTapListener()
-        {
-
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e)
-            {
-                // Left unimplemented
-                return false;
-            }
-
-            @Override
-            public boolean onDoubleTapEvent(MotionEvent e)
-            {
-                // Left unimplemented
-                return false;
-            }
-
-            @Override
-            public boolean onDoubleTap(MotionEvent e)
-            {
-                if ( settings.isFlipEnabled() && droneControlService != null ) {
-                    droneControlService.doLeftFlip();
-                    return true;
-                }
-
-                return false;
-            }
-        });
+    public void doLeftFlip() {
+        if ( droneControlService != null )
+            droneControlService.doLeftFlip();
     }
 
     @Override
@@ -491,6 +354,8 @@ public class ControlDroneActivity
             view.onDestroy();
         }
 
+        // Remove controller sprites (if any)
+        view.removeControllerSprites(mController.getSprites());
         mController.destroy();
 
         soundPool.release();
@@ -790,6 +655,10 @@ public class ControlDroneActivity
             droneControlService.getDroneVersion();
 
         return EDroneVersion.UNKNOWN;
+    }
+
+    public boolean isDroneFlying() {
+        return flying;
     }
 
     public void setMagntoEnabled(boolean enable) {

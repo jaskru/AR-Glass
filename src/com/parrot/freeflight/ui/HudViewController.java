@@ -13,19 +13,14 @@ import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.util.SparseIntArray;
-import android.view.GestureDetector.OnDoubleTapListener;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnGenericMotionListener;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 import com.parrot.freeflight.R;
-import com.parrot.freeflight.controllers.Controller;
 import com.parrot.freeflight.drone.NavData;
-import com.parrot.freeflight.gestures.EnhancedGestureDetector;
 import com.parrot.freeflight.ui.hud.Button;
 import com.parrot.freeflight.ui.hud.Image;
 import com.parrot.freeflight.ui.hud.Image.SizeParams;
@@ -37,7 +32,7 @@ import com.parrot.freeflight.ui.hud.ToggleButton;
 import com.parrot.freeflight.utils.FontUtils.TYPEFACE;
 import com.parrot.freeflight.video.VideoStageRenderer;
 
-public class HudViewController implements OnTouchListener, OnGenericMotionListener
+public class HudViewController implements OnTouchListener
 {
     private static final String TAG = HudViewController.class.getName();
 
@@ -88,10 +83,6 @@ public class HudViewController implements OnTouchListener, OnGenericMotionListen
 
     private GLSurfaceView glView;
 
-    private Controller mController;
-
-    private EnhancedGestureDetector gestureDetector;
-
     private VideoStageRenderer renderer;
     private Activity context;
 
@@ -99,10 +90,9 @@ public class HudViewController implements OnTouchListener, OnGenericMotionListen
 
     private SparseIntArray emergencyStringMap;
 
-    public HudViewController(Activity context, OnGestureListener gestureListener)
+    public HudViewController(Activity context)
     {
         this.context = context;
-        gestureDetector = new EnhancedGestureDetector(context, gestureListener);
 
         glView = new GLSurfaceView(context);
         glView.setEGLContextClientVersion(2);
@@ -295,35 +285,27 @@ public class HudViewController implements OnTouchListener, OnGenericMotionListen
         return glView.isInTouchMode();
     }
 
-    public EnhancedGestureDetector getGestureDetector() {
-        return gestureDetector;
-    }
-
-    public void setController(Controller controller) {
-        if ( mController != null ) {
-            // Remove the sprites of the previous controller
-            Sprite[] controllerSprites = mController.getSprites();
-            int spritesCount = controllerSprites.length;
-            if ( spritesCount > 0 ) {
-                for ( int i = 0; i < spritesCount; i++ )
-                    renderer.removeSprite(CONTROLLER_IDS + i);
-            }
-        }
-
-        mController = controller;
-
-        Sprite[] controllerSprites = controller.getSprites();
-        final int spritesCount = controllerSprites.length;
+    public void addControllerSprites(Sprite[] sprites) {
+        final int spritesCount = sprites.length;
         if ( spritesCount == 0 )
             return;
 
         final int margin = context.getResources().getDimensionPixelSize(R.dimen.hud_joy_margin);
         for ( int i = 0; i < spritesCount; i++ ) {
-            Sprite sprite = controllerSprites[i];
+            Sprite sprite = sprites[i];
             sprite.setMargin(0, margin, bottomBarBg.getHeight() + margin, margin);
 
             renderer.addSprite(CONTROLLER_IDS + i, sprite);
         }
+    }
+
+    public void removeControllerSprites(Sprite[] sprites) {
+        int spritesCount = sprites.length;
+        if ( spritesCount == 0 )
+            return;
+        for ( int i = 0; i < spritesCount; i++ )
+            renderer.removeSprite(CONTROLLER_IDS + i);
+
     }
 
     public void setIsFlying(final boolean isFlying)
@@ -597,14 +579,6 @@ public class HudViewController implements OnTouchListener, OnGenericMotionListen
         this.btnCameraSwitch.setOnClickListener(listener);
     }
 
-    public void setDoubleTapClickListener(OnDoubleTapListener listener)
-    {
-        if ( !isInTouchMode() )
-            return;
-
-        gestureDetector.setOnDoubleTapListener(listener);
-    }
-
     public void onPause()
     {
         glView.onPause();
@@ -625,14 +599,6 @@ public class HudViewController implements OnTouchListener, OnGenericMotionListen
                 result = true;
                 break;
             }
-        }
-
-        if ( result != true ) {
-            // TODO: figure out what to do with gesture detector
-            gestureDetector.onTouchEvent(event);
-
-            if ( mController != null && mController.onEvent(v, event) )
-                result = true;
         }
 
         return result;
@@ -664,15 +630,4 @@ public class HudViewController implements OnTouchListener, OnGenericMotionListen
         btnEmergency.setEnabled(enabled);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.view.View.OnGenericMotionListener#onGenericMotion(android.view.View,
-     * android.view.MotionEvent)
-     */
-    @Override
-    public boolean onGenericMotion(View v, MotionEvent event) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 }
