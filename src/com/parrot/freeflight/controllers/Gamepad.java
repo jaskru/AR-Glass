@@ -8,7 +8,6 @@ import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.parrot.freeflight.activities.ControlDroneActivity;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
 import com.parrot.freeflight.ui.hud.Sprite;
@@ -36,9 +35,9 @@ public class Gamepad extends Controller {
     protected boolean initImpl() {
         // Check to see if there's a device of class JOYSTICK
         int[] deviceIds = InputDevice.getDeviceIds();
-        for ( int deviceId : deviceIds ) {
+        for (int deviceId : deviceIds) {
             InputDevice device = InputDevice.getDevice(deviceId);
-            if ( isSourceValid(device.getSources()) )
+            if (isSourceValid(device.getSources()))
                 return true;
         }
         return false;
@@ -51,7 +50,7 @@ public class Gamepad extends Controller {
      */
     @Override
     protected Sprite[] getSpritesImpl() {
-        return new Sprite[0];
+        return NO_SPRITES;
     }
 
     /*
@@ -75,20 +74,20 @@ public class Gamepad extends Controller {
     @Override
     protected boolean onGenericMotionImpl(View view, MotionEvent event) {
         // Check that the event came from a joystick
-        if ( isSourceValid(event.getSource()) && event.getAction() == MotionEvent.ACTION_MOVE ) {
+        if (isSourceValid(event.getSource()) && event.getAction() == MotionEvent.ACTION_MOVE) {
             // Cache the most recently obtained device information.
             // The device information may change over time but it can be somewhat expensive to query
-            if ( mLastInputDevice == null || mLastInputDevice.getId() != event.getDeviceId() ) {
+            if (mLastInputDevice == null || mLastInputDevice.getId() != event.getDeviceId()) {
                 mLastInputDevice = event.getDevice();
                 // It's possible for the device id to be invalid, in which case, getDevice() return
                 // null
-                if ( mLastInputDevice == null )
+                if (mLastInputDevice == null)
                     return false;
             }
 
             // Process all historical movement samples in the batch
             final int historySize = event.getHistorySize();
-            for ( int i = 0; i < historySize; i++ ) {
+            for (int i = 0; i < historySize; i++) {
                 processJoystickInput(event, i);
             }
 
@@ -103,7 +102,18 @@ public class Gamepad extends Controller {
     @Override
     protected boolean onKeyDownImpl(int keyCode, KeyEvent event) {
         // TODO: complete
-        return false;
+        boolean handled = false;
+        if (event.getRepeatCount() == 0) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_BUTTON_10:
+                    //Start button. trigger takeOff/Landing
+                    mDroneControl.triggerDroneTakeOff();
+                    handled = true;
+                    break;
+            }
+        }
+
+        return handled;
     }
 
     @Override
@@ -122,30 +132,56 @@ public class Gamepad extends Controller {
         // Many game pads with two joysticks report the position of the second joystick
         // using the Z, and RZ axes so we also handle those.
         // TODO: allow configuration of joystick
-        float x = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_X, historyPos);
-        if ( x == 0 )
-            x = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_HAT_X, historyPos);
-        if ( x == 0 )
-            x = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_Z, historyPos);
 
-        float y = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_Y, historyPos);
-        if ( y == 0 )
-            y = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_HAT_Y, historyPos);
-        if ( y == 0 )
-            y = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_RZ, historyPos);
+        //Left joystick control roll and pitch
+        float leftX = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_X, historyPos);
+        if (leftX == 0)
+            leftX = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_HAT_X, historyPos);
+
+        float leftY = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_Y, historyPos);
+        if (leftY == 0)
+            leftY = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_HAT_Y, historyPos);
+
+        //Right joystick controls gaz, and yaw
+        float rightX = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_Z, historyPos);
+        float rightY = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_RZ, historyPos);
+
+        final boolean enableProgressiveCommand = leftX != 0 || leftY != 0;
+        final boolean enableProgressiveCommandCombinedYaw = rightX != 0 || rightY != 0;
+
+        if (enableProgressiveCommand) {
+            mDroneControl.setDroneProgressiveCommandEnabled(true);
+            if (enableProgressiveCommandCombinedYaw)
+                mDroneControl.setDroneProgressiveCommandCombinedYawEnabled(true);
+        }
+
+        mDroneControl.setDroneRoll(leftX);
+        mDroneControl.setDronePitch(leftY);
+
+        mDroneControl.setDroneYaw(rightX);
+        mDroneControl.setDroneGaz(-rightY);
+
+        if (!enableProgressiveCommand) {
+            mDroneControl.setDroneProgressiveCommandEnabled(false);
+            mDroneControl.setDroneProgressiveCommandCombinedYawEnabled(false);
+        }
+
+        if (!enableProgressiveCommandCombinedYaw) {
+            mDroneControl.setDroneProgressiveCommandCombinedYawEnabled(false);
+        }
     }
 
     private static float getCenteredAxis(MotionEvent event, InputDevice device, int axis,
-            int historyPos) {
+                                         int historyPos) {
         final InputDevice.MotionRange range = device.getMotionRange(axis, event.getSource());
-        if ( range != null ) {
+        if (range != null) {
             final float flat = range.getFlat();
             final float value = historyPos < 0 ? event.getAxisValue(axis) : event
                     .getHistoricalAxisValue(axis, historyPos);
 
             // Ignore axis values that are within the 'flat' region of the joystick axis center.
             // A joystick at rest does not always report an absolute position of (0,0).
-            if ( Math.abs(value) > flat ) {
+            if (Math.abs(value) > flat) {
                 return value;
             }
         }

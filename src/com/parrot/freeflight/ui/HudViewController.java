@@ -594,8 +594,8 @@ public class HudViewController implements OnTouchListener
     {
         boolean result = false;
 
-        for ( int i = 0; i < buttons.length; ++i ) {
-            if ( buttons[i].processTouch(v, event) ) {
+        for (Button button: buttons) {
+            if ( button.processTouch(v, event) ) {
                 result = true;
                 break;
             }

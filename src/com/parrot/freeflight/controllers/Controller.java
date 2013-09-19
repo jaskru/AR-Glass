@@ -9,9 +9,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnGenericMotionListener;
 import android.view.View.OnTouchListener;
-
 import com.parrot.freeflight.activities.ControlDroneActivity;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
+import com.parrot.freeflight.ui.HudViewController;
 import com.parrot.freeflight.ui.hud.Sprite;
 
 // TODO: check if possible to move HudView sprites into a subclass of this
@@ -23,7 +23,7 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
         GAMEPAD {
             @Override
             public Controller getImpl(final ControlDroneActivity droneControl) {
-                return null;
+                return new Gamepad(droneControl);
             }
         },
         VIRTUAL_JOYSTICK {
@@ -35,12 +35,14 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
         GOOGLE_GLASS {
             @Override
             public Controller getImpl(final ControlDroneActivity droneControl) {
-                return null;
+                return new GoogleGlassController(droneControl);
             }
         };
 
         public abstract Controller getImpl(final ControlDroneActivity droneControl);
     }
+
+    protected static final Sprite[] NO_SPRITES = new Sprite[0];
 
     private boolean mWasDestroyed;
     protected final ControlDroneActivity mDroneControl;
@@ -51,7 +53,14 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
 
     public boolean init() {
         checkIfAlive();
-        return initImpl();
+        boolean initStatus = initImpl();
+
+        // Add the controller sprites (if any)
+        HudViewController view = mDroneControl.getHudView();
+        if (view != null)
+            view.addControllerSprites(getSprites());
+
+        return initStatus;
     }
 
     protected abstract boolean initImpl();
@@ -130,14 +139,20 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
 
     public void destroy() {
         checkIfAlive();
-        mWasDestroyed = true;
+
+        // Remove controller sprites (if any)
+        HudViewController view = mDroneControl.getHudView();
+        if (view != null)
+            view.removeControllerSprites(getSprites());
+
         destroyImpl();
+        mWasDestroyed = true;
     }
 
     protected abstract void destroyImpl();
 
     protected void checkIfAlive() {
-        if ( mWasDestroyed )
+        if (mWasDestroyed)
             throw new IllegalStateException("Can't reuse controller after it has been destroyed.");
     }
 }

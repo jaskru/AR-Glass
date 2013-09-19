@@ -149,7 +149,7 @@ public class GoogleGlassController extends Controller implements DeviceOrientati
 
     @Override
     protected Sprite[] getSpritesImpl() {
-        return new Sprite[0];
+        return NO_SPRITES;
     }
 
     @Override
