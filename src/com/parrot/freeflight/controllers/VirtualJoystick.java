@@ -7,7 +7,6 @@ package com.parrot.freeflight.controllers;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.parrot.freeflight.activities.ControlDroneActivity;
 import com.parrot.freeflight.drone.DroneConfig.EDroneVersion;
 import com.parrot.freeflight.sensors.DeviceOrientationChangeDelegate;
@@ -15,12 +14,7 @@ import com.parrot.freeflight.sensors.DeviceOrientationManager;
 import com.parrot.freeflight.sensors.DeviceSensorManagerWrapper;
 import com.parrot.freeflight.settings.ApplicationSettings;
 import com.parrot.freeflight.settings.ApplicationSettings.ControlMode;
-import com.parrot.freeflight.ui.hud.AcceleroJoystick;
-import com.parrot.freeflight.ui.hud.AnalogueJoystick;
-import com.parrot.freeflight.ui.hud.JoystickBase;
-import com.parrot.freeflight.ui.hud.JoystickFactory;
-import com.parrot.freeflight.ui.hud.JoystickListener;
-import com.parrot.freeflight.ui.hud.Sprite;
+import com.parrot.freeflight.ui.hud.*;
 import com.parrot.freeflight.ui.hud.Sprite.Align;
 
 public class VirtualJoystick extends Controller implements DeviceOrientationChangeDelegate {
@@ -92,14 +86,14 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
     @Override
     protected boolean initImpl() {
 
-        if ( !mDroneControl.isInTouchMode() )
+        if (!mDroneControl.isInTouchMode())
             return false;
 
         magnetoEnabled = mSettings.isAbsoluteControlEnabled();
 
-        if ( magnetoEnabled ) {
-            if ( mDroneControl.getDroneVersion() == EDroneVersion.DRONE_1 ||
-                 !mOrientationManager.isMagnetoAvailable() ) {
+        if (magnetoEnabled) {
+            if (mDroneControl.getDroneVersion() == EDroneVersion.DRONE_1 ||
+                    !mOrientationManager.isMagnetoAvailable()) {
                 // Drone 1 doesn't have compass, so we need to switch magneto
                 // off.
                 magnetoEnabled = false;
@@ -138,21 +132,21 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
     protected boolean onTouchImpl(View view, MotionEvent event) {
         boolean result = false;
 
-        if ( mJoystickLeft != null && mJoystickLeft.processTouch(view, event) )
+        if (mJoystickLeft != null && mJoystickLeft.processTouch(view, event))
             result = true;
 
-        if ( mJoystickRight != null && mJoystickRight.processTouch(view, event) )
+        if (mJoystickRight != null && mJoystickRight.processTouch(view, event))
             result = true;
 
         // check for double tap
-        if ( mSettings.isFlipEnabled() &&
-             event.getActionMasked() == MotionEvent.ACTION_POINTER_UP ) {
+        if (mSettings.isFlipEnabled() &&
+                event.getActionMasked() == MotionEvent.ACTION_POINTER_UP) {
             long currTimestamp = event.getEventTime();
 
-            if ( event.getPointerCount() > 1 ) {
-                if ( currTimestamp - timestampLast < DOUBLE_TAP_TIMESTAMP_DELTA &&
-                     Math.abs(event.getX(1) - xLast) < COORDINATE_DELTA &&
-                     Math.abs(event.getY(1) - yLast) < COORDINATE_DELTA ) {
+            if (event.getPointerCount() > 1) {
+                if (currTimestamp - timestampLast < DOUBLE_TAP_TIMESTAMP_DELTA &&
+                        Math.abs(event.getX(1) - xLast) < COORDINATE_DELTA &&
+                        Math.abs(event.getY(1) - yLast) < COORDINATE_DELTA) {
                     // Double tap detected.
                     mDroneControl.doLeftFlip();
                     result = true;
@@ -167,12 +161,12 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
     protected Sprite[] getSpritesImpl() {
         final float joypadOpacity = mSettings.getInterfaceOpacity() / 100f;
 
-        if ( mJoystickLeft != null ) {
+        if (mJoystickLeft != null) {
             mJoystickLeft.setAlign(Align.BOTTOM_LEFT);
             mJoystickLeft.setAlpha(joypadOpacity);
             mJoystickLeft.setInverseYWhenDraw(true);
         }
-        if ( mJoystickRight != null ) {
+        if (mJoystickRight != null) {
             mJoystickRight.setAlign(Align.BOTTOM_RIGHT);
             mJoystickRight.setAlpha(joypadOpacity);
             mJoystickRight.setInverseYWhenDraw(true);
@@ -184,8 +178,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
         return joysticks;
     }
 
-    private void applyJoypadConfig(ControlMode controlMode, boolean isLeftHanded)
-    {
+    private void applyJoypadConfig(ControlMode controlMode, boolean isLeftHanded) {
         switch (controlMode) {
             case NORMAL_MODE:
                 initVirtualJoysticks(JoystickType.ANALOGUE, JoystickType.ANALOGUE, isLeftHanded);
@@ -202,27 +195,24 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
         }
     }
 
-    private void initJoysticListeners()
-    {
+    private void initJoysticListeners() {
         rollPitchListener = new JoystickListener() {
 
             @Override
-            public void onChanged(JoystickBase joy, float x, float y)
-            {
-                if ( running ) {
+            public void onChanged(JoystickBase joy, float x, float y) {
+                if (running) {
                     mDroneControl.setDroneRoll(x);
                     mDroneControl.setDronePitch(-y);
                 }
             }
 
             @Override
-            public void onPressed(JoystickBase joy)
-            {
+            public void onPressed(JoystickBase joy) {
                 leftJoyPressed = true;
 
                 mDroneControl.setDroneProgressiveCommandEnabled(true);
 
-                if ( rightJoyPressed ) {
+                if (rightJoyPressed) {
                     mDroneControl.setDroneProgressiveCommandCombinedYawEnabled(true);
                 }
                 else {
@@ -233,8 +223,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
             }
 
             @Override
-            public void onReleased(JoystickBase joy)
-            {
+            public void onReleased(JoystickBase joy) {
                 leftJoyPressed = false;
 
                 mDroneControl.setDroneProgressiveCommandEnabled(false);
@@ -245,22 +234,18 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
             }
         };
 
-        gazYawListener = new JoystickListener()
-        {
-
+        gazYawListener = new JoystickListener() {
             @Override
-            public void onChanged(JoystickBase joy, float x, float y)
-            {
+            public void onChanged(JoystickBase joy, float x, float y) {
                 mDroneControl.setDroneGaz(y);
                 mDroneControl.setDroneYaw(x);
             }
 
             @Override
-            public void onPressed(JoystickBase joy)
-            {
+            public void onPressed(JoystickBase joy) {
                 rightJoyPressed = true;
 
-                if ( leftJoyPressed ) {
+                if (leftJoyPressed) {
                     mDroneControl.setDroneProgressiveCommandCombinedYawEnabled(true);
                 }
                 else {
@@ -269,8 +254,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
             }
 
             @Override
-            public void onReleased(JoystickBase joy)
-            {
+            public void onReleased(JoystickBase joy) {
                 rightJoyPressed = false;
                 mDroneControl.setDroneProgressiveCommandCombinedYawEnabled(false);
             }
@@ -278,14 +262,13 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
     }
 
     private void initVirtualJoysticks(JoystickType leftType, JoystickType rightType,
-            boolean isLeftHanded)
-    {
+                                      boolean isLeftHanded) {
         JoystickBase joystickLeft = (!isLeftHanded ? mJoystickLeft : mJoystickRight);
         JoystickBase joystickRight = (!isLeftHanded ? mJoystickRight : mJoystickLeft);
 
-        if ( leftType == JoystickType.ANALOGUE ) {
-            if ( joystickLeft == null || !(joystickLeft instanceof AnalogueJoystick) ||
-                 joystickLeft.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled() ) {
+        if (leftType == JoystickType.ANALOGUE) {
+            if (joystickLeft == null || !(joystickLeft instanceof AnalogueJoystick) ||
+                    joystickLeft.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled()) {
                 joystickLeft = JoystickFactory.createAnalogueJoystick(mDroneControl,
                         mSettings.isAbsoluteControlEnabled(), rollPitchListener);
             }
@@ -294,9 +277,9 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
                 joystickRight.setAbsolute(mSettings.isAbsoluteControlEnabled());
             }
         }
-        else if ( leftType == JoystickType.ACCELERO ) {
-            if ( joystickLeft == null || !(joystickLeft instanceof AcceleroJoystick) ||
-                 joystickLeft.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled() ) {
+        else if (leftType == JoystickType.ACCELERO) {
+            if (joystickLeft == null || !(joystickLeft instanceof AcceleroJoystick) ||
+                    joystickLeft.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled()) {
                 joystickLeft = JoystickFactory.createAcceleroJoystick(mDroneControl,
                         mSettings.isAbsoluteControlEnabled(), rollPitchListener);
             }
@@ -306,9 +289,9 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
             }
         }
 
-        if ( rightType == JoystickType.ANALOGUE ) {
-            if ( joystickRight == null || !(joystickRight instanceof AnalogueJoystick) ||
-                 joystickRight.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled() ) {
+        if (rightType == JoystickType.ANALOGUE) {
+            if (joystickRight == null || !(joystickRight instanceof AnalogueJoystick) ||
+                    joystickRight.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled()) {
                 joystickRight = JoystickFactory.createAnalogueJoystick(mDroneControl, false,
                         gazYawListener);
             }
@@ -317,9 +300,9 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
                 joystickRight.setAbsolute(false);
             }
         }
-        else if ( rightType == JoystickType.ACCELERO ) {
-            if ( joystickRight == null || !(joystickRight instanceof AcceleroJoystick) ||
-                 joystickRight.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled() ) {
+        else if (rightType == JoystickType.ACCELERO) {
+            if (joystickRight == null || !(joystickRight instanceof AcceleroJoystick) ||
+                    joystickRight.isAbsoluteControl() != mSettings.isAbsoluteControlEnabled()) {
                 joystickRight = JoystickFactory.createAcceleroJoystick(mDroneControl, false,
                         gazYawListener);
             }
@@ -329,7 +312,7 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
             }
         }
 
-        if ( !isLeftHanded ) {
+        if (!isLeftHanded) {
             mJoystickLeft = joystickLeft;
             mJoystickRight = joystickRight;
         }
@@ -373,13 +356,12 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
 
     @Override
     public void onDeviceOrientationChanged(float[] orientation, float magneticHeading,
-            int magnetoAccuracy)
-    {
+                                           int magnetoAccuracy) {
 
-        if ( magnetoEnabled && mOrientationManager.isMagnetoAvailable() ) {
+        if (magnetoEnabled && mOrientationManager.isMagnetoAvailable()) {
             float heading = magneticHeading * 57.2957795f;
 
-            if ( screenRotationIndex == 1 ) {
+            if (screenRotationIndex == 1) {
                 heading += 90.f;
             }
 
@@ -391,11 +373,11 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
 
         final boolean isInTouchMode = mDroneControl.isInTouchMode();
 
-        if ( !running ) {
+        if (!running) {
             pitchGazBase = orientation[PITCH];
             rollYawBase = orientation[ROLL];
 
-            if ( isInTouchMode ) {
+            if (isInTouchMode) {
                 mDroneControl.setDronePitch(0);
                 mDroneControl.setDroneRoll(0);
             }
@@ -414,26 +396,26 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
             // timeCounter = System.currentTimeMillis();
             // }
 
-            if ( !isInTouchMode ) {
-                if ( acceleroEnabled &&
-                     (/* Math.abs(x) > ACCELERO_TRESHOLD || */Math.abs(y) > ACCELERO_TRESHOLD) ) {
+            if (!isInTouchMode) {
+                if (acceleroEnabled &&
+                        (/* Math.abs(x) > ACCELERO_TRESHOLD || */Math.abs(y) > ACCELERO_TRESHOLD)) {
                     mDroneControl.setDroneYaw(y);
                     // mDroneControl.setDroneGaz(x);
                 }
             }
             else {
-                if ( screenRotationIndex == 0 ) {
+                if (screenRotationIndex == 0) {
                     // Xoom
-                    if ( acceleroEnabled &&
-                         (Math.abs(x) > ACCELERO_TRESHOLD || Math.abs(y) > ACCELERO_TRESHOLD) ) {
+                    if (acceleroEnabled &&
+                            (Math.abs(x) > ACCELERO_TRESHOLD || Math.abs(y) > ACCELERO_TRESHOLD)) {
                         x *= -1;
                         mDroneControl.setDronePitch(x);
                         mDroneControl.setDroneRoll(y);
                     }
                 }
-                else if ( screenRotationIndex == 1 ) {
-                    if ( acceleroEnabled &&
-                         (Math.abs(x) > ACCELERO_TRESHOLD || Math.abs(y) > ACCELERO_TRESHOLD) ) {
+                else if (screenRotationIndex == 1) {
+                    if (acceleroEnabled &&
+                            (Math.abs(x) > ACCELERO_TRESHOLD || Math.abs(y) > ACCELERO_TRESHOLD)) {
                         x *= -1;
                         y *= -1;
 
@@ -441,10 +423,10 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
                         mDroneControl.setDroneRoll(x);
                     }
                 }
-                else if ( screenRotationIndex == 3 ) {
+                else if (screenRotationIndex == 3) {
                     // google tv
-                    if ( acceleroEnabled &&
-                         (Math.abs(x) > ACCELERO_TRESHOLD || Math.abs(y) > ACCELERO_TRESHOLD) ) {
+                    if (acceleroEnabled &&
+                            (Math.abs(x) > ACCELERO_TRESHOLD || Math.abs(y) > ACCELERO_TRESHOLD)) {
 
                         mDroneControl.setDronePitch(y);
                         mDroneControl.setDroneRoll(x);

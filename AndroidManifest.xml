@@ -104,17 +104,6 @@
             android:finishOnTaskLaunch="true"
             android:hardwareAccelerated="true"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".activities.GuestSpaceActivity"
-            android:finishOnTaskLaunch="true"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".activities.BrowserActivity"
-            android:finishOnTaskLaunch="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/FreeFlightTheme.BrowserScreen" >
-        </activity>
 
         <service android:name=".transcodeservice.TranscodingService" >
         </service>

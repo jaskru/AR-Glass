@@ -201,6 +201,11 @@ public class ControlDroneActivity
             droneControlService.setProgressiveCommandCombinedYawEnabled(enable);
     }
 
+    public void switchDroneCamera(){
+        if(droneControlService != null)
+            droneControlService.switchCamera();
+    }
+
     public void triggerDroneTakeOff() {
         if (droneControlService != null)
             droneControlService.triggerTakeOff();

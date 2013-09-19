@@ -35,11 +35,8 @@ public class DashboardActivityBase extends ParrotActivity implements OnClickList
 	private StatusBar header = null;
 
 	private CheckedTextView btnFreeFlight;
-	private CheckedTextView btnAcademy;
 	private CheckedTextView btnPhotosVideos;
 	private CheckedTextView btnFirmwareUpdate;
-	private CheckedTextView btnParrotGames;
-	private CheckedTextView btnGetYourDrone;
 
     private AlertDialog alertDialog;
 
@@ -70,22 +67,16 @@ public class DashboardActivityBase extends ParrotActivity implements OnClickList
     private void initUI()
 	{
         btnFreeFlight = (CheckedTextView) findViewById(R.id.btnFreeFlight);
-		btnAcademy        = (CheckedTextView) findViewById(R.id.btnAcademy);
 		btnPhotosVideos   = (CheckedTextView) findViewById(R.id.btnPhotosVideos);
 		btnFirmwareUpdate = (CheckedTextView) findViewById(R.id.btnFirmwareUpdate);
-		btnParrotGames    = (CheckedTextView) findViewById(R.id.btnGames);
-		btnGetYourDrone   = (CheckedTextView) findViewById(R.id.btnGetYourDrone);
 	}
 
 
 	private void initListeners()
 	{
 		btnFreeFlight.setOnClickListener(this);
-		btnAcademy.setOnClickListener(this);
 		btnPhotosVideos.setOnClickListener(this);
 		btnFirmwareUpdate.setOnClickListener(this);
-		btnParrotGames.setOnClickListener(this);
-		btnGetYourDrone.setOnClickListener(this);
 	}
 
 
@@ -127,11 +118,8 @@ public class DashboardActivityBase extends ParrotActivity implements OnClickList
 			throw new IllegalStateException("Should be called from UI thread");
 
 		btnFreeFlight.setChecked(isFreeFlightEnabled());
-		btnAcademy.setChecked(isAcademyEnabled());
 		btnPhotosVideos.setChecked(getPhotoVideoState().equals(EPhotoVideoState.READY));
 		btnFirmwareUpdate.setChecked(isFirmwareUpdateEnabled());
-		btnParrotGames.setChecked(isParrotGamesEnabled());
-		btnGetYourDrone.setChecked(isGuestSpaceEnabled());
 	}
 
 
@@ -148,13 +136,7 @@ public class DashboardActivityBase extends ParrotActivity implements OnClickList
 				}
 
 				break;
-			case R.id.btnAcademy:
-				// Open academy
-				if (!isAcademyEnabled() || !onStartAcademy())
-				{
-					showErrorMessageForTime(v, getString(R.string.internet_connection_not_available), 2000);
-				}
-				break;
+
 			case R.id.btnPhotosVideos:
 				// Open photos/videos
 			    EPhotoVideoState state = getPhotoVideoState();
@@ -173,33 +155,16 @@ public class DashboardActivityBase extends ParrotActivity implements OnClickList
 			        break;
 			    }
 				break;
-			case R.id.btnFirmwareUpdate:
+
+            case R.id.btnFirmwareUpdate:
 				// Open drone update
 				if (!isFirmwareUpdateEnabled() || !onStartFirmwareUpdate())
 				{
 					showErrorMessageForTime(v, getString(R.string.your_ar_drone_is_up_to_date), 2000);
 				}
 				break;
-			case R.id.btnGames:
-				// Open Parrot Games
-				if (!isParrotGamesEnabled() || !onStartGames())
-				{
-					showErrorMessageForTime(v, getString(R.string.we_have_no_games_yet), 2000);
-				}
-				break;
-			case R.id.btnGetYourDrone:
-				// Open get your drone
-				if (!isGuestSpaceEnabled() || !onStartGuestSpace())
-				{
-					showErrorMessageForTime(v, getString(R.string.not_implemented_yet), 2000);
-				}
-				break;
-		}
-	}
 
-	protected boolean isAcademyEnabled()
-	{
-		return false;
+		}
 	}
 
 	protected boolean isFreeFlightEnabled()
@@ -225,16 +190,6 @@ public class DashboardActivityBase extends ParrotActivity implements OnClickList
 		return false;
 	}
 
-	protected boolean isParrotGamesEnabled()
-	{
-		return false;
-	}
-
-	protected boolean isGuestSpaceEnabled()
-	{
-		return false;
-	}
-
 	protected boolean isFirmwareUpdateEnabled()
 	{
 		return false;
@@ -245,27 +200,12 @@ public class DashboardActivityBase extends ParrotActivity implements OnClickList
 		return false;
 	}
 
-	protected boolean onStartAcademy()
-	{
-		return false;
-	}
-
 	protected boolean onStartPhotosVideos()
 	{
 		return false;
 	}
 
 	protected boolean onStartFirmwareUpdate()
-	{
-		return false;
-	}
-
-	protected boolean onStartGames()
-	{
-		return false;
-	}
-
-	protected boolean onStartGuestSpace()
 	{
 		return false;
 	}

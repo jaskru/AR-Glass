@@ -2,6 +2,7 @@ package com.parrot.freeflight;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
@@ -32,6 +33,16 @@ public class FreeFlightApplication
 		Log.d(TAG, "OnCreate");
 
 		settings = new ApplicationSettings(this);
+
+        //If we're on debug mode, enable strict mode (android.os.StrictMode)
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "Enabling strict mode");
+
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectAll().penaltyLog().build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectAll().penaltyLog().build());
+        }
 	}
 
 	

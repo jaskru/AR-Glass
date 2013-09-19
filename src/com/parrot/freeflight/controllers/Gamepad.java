@@ -104,12 +104,39 @@ public class Gamepad extends Controller {
         // TODO: complete
         boolean handled = false;
         if (event.getRepeatCount() == 0) {
+            //Mapping for the SnakeByte iDroid:con controller
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BUTTON_10:
                     //Start button. trigger takeOff/Landing
                     mDroneControl.triggerDroneTakeOff();
                     handled = true;
                     break;
+
+                case KeyEvent.KEYCODE_BUTTON_2:
+                    //A button. Used for flip
+                    mDroneControl.doLeftFlip();
+                    handled = true;
+                    break;
+
+                case KeyEvent.KEYCODE_BUTTON_3:
+                    //B button. Used to trigger camera recording
+                    mDroneControl.onRecord();
+                    handled = true;
+                    break;
+
+                case KeyEvent.KEYCODE_BUTTON_1:
+                    //X button. Used to trigger pic snap
+                    mDroneControl.onTakePhoto();
+                    handled = true;
+                    break;
+
+                case KeyEvent.KEYCODE_BUTTON_4:
+                    //Y button. Used to trigger camera switch (front to bottom, and vice versa)
+                    mDroneControl.switchDroneCamera();
+                    handled = true;
+                    break;
+
+
             }
         }
 
