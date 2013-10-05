@@ -22,24 +22,25 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
     public enum ControllerType {
         GAMEPAD {
             @Override
-            public Controller getImpl(final ControlDroneActivity droneControl) {
+            public Gamepad getImpl(final ControlDroneActivity droneControl) {
                 return new Gamepad(droneControl);
             }
         },
         VIRTUAL_JOYSTICK {
             @Override
-            public Controller getImpl(final ControlDroneActivity droneControl) {
+            public VirtualJoystick getImpl(final ControlDroneActivity droneControl) {
                 return new VirtualJoystick(droneControl);
             }
         },
         GOOGLE_GLASS {
             @Override
-            public Controller getImpl(final ControlDroneActivity droneControl) {
+            public GoogleGlassController getImpl(final ControlDroneActivity droneControl) {
                 return new GoogleGlassController(droneControl);
             }
         };
 
-        public abstract Controller getImpl(final ControlDroneActivity droneControl);
+        public abstract <T extends Controller> T getImpl(
+                final ControlDroneActivity droneControl);
     }
 
     protected static final Sprite[] NO_SPRITES = new Sprite[0];

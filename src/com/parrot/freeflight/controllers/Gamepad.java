@@ -106,6 +106,11 @@ public class Gamepad extends Controller {
         if (event.getRepeatCount() == 0) {
             //Mapping for the SnakeByte iDroid:con controller
             switch (keyCode) {
+                case KeyEvent.KEYCODE_BUTTON_9:
+                    // Select button. toggle glass mode
+                    mDroneControl.setGlassMode(!mDroneControl.isGlassMode());
+                    break;
+
                 case KeyEvent.KEYCODE_BUTTON_10:
                     //Start button. trigger takeOff/Landing
                     mDroneControl.triggerDroneTakeOff();

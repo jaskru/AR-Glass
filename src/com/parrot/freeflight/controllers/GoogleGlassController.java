@@ -1,5 +1,10 @@
 package com.parrot.freeflight.controllers;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -20,7 +25,8 @@ import com.parrot.freeflight.ui.hud.Sprite;
  * addition to
  * standard GestureDetecror gestures.
  */
-public class GoogleGlassController extends Controller implements DeviceOrientationChangeDelegate {
+public class GoogleGlassController extends Controller implements
+        DeviceOrientationChangeDelegate {
     private static final String TAG = GoogleGlassController.class.getSimpleName();
 
     private short mPitchValue = 0;
@@ -33,13 +39,49 @@ public class GoogleGlassController extends Controller implements DeviceOrientati
     private final GestureDetector mGestureDetector;
     private final DeviceOrientationManager mOrientationManager;
 
+    private final SensorManager mSensorManager;
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            if ( event.sensor.getType() == Sensor.TYPE_GRAVITY ) {
+                // TODO: complete method
+                float angle = computeOrientation(event);
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // TODO Auto-generated method stub
+
+        }
+
+        /**
+         * Compute the orientation angle.
+         *
+         * @param event
+         *            Gravity values.
+         */
+        private float computeOrientation(SensorEvent event) {
+            float angle = (float) -Math
+                    .atan(event.values[0] /
+                          Math.sqrt(event.values[1] * event.values[1] +
+                                    event.values[2] * event.values[2]));
+            return angle;
+        }
+    };
+
     GoogleGlassController(final ControlDroneActivity droneControl) {
         super(droneControl);
 
+        mSensorManager = (SensorManager) droneControl
+                .getSystemService(Context.SENSOR_SERVICE);
+
         mSettings = droneControl.getSettings();
 
-        mOrientationManager = new DeviceOrientationManager(new DeviceSensorManagerWrapper(
-                droneControl.getApplicationContext()), this);
+        mOrientationManager = new DeviceOrientationManager(
+                new DeviceSensorManagerWrapper(
+                        droneControl.getApplicationContext()), this);
 
         mGestureDetector = new GestureDetector(droneControl.getApplicationContext(),
                 new SimpleOnGestureListener() {
@@ -154,17 +196,36 @@ public class GoogleGlassController extends Controller implements DeviceOrientati
 
     @Override
     protected void resumeImpl() {
+        registerListeners();
         mOrientationManager.resume();
     }
 
     @Override
     protected void pauseImpl() {
+        unregisterListeners();
         mOrientationManager.pause();
     }
 
     @Override
     protected void destroyImpl() {
+        unregisterListeners();
         mOrientationManager.destroy();
+    }
+
+    /**
+     * Register this activity as a listener for gravity sensor changes.
+     */
+    private void registerListeners() {
+        mSensorManager.registerListener(mSensorListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY),
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    /**
+     * Unregister this activity as a listener.
+     */
+    private void unregisterListeners() {
+        mSensorManager.unregisterListener(mSensorListener);
     }
 
     @Override
