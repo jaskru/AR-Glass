@@ -112,8 +112,8 @@ public class Gamepad extends Controller {
                     // Select button. toggle glass mode
                     final boolean glassMode = !mDroneControl.isGlassMode();
                     if ( glassMode ) {
-                        // Set the drone tilt to maximum
-                        mDroneControl.setDroneTilt(DroneConfig.TILT_MAX / 2);
+                        // Update the drone tilt for glass mode
+                        mDroneControl.setDroneTilt(DroneConfig.TILT_MIN * 2);
 
                         // Enable progressive command
                         mDroneControl.setDroneProgressiveCommandEnabled(true);
@@ -121,7 +121,7 @@ public class Gamepad extends Controller {
                     }
                     else {
                         // Set the drone tilt to default
-                        mDroneControl.setDroneTilt(DroneConfig.TILT_MIN * 2);
+                        mDroneControl.setDroneTilt(DroneConfig.TILT_MAX / 2);
 
                         // Disable progressive command
                         mDroneControl.setDroneProgressiveCommandEnabled(false);

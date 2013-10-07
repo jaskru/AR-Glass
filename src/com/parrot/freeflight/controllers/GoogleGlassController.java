@@ -30,6 +30,8 @@ public class GoogleGlassController extends Controller implements
         DeviceOrientationChangeDelegate {
     private static final String TAG = GoogleGlassController.class.getSimpleName();
 
+    private static final float RAD_TO_DEG = (float) (180f / Math.PI);
+
     private short mPitchValue = 0;
     private short mGazValue = 0;
 
@@ -49,19 +51,38 @@ public class GoogleGlassController extends Controller implements
                 return;
             }
 
-            if ( event.sensor.getType() == Sensor.TYPE_GRAVITY ) {
-                float degAngle = (float) (180f * computeOrientation(event) / Math.PI);
-                float rollRatio = degAngle / DroneConfig.TILT_MAX;
+            switch (event.sensor.getType()) {
+                case Sensor.TYPE_GRAVITY:
+                    // Angle are in degrees
+                    final float minRatio = (1f / 6f);
 
-                if ( rollRatio > 1f )
-                    rollRatio = 1f;
-                else if ( rollRatio < -1f )
-                    rollRatio = -1f;
-                else if ( Math.abs(rollRatio) <= (1f / 6f) )
-                    rollRatio = 0;
+                    float rollAngle = RAD_TO_DEG * computeRollOrientation(event);
+                    float rollRatio = rollAngle / DroneConfig.TILT_MAX;
 
-                // Set the tilt angle
-                mDroneControl.setDroneRoll(rollRatio);
+                    if ( rollRatio > 1f )
+                        rollRatio = 1f;
+                    else if ( rollRatio < -1f )
+                        rollRatio = -1f;
+                    else if ( Math.abs(rollRatio) <= minRatio )
+                        rollRatio = 0;
+
+                    float pitchAngle = RAD_TO_DEG * computePitchOrientation(event);
+                    float pitchRatio = pitchAngle / DroneConfig.TILT_MAX;
+
+                    if ( pitchRatio > 1f )
+                        pitchRatio = 1f;
+                    else if ( pitchRatio < -1f )
+                        pitchRatio = -1f;
+                    else if ( Math.abs(pitchRatio) <= minRatio )
+                        pitchRatio = 0;
+
+                    // Set the tilt angle
+                    mDroneControl.setDroneRoll(rollRatio);
+                    mDroneControl.setDronePitch(pitchRatio);
+                    break;
+
+                case Sensor.TYPE_ROTATION_VECTOR:
+                    break;
             }
         }
 
@@ -77,11 +98,18 @@ public class GoogleGlassController extends Controller implements
          * @param event
          *            Gravity values.
          */
-        private float computeOrientation(SensorEvent event) {
-            float angle = (float) -Math
-                    .atan(event.values[0] /
-                          Math.sqrt(event.values[1] * event.values[1] +
-                                    event.values[2] * event.values[2]));
+        private float computeRollOrientation(SensorEvent event) {
+            float angle = (float) -Math.atan(
+                    event.values[0] / Math.sqrt(event.values[1] * event.values[1] +
+                                                event.values[2] * event.values[2]));
+            return angle;
+        }
+
+        private float computePitchOrientation(SensorEvent event) {
+            float angle = (float) -Math.atan(
+                    event.values[2] / Math.sqrt(event.values[1] * event.values[1] +
+                                                event.values[0] * event.values[0]));
+
             return angle;
         }
     };
@@ -233,6 +261,9 @@ public class GoogleGlassController extends Controller implements
     private void registerListeners() {
         mSensorManager.registerListener(mSensorListener,
                 mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mSensorListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
                 SensorManager.SENSOR_DELAY_NORMAL);
     }
 
