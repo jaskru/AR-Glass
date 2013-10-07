@@ -72,6 +72,7 @@ public class ControlDroneActivity
         DroneBatteryChangedReceiverDelegate, DroneFlyingStateReceiverDelegate,
         DroneCameraReadyActionReceiverDelegate, DroneRecordReadyActionReceiverDelegate,
         SettingsDialogDelegate {
+
     private static final int LOW_DISK_SPACE_BYTES_LEFT = 1048576 * 20; // 20 mebabytes
     private static final int WARNING_MESSAGE_DISMISS_TIME = 5000; // 5 seconds
 
@@ -115,12 +116,13 @@ public class ControlDroneActivity
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            droneControlService = ((DroneControlService.LocalBinder) service).getService();
+            droneControlService = ((DroneControlService.LocalBinder) service)
+                    .getService();
             onDroneServiceConnected();
 
-            if (view != null && !view.isInTouchMode()) {
+            if ( view != null && !view.isInTouchMode() ) {
                 DroneConfig droneConfig = droneControlService.getDroneConfig();
-                if (droneConfig == null)
+                if ( droneConfig == null )
                     return;
 
                 // Increase the yaw speed
@@ -141,7 +143,7 @@ public class ControlDroneActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (isFinishing()) {
+        if ( isFinishing() ) {
             return;
         }
 
@@ -174,7 +176,7 @@ public class ControlDroneActivity
 
         DeviceOrientationManager orientationManager = getControllerOrientationManager();
 
-        if (orientationManager != null && !orientationManager.isAcceleroAvailable()) {
+        if ( orientationManager != null && !orientationManager.isAcceleroAvailable() ) {
             settings.setControlMode(ControlMode.NORMAL_MODE);
         }
 
@@ -245,56 +247,78 @@ public class ControlDroneActivity
     }
 
     public void setDeviceOrientation(int heading, int accuracy) {
-        if (droneControlService != null)
+        if ( droneControlService != null )
             droneControlService.setDeviceOrientation(heading, accuracy);
     }
 
+    /**
+     * Configuration method. Set the drone max tilt angle. Used by roll, and pitch.
+     *
+     * @param tilt
+     */
+    public void setDroneTilt(int tilt) {
+        if ( droneControlService != null ) {
+            DroneConfig droneConfig = droneControlService.getDroneConfig();
+            if ( droneConfig != null ) {
+                droneConfig.setTilt(tilt);
+            }
+        }
+    }
+
     public void setDroneRoll(float roll) {
-        if (droneControlService != null)
+        if ( droneControlService != null ) {
             droneControlService.setRoll(roll);
+
+            if ( mIsGlassMode.get() && view != null ) {
+                int rollAngle = (int) (DroneConfig.TILT_MAX * roll);
+                view.setPitchValue(rollAngle);
+            }
+        }
+
     }
 
     public void setDronePitch(float pitch) {
-        if (droneControlService != null)
+        if ( droneControlService != null )
             droneControlService.setPitch(pitch);
     }
 
     public void setDroneGaz(float gaz) {
-        if (droneControlService != null) {
+        if ( droneControlService != null ) {
             droneControlService.setGaz(gaz);
         }
     }
 
     public void setDroneYaw(float yaw) {
-        if (droneControlService != null) {
+        if ( droneControlService != null ) {
             droneControlService.setYaw(yaw);
         }
     }
 
     public void setDroneProgressiveCommandEnabled(boolean enable) {
-        if (droneControlService != null)
+        if ( droneControlService != null )
             droneControlService.setProgressiveCommandEnabled(enable);
     }
 
     public void setDroneProgressiveCommandCombinedYawEnabled(boolean enable) {
-        if (droneControlService != null)
+        if ( droneControlService != null )
             droneControlService.setProgressiveCommandCombinedYawEnabled(enable);
     }
 
-    public void switchDroneCamera(){
-        if(droneControlService != null)
+    public void switchDroneCamera() {
+        if ( droneControlService != null )
             droneControlService.switchCamera();
     }
 
     public void triggerDroneTakeOff() {
-        if (droneControlService != null)
+        if ( droneControlService != null )
             droneControlService.triggerTakeOff();
     }
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-        return mGamepadController != null && mGamepadController.onGenericMotion(view.getRootView(),
-                event) || super.onGenericMotionEvent(event);
+        return mGamepadController != null &&
+               mGamepadController.onGenericMotion(view.getRootView(),
+                       event) || super.onGenericMotionEvent(event);
     }
 
     @Override
@@ -311,8 +335,9 @@ public class ControlDroneActivity
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return mGamepadController != null && mGamepadController.onTouch(view.getRootView(),
-                event) || super.onTouchEvent(event);
+        return mGamepadController != null &&
+               mGamepadController.onTouch(view.getRootView(),
+                       event) || super.onTouchEvent(event);
     }
 
     private void initListeners() {
@@ -327,7 +352,7 @@ public class ControlDroneActivity
 
             @Override
             public void onClick(View v) {
-                if (droneControlService != null) {
+                if ( droneControlService != null ) {
                     droneControlService.switchCamera();
                 }
             }
@@ -337,7 +362,7 @@ public class ControlDroneActivity
 
             @Override
             public void onClick(View v) {
-                if (droneControlService != null) {
+                if ( droneControlService != null ) {
                     droneControlService.triggerTakeOff();
                 }
             }
@@ -347,7 +372,7 @@ public class ControlDroneActivity
 
             @Override
             public void onClick(View v) {
-                if (droneControlService != null) {
+                if ( droneControlService != null ) {
                     droneControlService.triggerEmergency();
                 }
             }
@@ -357,7 +382,7 @@ public class ControlDroneActivity
         view.setBtnPhotoClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (droneControlService != null) {
+                if ( droneControlService != null ) {
                     onTakePhoto();
                 }
             }
@@ -379,7 +404,7 @@ public class ControlDroneActivity
     }
 
     public void doLeftFlip() {
-        if (droneControlService != null)
+        if ( droneControlService != null )
             droneControlService.doLeftFlip();
     }
 
@@ -387,7 +412,7 @@ public class ControlDroneActivity
     protected void onDestroy() {
         destroyController();
 
-        if (view != null) {
+        if ( view != null ) {
             view.onDestroy();
         }
 
@@ -403,7 +428,8 @@ public class ControlDroneActivity
 
     private void registerReceivers() {
         // System wide receiver
-        registerReceiver(wifiSignalReceiver, new IntentFilter(WifiManager.RSSI_CHANGED_ACTION));
+        registerReceiver(wifiSignalReceiver, new IntentFilter(
+                WifiManager.RSSI_CHANGED_ACTION));
 
         // Local receivers
         LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager
@@ -416,10 +442,12 @@ public class ControlDroneActivity
                 DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
         localBroadcastMgr.registerReceiver(droneFlyingStateReceiver, new IntentFilter(
                 DroneControlService.DRONE_FLYING_STATE_CHANGED_ACTION));
-        localBroadcastMgr.registerReceiver(droneCameraReadyChangedReceiver, new IntentFilter(
-                DroneControlService.CAMERA_READY_CHANGED_ACTION));
-        localBroadcastMgr.registerReceiver(droneRecordReadyChangeReceiver, new IntentFilter(
-                DroneControlService.RECORD_READY_CHANGED_ACTION));
+        localBroadcastMgr.registerReceiver(droneCameraReadyChangedReceiver,
+                new IntentFilter(
+                        DroneControlService.CAMERA_READY_CHANGED_ACTION));
+        localBroadcastMgr.registerReceiver(droneRecordReadyChangeReceiver,
+                new IntentFilter(
+                        DroneControlService.RECORD_READY_CHANGED_ACTION));
     }
 
     private void unregisterReceivers() {
@@ -439,11 +467,11 @@ public class ControlDroneActivity
 
     @Override
     protected void onResume() {
-        if (view != null) {
+        if ( view != null ) {
             view.onResume();
         }
 
-        if (droneControlService != null) {
+        if ( droneControlService != null ) {
             droneControlService.resume();
         }
 
@@ -454,7 +482,8 @@ public class ControlDroneActivity
         resumeController();
         DeviceOrientationManager orientationManager = getControllerOrientationManager();
 
-        magnetoAvailable = orientationManager != null && orientationManager.isMagnetoAvailable();
+        magnetoAvailable = orientationManager != null &&
+                           orientationManager.isMagnetoAvailable();
         super.onResume();
     }
 
@@ -464,11 +493,11 @@ public class ControlDroneActivity
         if ( isDroneFlying() )
             triggerDroneTakeOff();
 
-        if (view != null) {
+        if ( view != null ) {
             view.onPause();
         }
 
-        if (droneControlService != null) {
+        if ( droneControlService != null ) {
             droneControlService.pause();
         }
 
@@ -486,22 +515,24 @@ public class ControlDroneActivity
      * Called when we connected to DroneControlService
      */
     protected void onDroneServiceConnected() {
-        if (droneControlService != null) {
+        if ( droneControlService != null ) {
             droneControlService.resume();
             droneControlService.requestDroneStatus();
         }
         else {
-            Log.w(TAG, "DroneServiceConnected event ignored as DroneControlService is null");
+            Log.w(TAG,
+                    "DroneServiceConnected event ignored as DroneControlService is null");
         }
 
-        settingsDialog = new SettingsDialog(this, this, droneControlService, magnetoAvailable);
+        settingsDialog = new SettingsDialog(this, this, droneControlService,
+                magnetoAvailable);
 
         applySettings(settings);
 
         initListeners();
         runTranscoding();
 
-        if (droneControlService.getMediaDir() != null) {
+        if ( droneControlService.getMediaDir() != null ) {
             view.setRecordButtonEnabled(true);
             view.setCameraButtonEnabled(true);
         }
@@ -517,14 +548,14 @@ public class ControlDroneActivity
 
         updateBackButtonState();
 
-        if (!view.isInTouchMode())
+        if ( !view.isInTouchMode() )
             droneControlService.setProgressiveCommandEnabled(flying);
     }
 
     @Override
     @SuppressLint("NewApi")
     public void onDroneRecordReadyChanged(boolean ready) {
-        if (!recording) {
+        if ( !recording ) {
             view.setRecordButtonEnabled(ready);
         }
         else {
@@ -559,8 +590,8 @@ public class ControlDroneActivity
     public void onDroneEmergencyChanged(int code) {
         view.setEmergency(code);
 
-        if (code == NavData.ERROR_STATE_EMERGENCY_VBAT_LOW ||
-                code == NavData.ERROR_STATE_ALERT_VBAT_LOW) {
+        if ( code == NavData.ERROR_STATE_EMERGENCY_VBAT_LOW ||
+             code == NavData.ERROR_STATE_ALERT_VBAT_LOW ) {
             playEmergencySound();
         }
         else {
@@ -569,7 +600,7 @@ public class ControlDroneActivity
 
         controlLinkAvailable = (code != NavData.ERROR_STATE_NAVDATA_CONNECTION);
 
-        if (!controlLinkAvailable) {
+        if ( !controlLinkAvailable ) {
             view.setRecordButtonEnabled(false);
             view.setCameraButtonEnabled(false);
             view.setSwitchCameraButtonEnabled(false);
@@ -597,8 +628,8 @@ public class ControlDroneActivity
 
     @Override
     public void onDroneRecordVideoStateChanged(boolean recording, boolean usbActive,
-                                               int remaining) {
-        if (droneControlService == null)
+            int remaining) {
+        if ( droneControlService == null )
             return;
 
         boolean prevRecording = this.recording;
@@ -610,20 +641,20 @@ public class ControlDroneActivity
 
         updateBackButtonState();
 
-        if (!recording) {
-            if (prevRecording != recording && droneControlService != null
-                    && droneControlService.getDroneVersion() == EDroneVersion.DRONE_1) {
+        if ( !recording ) {
+            if ( prevRecording != recording && droneControlService != null
+                 && droneControlService.getDroneVersion() == EDroneVersion.DRONE_1 ) {
                 runTranscoding();
                 showWarningDialog(
                         getString(R.string
-                                .Your_video_is_being_processed_Please_do_not_close_application),
+                        .Your_video_is_being_processed_Please_do_not_close_application),
                         WARNING_MESSAGE_DISMISS_TIME);
             }
         }
 
-        if (prevRecording != recording) {
-            if (usbActive && droneControlService.getDroneConfig().isRecordOnUsb() &&
-                    remaining == 0) {
+        if ( prevRecording != recording ) {
+            if ( usbActive && droneControlService.getDroneConfig().isRecordOnUsb() &&
+                 remaining == 0 ) {
                 onNotifyLowUsbSpace();
             }
         }
@@ -635,7 +666,7 @@ public class ControlDroneActivity
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag("settings");
 
-        if (prev != null) {
+        if ( prev != null ) {
             return;
         }
 
@@ -643,14 +674,14 @@ public class ControlDroneActivity
 
         settingsDialog.show(ft, "settings");
 
-        if (pauseVideoWhenOnSettings) {
+        if ( pauseVideoWhenOnSettings ) {
             view.onPause();
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (canGoBack()) {
+        if ( canGoBack() ) {
             super.onBackPressed();
         }
     }
@@ -670,7 +701,7 @@ public class ControlDroneActivity
     }
 
     public EDroneVersion getDroneVersion() {
-        if (droneControlService != null)
+        if ( droneControlService != null )
             droneControlService.getDroneVersion();
 
         return EDroneVersion.UNKNOWN;
@@ -681,7 +712,7 @@ public class ControlDroneActivity
     }
 
     public void setMagntoEnabled(boolean enable) {
-        if (droneControlService != null)
+        if ( droneControlService != null )
             droneControlService.setMagnetoEnabled(enable);
     }
 
@@ -700,7 +731,7 @@ public class ControlDroneActivity
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag(message);
 
-        if (prev != null) {
+        if ( prev != null ) {
             return;
         }
 
@@ -715,7 +746,7 @@ public class ControlDroneActivity
     }
 
     private void playEmergencySound() {
-        if (effectsStreamId != 0) {
+        if ( effectsStreamId != 0 ) {
             soundPool.stop(effectsStreamId);
             effectsStreamId = 0;
         }
@@ -729,7 +760,7 @@ public class ControlDroneActivity
     }
 
     private void updateBackButtonState() {
-        if (canGoBack()) {
+        if ( canGoBack() ) {
             view.setBackButtonVisible(true);
         }
         else {
@@ -738,12 +769,13 @@ public class ControlDroneActivity
     }
 
     private void runTranscoding() {
-        if (droneControlService.getDroneVersion() == EDroneVersion.DRONE_1) {
+        if ( droneControlService.getDroneVersion() == EDroneVersion.DRONE_1 ) {
             File mediaDir = droneControlService.getMediaDir();
 
-            if (mediaDir != null) {
+            if ( mediaDir != null ) {
                 Intent transcodeIntent = new Intent(this, TranscodingService.class);
-                transcodeIntent.putExtra(TranscodingService.EXTRA_MEDIA_PATH, mediaDir.toString());
+                transcodeIntent.putExtra(TranscodingService.EXTRA_MEDIA_PATH,
+                        mediaDir.toString());
                 startService(transcodeIntent);
             }
             else {
@@ -770,8 +802,9 @@ public class ControlDroneActivity
 
     @Override
     public void
-    onOptionChangedApp(SettingsDialog dialog, EAppSettingProperty property, Object value) {
-        if (value == null || property == null) {
+            onOptionChangedApp(SettingsDialog dialog, EAppSettingProperty property,
+                    Object value) {
+        if ( value == null || property == null ) {
             throw new IllegalArgumentException("Property can not be null");
         }
 
@@ -793,26 +826,26 @@ public class ControlDroneActivity
     public void onDismissed(SettingsDialog settingsDialog) {
         // pauseVideoWhenOnSettings option is not mandatory and is set depending to device in
         // config.xml.
-        if (pauseVideoWhenOnSettings) {
+        if ( pauseVideoWhenOnSettings ) {
             view.onResume();
         }
 
         AsyncTask<Integer, Integer, Boolean> loadPropTask = new AsyncTask<Integer, Integer,
                 Boolean>() {
-            @Override
-            protected Boolean doInBackground(Integer... params) {
-                // Skipping joypad configuration as it was already done in onPropertyChanged
-                // We do this because on some devices joysticks re-initialization takes too
-                // much time.
-                applySettings(getSettings(), true);
-                return Boolean.TRUE;
-            }
+                    @Override
+                    protected Boolean doInBackground(Integer... params) {
+                        // Skipping joypad configuration as it was already done in onPropertyChanged
+                        // We do this because on some devices joysticks re-initialization takes too
+                        // much time.
+                        applySettings(getSettings(), true);
+                        return Boolean.TRUE;
+                    }
 
-            @Override
-            protected void onPostExecute(Boolean result) {
-                view.setSettingsButtonEnabled(true);
-            }
-        };
+                    @Override
+                    protected void onPostExecute(Boolean result) {
+                        view.setSettingsButtonEnabled(true);
+                    }
+                };
 
         loadPropTask.execute();
     }
@@ -820,18 +853,18 @@ public class ControlDroneActivity
     private boolean isLowOnDiskSpace() {
         boolean lowOnSpace = false;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ) {
             DroneConfig config = droneControlService.getDroneConfig();
-            if (!recording && !config.isRecordOnUsb()) {
+            if ( !recording && !config.isRecordOnUsb() ) {
                 File mediaDir = droneControlService.getMediaDir();
                 long freeSpace = 0;
 
-                if (mediaDir != null) {
+                if ( mediaDir != null ) {
                     freeSpace = mediaDir.getUsableSpace();
                 }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
-                        && freeSpace < LOW_DISK_SPACE_BYTES_LEFT) {
+                if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
+                     && freeSpace < LOW_DISK_SPACE_BYTES_LEFT ) {
                     lowOnSpace = true;
                 }
             }
@@ -844,22 +877,22 @@ public class ControlDroneActivity
     }
 
     public void onRecord() {
-        if (droneControlService != null) {
+        if ( droneControlService != null ) {
             DroneConfig droneConfig = droneControlService.getDroneConfig();
 
             boolean sdCardMounted = droneControlService.isMediaStorageAvailable();
             boolean recordingToUsb = droneConfig.isRecordOnUsb() &&
-                    droneControlService.isUSBInserted();
+                                     droneControlService.isUSBInserted();
 
-            if (recording) {
+            if ( recording ) {
                 // Allow to stop recording
                 view.setRecordButtonEnabled(false);
                 droneControlService.record();
             }
             else {
                 // Start recording
-                if (!sdCardMounted) {
-                    if (recordingToUsb) {
+                if ( !sdCardMounted ) {
+                    if ( recordingToUsb ) {
                         view.setRecordButtonEnabled(false);
                         droneControlService.record();
                     }
@@ -868,7 +901,7 @@ public class ControlDroneActivity
                     }
                 }
                 else {
-                    if (!recordingToUsb && isLowOnDiskSpace()) {
+                    if ( !recordingToUsb && isLowOnDiskSpace() ) {
                         onNotifyLowDiskSpace();
                     }
 
@@ -880,7 +913,7 @@ public class ControlDroneActivity
     }
 
     public void onTakePhoto() {
-        if (droneControlService.isMediaStorageAvailable()) {
+        if ( droneControlService.isMediaStorageAvailable() ) {
             view.setCameraButtonEnabled(false);
             droneControlService.takePhoto();
         }

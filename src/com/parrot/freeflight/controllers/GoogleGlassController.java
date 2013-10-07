@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.parrot.freeflight.activities.ControlDroneActivity;
+import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.drone.DroneConfig.EDroneVersion;
 import com.parrot.freeflight.sensors.DeviceOrientationChangeDelegate;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
@@ -44,9 +45,23 @@ public class GoogleGlassController extends Controller implements
 
         @Override
         public void onSensorChanged(SensorEvent event) {
+            if ( mDroneControl == null || !mDroneControl.isGlassMode() ) {
+                return;
+            }
+
             if ( event.sensor.getType() == Sensor.TYPE_GRAVITY ) {
-                // TODO: complete method
-                float angle = computeOrientation(event);
+                float degAngle = (float) (180f * computeOrientation(event) / Math.PI);
+                float rollRatio = degAngle / DroneConfig.TILT_MAX;
+
+                if ( rollRatio > 1f )
+                    rollRatio = 1f;
+                else if ( rollRatio < -1f )
+                    rollRatio = -1f;
+                else if ( Math.abs(rollRatio) <= (1f / 6f) )
+                    rollRatio = 0;
+
+                // Set the tilt angle
+                mDroneControl.setDroneRoll(rollRatio);
             }
         }
 
@@ -197,19 +212,19 @@ public class GoogleGlassController extends Controller implements
     @Override
     protected void resumeImpl() {
         registerListeners();
-        mOrientationManager.resume();
+        // mOrientationManager.resume();
     }
 
     @Override
     protected void pauseImpl() {
         unregisterListeners();
-        mOrientationManager.pause();
+        // mOrientationManager.pause();
     }
 
     @Override
     protected void destroyImpl() {
         unregisterListeners();
-        mOrientationManager.destroy();
+        // mOrientationManager.destroy();
     }
 
     /**
