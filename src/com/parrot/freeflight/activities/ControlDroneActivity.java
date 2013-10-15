@@ -8,7 +8,6 @@
 package com.parrot.freeflight.activities;
 
 import java.io.File;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -36,8 +35,6 @@ import com.parrot.freeflight.FreeFlightApplication;
 import com.parrot.freeflight.R;
 import com.parrot.freeflight.activities.base.ParrotActivity;
 import com.parrot.freeflight.controllers.Controller;
-import com.parrot.freeflight.controllers.Gamepad;
-import com.parrot.freeflight.controllers.GoogleGlassController;
 import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.drone.DroneConfig.EDroneVersion;
 import com.parrot.freeflight.drone.NavData;
@@ -85,9 +82,7 @@ public class ControlDroneActivity
     /**
      * Gamepad for primary control + head tracking with google glass for testing
      */
-    private Gamepad mGamepadController;
-    private GoogleGlassController mGlassController;
-    private AtomicBoolean mIsGlassMode = new AtomicBoolean(false);
+    private Controller mController;
 
     private HudViewController view;
 
@@ -169,10 +164,9 @@ public class ControlDroneActivity
         batterySoundId = soundPool.load(this, R.raw.battery, 1);
 
         /*
-         * Create the gamepad controller, and the google glass controller
+         * Initialize the controller
          */
-        mGamepadController = Controller.ControllerType.GAMEPAD.getImpl(this);
-        mGlassController = Controller.ControllerType.GOOGLE_GLASS.getImpl(this);
+        mController = Controller.ControllerType.GOOGLE_GLASS.getImpl(this);
 
         DeviceOrientationManager orientationManager = getControllerOrientationManager();
 
@@ -188,46 +182,31 @@ public class ControlDroneActivity
     }
 
     private void initController() {
-        if ( mGamepadController != null )
-            mGamepadController.init();
-
-        if ( mGlassController != null )
-            mGlassController.init();
+        if ( mController != null )
+            mController.init();
     }
 
     private DeviceOrientationManager getControllerOrientationManager() {
         DeviceOrientationManager orientationManager = null;
-        if ( mGamepadController != null )
-            orientationManager = mGamepadController.getDeviceOrientationManager();
-
-        if ( orientationManager == null && mGlassController != null )
-            orientationManager = mGlassController.getDeviceOrientationManager();
+        if ( mController != null )
+            orientationManager = mController.getDeviceOrientationManager();
 
         return orientationManager;
     }
 
     private void destroyController() {
-        if ( mGamepadController != null )
-            mGamepadController.destroy();
-
-        if ( mGlassController != null )
-            mGlassController.destroy();
+        if ( mController != null )
+            mController.destroy();
     }
 
     private void resumeController() {
-        if ( mGamepadController != null )
-            mGamepadController.resume();
-
-        if ( mGlassController != null )
-            mGlassController.resume();
+        if ( mController != null )
+            mController.resume();
     }
 
     private void pauseController() {
-        if ( mGamepadController != null )
-            mGamepadController.pause();
-
-        if ( mGlassController != null )
-            mGlassController.pause();
+        if ( mController != null )
+            mController.pause();
     }
 
     public boolean isInTouchMode() {
@@ -236,14 +215,6 @@ public class ControlDroneActivity
 
     public HudViewController getHudView() {
         return view;
-    }
-
-    public void setGlassMode(boolean glassMode) {
-        mIsGlassMode.set(glassMode);
-    }
-
-    public boolean isGlassMode() {
-        return mIsGlassMode.get();
     }
 
     public void setDeviceOrientation(int heading, int accuracy) {
@@ -268,11 +239,6 @@ public class ControlDroneActivity
     public void setDroneRoll(float roll) {
         if ( droneControlService != null ) {
             droneControlService.setRoll(roll);
-
-            if ( mIsGlassMode.get() && view != null ) {
-                int rollAngle = (int) (DroneConfig.TILT_MAX * roll);
-                view.setPitchValue(rollAngle);
-            }
         }
 
     }
@@ -316,27 +282,27 @@ public class ControlDroneActivity
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-        return mGamepadController != null &&
-               mGamepadController.onGenericMotion(view.getRootView(),
+        return mController != null &&
+               mController.onGenericMotion(view.getRootView(),
                        event) || super.onGenericMotionEvent(event);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return mGamepadController != null && mGamepadController.onKeyDown(keyCode,
+        return mController != null && mController.onKeyDown(keyCode,
                 event) || super.onKeyDown(keyCode, event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return mGamepadController != null && mGamepadController.onKeyUp(keyCode,
+        return mController != null && mController.onKeyUp(keyCode,
                 event) || super.onKeyUp(keyCode, event);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return mGamepadController != null &&
-               mGamepadController.onTouch(view.getRootView(),
+        return mController != null &&
+               mController.onTouch(view.getRootView(),
                        event) || super.onTouchEvent(event);
     }
 
@@ -540,9 +506,6 @@ public class ControlDroneActivity
 
     @Override
     public void onDroneFlyingStateChanged(boolean flying) {
-        // Reset glass mode every time the drone switches flying state.
-        setGlassMode(false);
-
         this.flying = flying;
         view.setIsFlying(flying);
 

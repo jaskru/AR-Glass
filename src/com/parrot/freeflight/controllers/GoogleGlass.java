@@ -26,16 +26,14 @@ import com.parrot.freeflight.ui.hud.Sprite;
  * addition to
  * standard GestureDetecror gestures.
  */
-public class GoogleGlassController extends Controller implements
+public class GoogleGlass extends Controller implements
         DeviceOrientationChangeDelegate {
-    private static final String TAG = GoogleGlassController.class.getSimpleName();
+    private static final String TAG = GoogleGlass.class.getSimpleName();
 
     private static final float RAD_TO_DEG = (float) (180f / Math.PI);
 
-    private short mPitchValue = 0;
-    private short mGazValue = 0;
-
-    private boolean running;
+    private float[] mOrientation;
+    private float[] mRotationMatrix;
     private boolean magnetoEnabled;
 
     private final ApplicationSettings mSettings;
@@ -47,7 +45,7 @@ public class GoogleGlassController extends Controller implements
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if ( mDroneControl == null || !mDroneControl.isGlassMode() ) {
+            if ( mDroneControl == null ) {
                 return;
             }
 
@@ -82,6 +80,15 @@ public class GoogleGlassController extends Controller implements
                     break;
 
                 case Sensor.TYPE_ROTATION_VECTOR:
+                    SensorManager.getRotationMatrixFromVector(mRotationMatrix,
+                            event.values);
+                    SensorManager.remapCoordinateSystem(mRotationMatrix,
+                            SensorManager.AXIS_X, SensorManager.AXIS_Z, mRotationMatrix);
+                    SensorManager.getOrientation(mRotationMatrix, mOrientation);
+
+                    float heading = (float) Math.toDegrees(mOrientation[0]);
+
+                    // TODO: experiment with the heading to control yaw
                     break;
             }
         }
@@ -114,9 +121,11 @@ public class GoogleGlassController extends Controller implements
         }
     };
 
-    GoogleGlassController(final ControlDroneActivity droneControl) {
+    GoogleGlass(final ControlDroneActivity droneControl) {
         super(droneControl);
 
+        mOrientation = new float[3];
+        mRotationMatrix = new float[16];
         mSensorManager = (SensorManager) droneControl
                 .getSystemService(Context.SENSOR_SERVICE);
 
@@ -140,32 +149,19 @@ public class GoogleGlassController extends Controller implements
                             onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
                                     float distanceY) {
 
-                        short value = running ? mGazValue : mPitchValue;
-
-                        value += (distanceX / 20);
-                        if ( value > 100 )
-                            value = 100;
-
-                        if ( value < -100 )
-                            value = -100;
-
-                        if ( running ) {
-                            mGazValue = value;
-                            mDroneControl.setDroneGaz(mGazValue / 100f);
-                        }
+                        if ( distanceX >= 0 )
+                            mDroneControl.setDroneGaz(-1f);
                         else {
-                            mPitchValue = value;
-                            mDroneControl.getHudView().setPitchValue(-1 * mPitchValue);
-
-                            mDroneControl.setDronePitch(mPitchValue / 100f);
+                            mDroneControl.setDroneGaz(1f);
                         }
+
                         return true;
                     }
 
                     @Override
                     public boolean onDoubleTap(MotionEvent event) {
                         // Take photo
-                        mDroneControl.onTakePhoto();
+                        mDroneControl.doLeftFlip();
                         return true;
                     }
 
@@ -207,10 +203,15 @@ public class GoogleGlassController extends Controller implements
 
     @Override
     protected boolean onGenericMotionImpl(View view, MotionEvent event) {
-        if ( event.getPointerCount() >= 2 )
+        if ( event.getPointerCount() >= 1 )
             onDoubleDownStarted();
         else
             onDoubleDownEnded();
+
+        if ( event.getAction() == MotionEvent.ACTION_UP ) {
+            // Set the gaz back to zero
+            mDroneControl.setDroneGaz(0);
+        }
 
         return mGestureDetector.onTouchEvent(event);
     }
@@ -282,14 +283,11 @@ public class GoogleGlassController extends Controller implements
 
     private void onDoubleDownStarted() {
         // Enable controls
-        running = true;
         mDroneControl.setDroneProgressiveCommandCombinedYawEnabled(true);
     }
 
     private void onDoubleDownEnded() {
         // Disable controls
-        running = false;
-        mGazValue = 0;
         mDroneControl.setDroneProgressiveCommandCombinedYawEnabled(false);
         mDroneControl.setDroneGaz(0);
     }

@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.parrot.freeflight.activities.ControlDroneActivity;
-import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
 import com.parrot.freeflight.ui.hud.Sprite;
 
@@ -108,30 +107,6 @@ public class Gamepad extends Controller {
         if (event.getRepeatCount() == 0) {
             //Mapping for the SnakeByte iDroid:con controller
             switch (keyCode) {
-                case KeyEvent.KEYCODE_BUTTON_9:
-                    // Select button. toggle glass mode
-                    final boolean glassMode = !mDroneControl.isGlassMode();
-                    if ( glassMode ) {
-                        // Update the drone tilt for glass mode
-                        mDroneControl.setDroneTilt(DroneConfig.TILT_MIN * 2);
-
-                        // Enable progressive command
-                        mDroneControl.setDroneProgressiveCommandEnabled(true);
-
-                    }
-                    else {
-                        // Set the drone tilt to default
-                        mDroneControl.setDroneTilt(DroneConfig.TILT_MAX / 2);
-
-                        // Disable progressive command
-                        mDroneControl.setDroneProgressiveCommandEnabled(false);
-                    }
-
-                    // Reset the drone roll
-                    mDroneControl.setDroneRoll(0);
-
-                    mDroneControl.setGlassMode(glassMode);
-                    break;
 
                 case KeyEvent.KEYCODE_BUTTON_10:
                     //Start button. trigger takeOff/Landing
@@ -200,8 +175,7 @@ public class Gamepad extends Controller {
         float rightX = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_Z, historyPos);
         float rightY = getCenteredAxis(event, mLastInputDevice, MotionEvent.AXIS_RZ, historyPos);
 
-        final boolean enableProgressiveCommand = leftX != 0 || leftY != 0 ||
-                                                 mDroneControl.isGlassMode();
+        final boolean enableProgressiveCommand = leftX != 0 || leftY != 0;
         final boolean enableProgressiveCommandCombinedYaw = rightX != 0 || rightY != 0;
 
         if (enableProgressiveCommand) {

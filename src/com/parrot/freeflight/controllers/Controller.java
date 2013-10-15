@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnGenericMotionListener;
 import android.view.View.OnTouchListener;
+
 import com.parrot.freeflight.activities.ControlDroneActivity;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
 import com.parrot.freeflight.ui.HudViewController;
@@ -34,8 +35,14 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
         },
         GOOGLE_GLASS {
             @Override
-            public GoogleGlassController getImpl(final ControlDroneActivity droneControl) {
-                return new GoogleGlassController(droneControl);
+            public GoogleGlass getImpl(final ControlDroneActivity droneControl) {
+                return new GoogleGlass(droneControl);
+            }
+        },
+        GAMEPAD_AND_GLASS {
+            @Override
+            public GamepadGlass getImpl(final ControlDroneActivity droneControl) {
+                return new GamepadGlass(droneControl);
             }
         };
 
