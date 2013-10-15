@@ -663,6 +663,17 @@ public class ControlDroneActivity
         }
     }
 
+    public int getDroneTilt() {
+        if ( droneControlService == null )
+            return DroneConfig.INVALID_TILT;
+
+        DroneConfig droneConfig = droneControlService.getDroneConfig();
+        if ( droneConfig == null )
+            return DroneConfig.INVALID_TILT;
+
+        return droneConfig.getTilt();
+    }
+
     public EDroneVersion getDroneVersion() {
         if ( droneControlService != null )
             droneControlService.getDroneVersion();

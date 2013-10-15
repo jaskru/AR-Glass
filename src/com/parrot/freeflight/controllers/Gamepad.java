@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.parrot.freeflight.activities.ControlDroneActivity;
+import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
 import com.parrot.freeflight.ui.hud.Sprite;
 
@@ -107,6 +108,39 @@ public class Gamepad extends Controller {
         if (event.getRepeatCount() == 0) {
             //Mapping for the SnakeByte iDroid:con controller
             switch (keyCode) {
+
+                case KeyEvent.KEYCODE_DPAD_UP: {
+                    int currentTilt = mDroneControl.getDroneTilt();
+                    if ( currentTilt != DroneConfig.INVALID_TILT ) {
+                        // Increase the tilt by 5 degrees
+                        int newTilt = currentTilt + 5;
+                        if ( newTilt > DroneConfig.TILT_MAX )
+                            newTilt = DroneConfig.TILT_MAX;
+
+                        mDroneControl.setDroneTilt(newTilt);
+                    }
+                    break;
+                }
+
+                case KeyEvent.KEYCODE_DPAD_DOWN: {
+                    int currentTilt = mDroneControl.getDroneTilt();
+                    if ( currentTilt != DroneConfig.INVALID_TILT ) {
+                        // Decrease the tilt by 5 degrees
+                        int newTilt = currentTilt - 5;
+                        if ( newTilt < DroneConfig.TILT_MIN )
+                            newTilt = DroneConfig.TILT_MIN;
+                        mDroneControl.setDroneTilt(newTilt);
+                    }
+                    break;
+                }
+
+                case KeyEvent.KEYCODE_DPAD_LEFT:
+                    // TODO: figure out what to do
+                    break;
+
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    // TODO: figure out what to do
+                    break;
 
                 case KeyEvent.KEYCODE_BUTTON_10:
                     //Start button. trigger takeOff/Landing
