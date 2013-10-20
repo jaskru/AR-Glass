@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.parrot.freeflight.activities.ControlDroneActivity;
-import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.sensors.DeviceOrientationManager;
 import com.parrot.freeflight.ui.hud.Sprite;
 
@@ -27,6 +26,7 @@ public class GamepadGlass extends Controller {
         super(droneControl);
         mGamepad = Controller.ControllerType.GAMEPAD.getImpl(droneControl);
         mGlass = Controller.ControllerType.GOOGLE_GLASS.getImpl(droneControl);
+        mGlass.setGlassMode(isGlassMode());
     }
 
     private boolean isGlassMode() {
@@ -34,6 +34,7 @@ public class GamepadGlass extends Controller {
     }
 
     private void setGlassMode(boolean glassMode) {
+        mGlass.setGlassMode(glassMode);
         mIsGlassMode.set(glassMode);
     }
 
@@ -88,17 +89,10 @@ public class GamepadGlass extends Controller {
                     // Select button. toggle glass mode
                     final boolean glassMode = !isGlassMode();
                     if ( glassMode ) {
-                        // Update the drone tilt for glass mode
-                        mDroneControl.setDroneTilt(DroneConfig.TILT_MIN * 2);
-
                         // Enable progressive command
                         mDroneControl.setDroneProgressiveCommandEnabled(true);
-
                     }
                     else {
-                        // Set the drone tilt to default
-                        mDroneControl.setDroneTilt(DroneConfig.TILT_MAX / 2);
-
                         // Disable progressive command
                         mDroneControl.setDroneProgressiveCommandEnabled(false);
                     }
@@ -179,6 +173,9 @@ public class GamepadGlass extends Controller {
      */
     @Override
     protected void resumeImpl() {
+        // Disable glass mode
+        setGlassMode(false);
+
         mGamepad.resume();
         mGlass.resume();
     }
@@ -188,6 +185,9 @@ public class GamepadGlass extends Controller {
      */
     @Override
     protected void pauseImpl() {
+        // Disable glass mode
+        setGlassMode(false);
+
         mGamepad.pause();
         mGlass.pause();
     }
@@ -197,6 +197,9 @@ public class GamepadGlass extends Controller {
      */
     @Override
     protected void destroyImpl() {
+        // Disable glass mode
+        setGlassMode(false);
+
         mGamepad.destroy();
         mGlass.destroy();
     }

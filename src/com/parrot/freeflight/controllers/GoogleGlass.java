@@ -35,6 +35,7 @@ public class GoogleGlass extends Controller implements
     private float[] mOrientation;
     private float[] mRotationMatrix;
     private boolean magnetoEnabled;
+    private boolean mIsGlassMode;
 
     private final ApplicationSettings mSettings;
     private final GestureDetector mGestureDetector;
@@ -45,7 +46,7 @@ public class GoogleGlass extends Controller implements
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if ( mDroneControl == null ) {
+            if ( mDroneControl == null || !mIsGlassMode ) {
                 return;
             }
 
@@ -124,6 +125,7 @@ public class GoogleGlass extends Controller implements
     GoogleGlass(final ControlDroneActivity droneControl) {
         super(droneControl);
 
+        mIsGlassMode = true;
         mOrientation = new float[3];
         mRotationMatrix = new float[16];
         mSensorManager = (SensorManager) droneControl
@@ -172,6 +174,14 @@ public class GoogleGlass extends Controller implements
                         return true;
                     }
                 });
+    }
+
+    public void setGlassMode(boolean glassMode) {
+        mIsGlassMode = glassMode;
+    }
+
+    public boolean getGlassMode() {
+        return mIsGlassMode;
     }
 
     @Override

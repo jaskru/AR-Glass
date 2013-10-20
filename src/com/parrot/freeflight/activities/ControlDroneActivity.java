@@ -125,6 +125,9 @@ public class ControlDroneActivity
 
                 // Increase the vertical speed
                 droneConfig.setVertSpeedMax(DroneConfig.VERT_SPEED_MAX);
+
+                // Reduce the live video stream resolution
+                droneConfig.setVideoCodec(DroneConfig.H264_360P_CODEC);
             }
         }
 
@@ -166,7 +169,7 @@ public class ControlDroneActivity
         /*
          * Initialize the controller
          */
-        mController = Controller.ControllerType.GOOGLE_GLASS.getImpl(this);
+        mController = Controller.ControllerType.GAMEPAD_AND_GLASS.getImpl(this);
 
         DeviceOrientationManager orientationManager = getControllerOrientationManager();
 
@@ -232,6 +235,9 @@ public class ControlDroneActivity
             DroneConfig droneConfig = droneControlService.getDroneConfig();
             if ( droneConfig != null ) {
                 droneConfig.setTilt(tilt);
+
+                if ( view != null )
+                    view.setPitchValue(tilt);
             }
         }
     }
