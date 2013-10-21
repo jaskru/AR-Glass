@@ -48,14 +48,14 @@
 		<if condition="${build.is.packaging.debug}">
 			<then>
 				<exec executable="make" dir="${ARDRONE_LIB_PATH}/FFMPEG" failonerror="true">
-					<arg value="android_no_neon" />
+					<arg value="android_neon" />
 					<arg value="RELEASE_BUILD=no" />
         			<env key="ANDROID_NDK_PATH" path="${ANDROID_NDK_PATH}"/>
         		</exec>
 			</then>
 			<else>
 				<exec executable="make" dir="${ARDRONE_LIB_PATH}/FFMPEG" failonerror="true">
-					<arg value="android_no_neon" />
+					<arg value="android_neon" />
 					<arg value="RELEASE_BUILD=yes" />
         			<env key="ANDROID_NDK_PATH" path="${ANDROID_NDK_PATH}"/>
         		</exec>
@@ -126,19 +126,19 @@
 			<fileset dir="${LIB_FFMPEG_ARM7_DIR}" includes="*.so"/>
 		</copy>		
 		
-		<copy todir="${FFMPEG_LIBS}/armeabi">
+		<!-- <copy todir="${FFMPEG_LIBS}/armeabi">
 			<fileset dir="${LIB_FFMPEG_ARM6_DIR}" includes="*.so"/>
-		</copy>		
+		</copy>	 -->	
 		
 		<exec executable="bash" dir="${FFMPEG_LIBS}" failonerror="true">
 			<arg value="fixVersionsNumbers.bash"/>
 			<arg value="armeabi-v7a"/>
 		</exec>
 		
-		<exec executable="bash" dir="${FFMPEG_LIBS}" failonerror="true">
+		<!-- <exec executable="bash" dir="${FFMPEG_LIBS}" failonerror="true">
 			<arg value="fixVersionsNumbers.bash"/>
 			<arg value="armeabi"/>
-		</exec>
+		</exec> -->
 		
 		<copy todir="${ITTIAM_LIBS}">
 		   <fileset dir="${LIB_ITTIAM_AVCDECODER}" includes="*.a"/> 
@@ -154,25 +154,25 @@
 					<fileset dir="${LIB_PC_ARDRONE_DIR}" includes="**/*.d"/>
 
 				</copy>	
-				<copy todir="${basedir}/obj/local/armeabi/objs-debug/ardrone_lib" failonerror="1" >
+				<!-- <copy todir="${basedir}/obj/local/armeabi/objs-debug/ardrone_lib" failonerror="1" >
 					<fileset dir="${LIB_PC_ARDRONE_DIR}" includes="**/*.o,**/*.d)"/>
-				</copy>		
+				</copy>	 -->	
 				
 				<echo message="Copying debug symbols for SDK library"/>
             	<copy todir="${basedir}/obj/local/armeabi-v7a/objs-debug/sdk" failonerror="1">
 					<fileset dir="${LIB_SDK_DIR}" includes="**/*.o,**/*.d"/>
 				</copy>	
-				<copy todir="${basedir}/obj/local/armeabi/objs-debug/sdk" failonerror="1">
+				<!-- <copy todir="${basedir}/obj/local/armeabi/objs-debug/sdk" failonerror="1">
 					<fileset dir="${LIB_SDK_DIR}" includes="**/*.o,**/*.d)"/>
-				</copy>	
+				</copy>	 -->
 				
 				<echo message="Copying debug symbols for Vlib"/>	
 					<copy todir="${basedir}/obj/local/armeabi-v7a/objs-debug/vlib" failonerror="1">
 					<fileset dir="${LIB_VLIB_DIR}" includes="**/*.o,**/*.d"/>
 				</copy>	
-				<copy todir="${basedir}/obj/local/armeabi/objs-debug/vlib" failonerror="1">
+				<!-- <copy todir="${basedir}/obj/local/armeabi/objs-debug/vlib" failonerror="1">
 					<fileset dir="${LIB_VLIB_DIR}" includes="**/*.o,**/*.d)"/>
-				</copy>	
+				</copy> -->	
 				<echo message="Done." />
 			</then>
 		</if>

@@ -1,0 +1,14 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=/home/fhuya/playground/sandbox/libs/ARDrone_SDK_2_0_1/Examples/Android/trunk/adfreeflight/jni/sdk/v2_0_1/ARDroneLib/FFMPEG/ffmpeg/../../Soft/Build/targets_versions//ffmpeg_armv7_PROD_MODE_Linux_3.11.0-12-generic_GNU_Linux_homefhuyaplaygroundsandboxlibsgoogleandroidandroid-ndk-r8btoolchainsarm-linux-androideabi-4.6prebuiltlinux-x86binarm-linux-androideabi-gcc_4.6.x-google
+includedir=/home/fhuya/playground/sandbox/libs/ARDrone_SDK_2_0_1/Examples/Android/trunk/adfreeflight/jni/sdk/v2_0_1/ARDroneLib/FFMPEG/ffmpeg/../Includes
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 53.4.0
+Requires: 
+Requires.private: libavcodec = 53.7.0
+Conflicts:
+Libs: -L${libdir} -lavformat 
+Libs.private: -lm -lz
+Cflags: -I${includedir}

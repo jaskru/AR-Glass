@@ -7,10 +7,10 @@ import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
 
-public class FreeFlightApplication 
-	extends Application 
+public class FreeFlightApplication
+	extends Application
 	
-{   
+{
 	private static final String TAG = "FreeFlightApplication";
     
 	private ApplicationSettings settings;
@@ -27,7 +27,7 @@ public class FreeFlightApplication
 	
 	@SuppressLint("NewApi")
     @Override
-	public void onCreate() 
+	public void onCreate()
 	{
 		super.onCreate();
 		Log.d(TAG, "OnCreate");
@@ -35,7 +35,7 @@ public class FreeFlightApplication
 		settings = new ApplicationSettings(this);
 
         //If we're on debug mode, enable strict mode (android.os.StrictMode)
-        if (BuildConfig.DEBUG) {
+        if (false) {
             Log.d(TAG, "Enabling strict mode");
 
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
@@ -47,7 +47,7 @@ public class FreeFlightApplication
 
 	
 	@Override
-	public void onTerminate() 
+	public void onTerminate()
 	{
 		Log.d(TAG, "OnTerminate");
 		super.onTerminate();
