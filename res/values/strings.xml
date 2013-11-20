@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="app_name">AR.FreeFlight</string>
-    <string name="app_version">v2.0-SDK</string>
+    <string name="app_name">GlassKinesis</string>
+    <string name="app_version">v0.1.0</string>
+
+    <!-- Google glass specific strings -->
+    <string name="glass_voice_trigger">Take Flight</string>
+
     <string name="your_changes_will_be_applied_after_rebooting_drone">Your changes will be applied after rebooting the Ar.Drone!</string>
     <string name="quit_app_reboot_drone_connect_to_network">\t- Quit application\n\t- Reboot your AR.Drone\n\t- Connect your {device} on {network} network\n\t- Launch application</string>
     <string name="START_NOT_RECEIVED">START NOT RECEIVED</string>
