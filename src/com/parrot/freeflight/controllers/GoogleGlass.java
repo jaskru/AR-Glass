@@ -37,12 +37,8 @@ public class GoogleGlass extends Controller {
     private int mTiltMax = DroneConfig.TILT_MAX;
     private int mYawMax = DroneConfig.YAW_MAX;
 
-    private float[] mOrientation;
-    private float[] mRotationMatrix;
     private boolean magnetoEnabled;
     private boolean mIsGlassMode;
-    private float mHeading;
-    private AtomicBoolean mFirstHeading = new AtomicBoolean(true);
 
     private final ApplicationSettings mSettings;
     private final GestureDetector mGestureDetector;
@@ -90,34 +86,6 @@ public class GoogleGlass extends Controller {
                     mDroneControl.setDronePitch(pitchRatio);
                     break;
 
-                case Sensor.TYPE_ROTATION_VECTOR:
-                    if (mYawControlEnabled.get()) {
-                        SensorManager.getRotationMatrixFromVector(mRotationMatrix,
-                                event.values);
-                        SensorManager.remapCoordinateSystem(mRotationMatrix,
-                                SensorManager.AXIS_X, SensorManager.AXIS_Z, mRotationMatrix);
-                        SensorManager.getOrientation(mRotationMatrix, mOrientation);
-
-                        float currentHeading = (float) Math.toDegrees(mOrientation[0]);
-                        if (mFirstHeading.get()) {
-                            mFirstHeading.set(false);
-                            mHeading = currentHeading;
-                        }
-                        else {
-                            float headingDelta = mHeading - currentHeading;
-                            float absHeadingDelta = Math.abs(headingDelta);
-                            if (absHeadingDelta > 5f && absHeadingDelta < 300f) {
-                                //Order the drone to rotate to match the new heading.
-
-
-                                Log.i(TAG, "Heading: " + headingDelta);
-                                mHeading = currentHeading;
-                            }
-                        }
-                    }
-
-                    break;
-
                 case Sensor.TYPE_GYROSCOPE:
                     if(mYawControlEnabled.get()){
                         //Get the rotation speed around the y axis.
@@ -154,18 +122,15 @@ public class GoogleGlass extends Controller {
          *            Gravity values.
          */
         private float computeRollOrientation(SensorEvent event) {
-            float angle = (float) -Math.atan(
+            return (float) -Math.atan(
                     event.values[0] / Math.sqrt(event.values[1] * event.values[1] +
                             event.values[2] * event.values[2]));
-            return angle;
         }
 
         private float computePitchOrientation(SensorEvent event) {
-            float angle = (float) -Math.atan(
+            return (float) -Math.atan(
                     event.values[2] / Math.sqrt(event.values[1] * event.values[1] +
                             event.values[0] * event.values[0]));
-
-            return angle;
         }
 
     };
@@ -174,8 +139,6 @@ public class GoogleGlass extends Controller {
         super(droneControl);
 
         mIsGlassMode = true;
-        mOrientation = new float[3];
-        mRotationMatrix = new float[16];
         mSensorManager = (SensorManager) droneControl
                 .getSystemService(Context.SENSOR_SERVICE);
 
@@ -220,7 +183,6 @@ public class GoogleGlass extends Controller {
                 Log.i(TAG, "Current count: " + currentCount);
                 //Activate yaw control when two fingers
                 if (currentCount == YAW_CONTROL_TRIGGER){
-                    mFirstHeading.set(true);
                     mYawControlEnabled.set(true);
                 }
                 else {
