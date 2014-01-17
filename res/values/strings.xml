@@ -6,6 +6,11 @@
     <!-- Google glass specific strings -->
     <string name="glass_voice_trigger">Let\'s fly</string>
 
+    <!-- Media ui sort spinner item labels -->
+    <string name="media_sort_photos_and_videos">Photo &amp; Video</string>
+    <string name="media_sort_photos">Photo</string>
+    <string name="media_sort_videos">Video</string>
+
     <string name="your_changes_will_be_applied_after_rebooting_drone">Your changes will be applied after rebooting the Ar.Drone!</string>
     <string name="quit_app_reboot_drone_connect_to_network">\t- Quit application\n\t- Reboot your AR.Drone\n\t- Connect your {device} on {network} network\n\t- Launch application</string>
     <string name="START_NOT_RECEIVED">START NOT RECEIVED</string>
@@ -169,4 +174,11 @@
     <string name="Bad_network_name">Bad network name</string>
     <string name="Please_insert_a_SD_card_in_your_Smartphone">Please insert a SD card in your Smartphone</string>
     <string name="label_oculus_mode">Oculus Mode</string>
+
+    <!-- Menu strings -->
+    <string name="menu_select_all">Select all</string>
+    <string name="menu_clear_all">Clear all</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_share">Share</string>
 </resources>

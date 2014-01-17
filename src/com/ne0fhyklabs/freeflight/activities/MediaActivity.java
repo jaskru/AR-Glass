@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -31,6 +34,7 @@ import com.ne0fhyklabs.freeflight.tasks.GetMediaObjectsListTask.MediaFilter;
 import com.ne0fhyklabs.freeflight.transcodeservice.TranscodingService;
 import com.ne0fhyklabs.freeflight.ui.ActionBar;
 import com.ne0fhyklabs.freeflight.ui.adapters.MediaAdapter;
+import com.ne0fhyklabs.freeflight.ui.adapters.MediaSortSpinnerAdapter;
 import com.ne0fhyklabs.freeflight.utils.ARDroneMediaGallery;
 import com.ne0fhyklabs.freeflight.vo.MediaVO;
 
@@ -68,12 +72,34 @@ public class MediaActivity extends FragmentActivity implements
     private MediaReadyReceiver mediaReadyReceiver;    // Detects when drone created new media file
     private MediaStorageReceiver mediaStorageReceiver; // Detects when SD Card becomes unmounted
 
+    /**
+     * The action mode is triggered by the 'Edit' menu button.
+     */
+    private ActionMode mActionMode;
     
     @Override
     protected void onCreate(final Bundle savedInstanceState)    {
         super.onCreate(savedInstanceState);
+
         mediaGallery = new ARDroneMediaGallery(this);
         setContentView(R.layout.media_screen);
+
+        final android.app.ActionBar actionBar = getActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+
+            actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_LIST);
+            actionBar.setListNavigationCallbacks(new MediaSortSpinnerAdapter(getApplicationContext()),
+                    new android.app.ActionBar.OnNavigationListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+                            onCheckedChanged(null, (int)itemId);
+                            return true;
+                        }
+                    });
+        }
 
         mediaReadyReceiver = new MediaReadyReceiver(this);
         mediaStorageReceiver = new MediaStorageReceiver(this);
@@ -98,6 +124,21 @@ public class MediaActivity extends FragmentActivity implements
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_media_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.menu_edit:
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void initListeners()
     {

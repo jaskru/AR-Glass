@@ -7,12 +7,6 @@
     android:alwaysDrawnWithCache="true"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/navigation_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/settings_header_height"
-        layout="@layout/incl_action_bar" />
-
     <GridView
         android:id="@+id/grid"
         android:layout_width="wrap_content"
