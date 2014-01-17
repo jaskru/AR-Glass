@@ -16,8 +16,6 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.ne0fhyklabs.freeflight.drone.DroneAcademyMediaListener;
@@ -103,7 +101,6 @@ LocationListener
 	private Object configLock;
 	private Object workerThreadLock;
 	private Object navdataThreadLock;
-	private WakeLock wakeLock;
 
 	private ARDroneMediaGallery gallery;
 
@@ -142,10 +139,6 @@ LocationListener
 		navdataThreadLock = new Object();
 
 		 droneProxy = DroneProxy.getInstance(getApplicationContext());
-		//Preventing device from sleep
-		PowerManager service = (PowerManager) getSystemService(POWER_SERVICE);
-		wakeLock = service.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DimWakeLock");
-		wakeLock.acquire();
 
 		stopThreads = false;
 		prevNavData = new NavData();
@@ -185,21 +178,9 @@ LocationListener
 	public void onDestroy()
 	{
 	    super.onDestroy();
-
 	    disconnect();
-
-		if (wakeLock != null && wakeLock.isHeld()) {
-			wakeLock.release();
-		}
-
 		Log.d(TAG, "All threads have been stopped");
-
 		stopWorkerThreads();
-
-		// TODO: This is not correct but without killing our process
-		// ArDrone lib will hang on next launch. Should be removed when
-		// library is fixed.
-		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 
@@ -603,10 +584,6 @@ LocationListener
 
 	protected void onPaused()
 	{
-		if (wakeLock != null && wakeLock.isHeld()) {
-			wakeLock.release();
-		}
-
 		Log.d(TAG, "====>>> DRONE CONTROL SERVICE PAUSED");
 	}
 
@@ -615,10 +592,6 @@ LocationListener
 	{
 		synchronized (navdataThreadLock) {
 			navdataThreadLock.notify();
-		}
-
-		if (wakeLock != null && !wakeLock.isHeld()) {
-			wakeLock.acquire();
 		}
 
 		Log.d(TAG, "====>>> DRONE CONTROL SERVICE RESUMED");

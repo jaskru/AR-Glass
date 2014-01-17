@@ -6,10 +6,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import com.ne0fhyklabs.freeflight.settings.ApplicationSettings;
 
-public class FreeFlightApplication
-	extends Application
-	
-{
+public class FreeFlightApplication extends Application {
 	private static final String TAG = "FreeFlightApplication";
     
 	private ApplicationSettings settings;

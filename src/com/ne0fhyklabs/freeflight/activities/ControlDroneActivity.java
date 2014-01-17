@@ -125,11 +125,7 @@ public class ControlDroneActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (isFinishing()) {
-            return;
-        }
-
+        getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         view = new HudViewController(this);
 

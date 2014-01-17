@@ -19,6 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
+        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin"
         android:layout_weight="1"
         android:clickable="true"
         android:focusable="true"
@@ -32,6 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
+        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin"
         android:focusable="true"
         android:layout_weight="1"
         android:text="@string/PHOTOS_VIDEOS"/>
@@ -42,6 +44,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
+        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin"
         android:focusable="true"
         android:layout_weight="1"
         android:text="@string/ar_settings"

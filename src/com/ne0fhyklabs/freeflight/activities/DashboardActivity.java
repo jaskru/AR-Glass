@@ -60,10 +60,6 @@ public class DashboardActivity extends DashboardActivityBase implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (isFinishing()) {
-            return;
-        }
-
         mediaState = EPhotoVideoState.UNKNOWN;
         initBroadcastReceivers();
 
