@@ -86,7 +86,7 @@ void encoderThreadStop()
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_transcodeservice_TranscodingService_encoderThreadStart(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_transcodeservice_TranscodingService_encoderThreadStart(JNIEnv *env, jobject obj)
 {
 	LOGD(TAG, "Initializing encoder");
 	encoder_stage_in_pause = FALSE;

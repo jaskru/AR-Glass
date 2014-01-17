@@ -82,7 +82,7 @@ void ardrone_academy_callback_called(const char *mediaPath, bool_t addToQueue)
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_initNavdata(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_initNavdata(JNIEnv *env, jobject obj)
 {
 	initControlData();
 
@@ -99,7 +99,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_initNavdata(JNIEnv *env, jobject obj
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_connect(JNIEnv *env, jobject obj,
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_connect(JNIEnv *env, jobject obj,
 															jstring appName,
 															jstring userName,
 															jstring rootDir,
@@ -126,7 +126,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_connect(JNIEnv *env, jobject obj,
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_pause(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_pause(JNIEnv *env, jobject obj)
 {
 	LOGI(TAG, "Pause called");
 	parrot_ardrone_notify_pause();
@@ -134,14 +134,14 @@ Java_com_parrot_freeflight_drone_DroneProxy_pause(JNIEnv *env, jobject obj)
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_setDefaultConfigurationNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDefaultConfigurationNative(JNIEnv *env, jobject obj)
 {
 	setApplicationDefaultConfig();
 }
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_resume(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resume(JNIEnv *env, jobject obj)
 {
 	LOGI(TAG, "Resume called");
 	parrot_ardrone_notify_resume();
@@ -149,7 +149,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_resume(JNIEnv *env, jobject obj)
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_disconnect(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_disconnect(JNIEnv *env, jobject obj)
 {
 	LOGI(TAG, "Exit called");
 	parrot_ardrone_notify_exit();
@@ -157,7 +157,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_disconnect(JNIEnv *env, jobject obj)
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_triggerTakeOff(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerTakeOff(JNIEnv *env, jobject obj)
 {
 	LOGI(TAG, "Trigger take off called");
 	parrot_ardrone_ctrl_take_off();
@@ -165,7 +165,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_triggerTakeOff(JNIEnv *env, jobject 
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_triggerEmergency(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerEmergency(JNIEnv *env, jobject obj)
 {
 	LOGI(TAG, "Trigger emergency called");
 	parrot_ardrone_ctrl_emergency();
@@ -173,7 +173,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_triggerEmergency(JNIEnv *env, jobjec
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_setControlValue(JNIEnv *env, jobject obj, jint command, jfloat value)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setControlValue(JNIEnv *env, jobject obj, jint command, jfloat value)
 {
 	switch (command)
 	{
@@ -195,7 +195,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_setControlValue(JNIEnv *env, jobject
 }
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_setMagnetoEnabled(JNIEnv *env, jobject obj, jboolean enabled)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setMagnetoEnabled(JNIEnv *env, jobject obj, jboolean enabled)
 {
 //	setMagnetoEnabled(enabled);
 	magnetoEnabled = enabled;
@@ -203,14 +203,14 @@ Java_com_parrot_freeflight_drone_DroneProxy_setMagnetoEnabled(JNIEnv *env, jobje
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_setCommandFlag(JNIEnv *env, jobject obj, jint flag, jboolean enable)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setCommandFlag(JNIEnv *env, jobject obj, jint flag, jboolean enable)
 {
 	set_command_flag(flag, enable);
 }
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_setDeviceOrientation(JNIEnv *env, jobject obj, jint heading, jint accuracy)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDeviceOrientation(JNIEnv *env, jobject obj, jint heading, jint accuracy)
 {
 	ctrldata.iphone_psi = heading;
 
@@ -380,7 +380,7 @@ void checkErrors(JNIEnv* env, navdata_unpacked_t ctrlnavdata)
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_takeNavDataSnapshot(JNIEnv *env, jobject obj, jobject navdataObj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeNavDataSnapshot(JNIEnv *env, jobject obj, jobject navdataObj)
 {
 	jclass navdataCls = (*env)->FindClass(env,"com/parrot/freeflight/drone/NavData");
 
@@ -437,7 +437,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_takeNavDataSnapshot(JNIEnv *env, job
 
 
 JNIEXPORT jobject JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_takeConfigSnapshot(JNIEnv *env, jobject obj, jobject configObj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeConfigSnapshot(JNIEnv *env, jobject obj, jobject configObj)
 {
 	LOGI(TAG, "takeConfigSnapshot Called");
 
@@ -638,7 +638,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_takeConfigSnapshot(JNIEnv *env, jobj
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_resetConfigToDefaults(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resetConfigToDefaults(JNIEnv *env, jobject obj)
 {
 		ardrone_control_config.indoor_euler_angle_max = ardrone_application_default_config.indoor_euler_angle_max;
 		ARDRONE_TOOL_CONFIGURATION_ADDEVENT(indoor_euler_angle_max, &ardrone_control_config.indoor_euler_angle_max, NULL);
@@ -699,7 +699,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_resetConfigToDefaults(JNIEnv *env, j
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_triggerConfigUpdateNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerConfigUpdateNative(JNIEnv *env, jobject obj)
 {
 	LOGI(TAG, "requestConfigNative called");
 	configurationState = CONFIG_STATE_NEEDED;
@@ -714,19 +714,19 @@ Java_com_parrot_freeflight_drone_DroneProxy_triggerConfigUpdateNative(JNIEnv *en
 
 
 JNIEXPORT jobject JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_switchCamera(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_switchCamera(JNIEnv *env, jobject obj)
 {
 	parrot_ardrone_ctrl_switch_camera(NULL);
 }
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_flatTrimNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_flatTrimNative(JNIEnv *env, jobject obj)
 {
 	parrot_ardrone_ctrl_set_flat_trim();
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_takePhoto(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takePhoto(JNIEnv *env, jobject obj)
 {
 	if (ardrone_academy_navdata_get_camera_state() == TRUE) {
 		if (ardrone_academy_navdata_screenshot()) {
@@ -740,7 +740,7 @@ Java_com_parrot_freeflight_drone_DroneProxy_takePhoto(JNIEnv *env, jobject obj)
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_record(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_record(JNIEnv *env, jobject obj)
 {
     bool_t record_state = ardrone_academy_navdata_get_record_ready();
 
@@ -754,20 +754,20 @@ Java_com_parrot_freeflight_drone_DroneProxy_record(JNIEnv *env, jobject obj)
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_calibrateMagneto(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_calibrateMagneto(JNIEnv *env, jobject obj)
 {
 	ardrone_at_set_calibration (ARDRONE_CALIBRATION_DEVICE_MAGNETOMETER);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_doFlip(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_doFlip(JNIEnv *env, jobject obj)
 {
 	 string_t anim = "18,15";
 	 ARDRONE_TOOL_CONFIGURATION_ADDEVENT(flight_anim, anim, NULL);
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_parrot_freeflight_drone_DroneProxy_setLocation(JNIEnv *env, jobject obj, jdouble lat, jdouble lon, jdouble alt)
+Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setLocation(JNIEnv *env, jobject obj, jdouble lat, jdouble lon, jdouble alt)
 {
 	 if(gpsState == CONFIG_STATE_IDLE)
 	 {

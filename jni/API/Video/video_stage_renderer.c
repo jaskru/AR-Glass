@@ -57,7 +57,7 @@ void parrot_video_stage_deinit()
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_freeflight_video_VideoStageRenderer_getVideoFrameNative(JNIEnv *env, jobject obj, jobject bitmap, jintArray videoSize)
+Java_com_ne0fhyklabs_freeflight_video_VideoStageRenderer_getVideoFrameNative(JNIEnv *env, jobject obj, jobject bitmap, jintArray videoSize)
 {
 	return FALSE;
 }

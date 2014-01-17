@@ -1,0 +1,6 @@
+package com.ne0fhyklabs.freeflight.receivers;
+
+public interface DroneBatteryChangedReceiverDelegate 
+{
+	public void onDroneBatteryChanged(int value);
+}

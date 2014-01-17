@@ -1142,84 +1142,84 @@ LOAD /home/n-brulez/dev/sdk/android-ndk-r7/platforms/android-14/arch-arm/usr/lib
                 0x0001b020       0x6c ./obj/local/armeabi-v7a/objs/adfreeflight/Plf/plf.o
                 0x0001b020                plf_get_header
  .text          0x0001b08c        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .text.Java_com_parrot_freeflight_drone_DroneProxy_setMagnetoEnabled
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setMagnetoEnabled
                 0x0001b08c       0x10 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b08c                Java_com_parrot_freeflight_drone_DroneProxy_setMagnetoEnabled
+                0x0001b08c                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setMagnetoEnabled
  .text.gpsConfigSuccess
                 0x0001b09c       0x10 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                 0x0001b09c                gpsConfigSuccess
- .text.Java_com_parrot_freeflight_drone_DroneProxy_setLocation
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setLocation
                 0x0001b0ac       0x44 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b0ac                Java_com_parrot_freeflight_drone_DroneProxy_setLocation
- .text.Java_com_parrot_freeflight_drone_DroneProxy_triggerConfigUpdateNative
+                0x0001b0ac                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setLocation
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerConfigUpdateNative
                 0x0001b0f0       0x2c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b0f0                Java_com_parrot_freeflight_drone_DroneProxy_triggerConfigUpdateNative
+                0x0001b0f0                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerConfigUpdateNative
  .text.getConfigSuccess
                 0x0001b11c       0x44 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                 0x0001b11c                getConfigSuccess
- .text.Java_com_parrot_freeflight_drone_DroneProxy_doFlip
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_doFlip
                 0x0001b160       0x48 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b160                Java_com_parrot_freeflight_drone_DroneProxy_doFlip
- .text.Java_com_parrot_freeflight_drone_DroneProxy_calibrateMagneto
+                0x0001b160                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_doFlip
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_calibrateMagneto
                 0x0001b1a8        0xc ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b1a8                Java_com_parrot_freeflight_drone_DroneProxy_calibrateMagneto
- .text.Java_com_parrot_freeflight_drone_DroneProxy_record
+                0x0001b1a8                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_calibrateMagneto
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_record
                 0x0001b1b4       0x20 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b1b4                Java_com_parrot_freeflight_drone_DroneProxy_record
- .text.Java_com_parrot_freeflight_drone_DroneProxy_takePhoto
+                0x0001b1b4                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_record
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takePhoto
                 0x0001b1d4       0x60 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b1d4                Java_com_parrot_freeflight_drone_DroneProxy_takePhoto
- .text.Java_com_parrot_freeflight_drone_DroneProxy_flatTrimNative
+                0x0001b1d4                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takePhoto
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_flatTrimNative
                 0x0001b234        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b234                Java_com_parrot_freeflight_drone_DroneProxy_flatTrimNative
- .text.Java_com_parrot_freeflight_drone_DroneProxy_switchCamera
+                0x0001b234                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_flatTrimNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_switchCamera
                 0x0001b23c        0xc ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b23c                Java_com_parrot_freeflight_drone_DroneProxy_switchCamera
- .text.Java_com_parrot_freeflight_drone_DroneProxy_resetConfigToDefaults
+                0x0001b23c                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_switchCamera
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resetConfigToDefaults
                 0x0001b248      0x514 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b248                Java_com_parrot_freeflight_drone_DroneProxy_resetConfigToDefaults
- .text.Java_com_parrot_freeflight_drone_DroneProxy_takeConfigSnapshot
+                0x0001b248                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resetConfigToDefaults
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeConfigSnapshot
                 0x0001b75c      0x9ac ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001b75c                Java_com_parrot_freeflight_drone_DroneProxy_takeConfigSnapshot
+                0x0001b75c                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeConfigSnapshot
  .text.checkErrors
                 0x0001c108      0x284 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                 0x0001c108                checkErrors
- .text.Java_com_parrot_freeflight_drone_DroneProxy_takeNavDataSnapshot
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeNavDataSnapshot
                 0x0001c38c      0x274 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c38c                Java_com_parrot_freeflight_drone_DroneProxy_takeNavDataSnapshot
- .text.Java_com_parrot_freeflight_drone_DroneProxy_setDeviceOrientation
+                0x0001c38c                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeNavDataSnapshot
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDeviceOrientation
                 0x0001c600       0x7c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c600                Java_com_parrot_freeflight_drone_DroneProxy_setDeviceOrientation
- .text.Java_com_parrot_freeflight_drone_DroneProxy_setCommandFlag
+                0x0001c600                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDeviceOrientation
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setCommandFlag
                 0x0001c67c        0xc ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c67c                Java_com_parrot_freeflight_drone_DroneProxy_setCommandFlag
- .text.Java_com_parrot_freeflight_drone_DroneProxy_setControlValue
+                0x0001c67c                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setCommandFlag
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setControlValue
                 0x0001c688       0x4c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c688                Java_com_parrot_freeflight_drone_DroneProxy_setControlValue
- .text.Java_com_parrot_freeflight_drone_DroneProxy_triggerEmergency
+                0x0001c688                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setControlValue
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerEmergency
                 0x0001c6d4       0x20 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c6d4                Java_com_parrot_freeflight_drone_DroneProxy_triggerEmergency
- .text.Java_com_parrot_freeflight_drone_DroneProxy_triggerTakeOff
+                0x0001c6d4                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerEmergency
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerTakeOff
                 0x0001c6f4       0x20 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c6f4                Java_com_parrot_freeflight_drone_DroneProxy_triggerTakeOff
- .text.Java_com_parrot_freeflight_drone_DroneProxy_disconnect
+                0x0001c6f4                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerTakeOff
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_disconnect
                 0x0001c714       0x20 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c714                Java_com_parrot_freeflight_drone_DroneProxy_disconnect
- .text.Java_com_parrot_freeflight_drone_DroneProxy_resume
+                0x0001c714                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_disconnect
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resume
                 0x0001c734       0x20 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c734                Java_com_parrot_freeflight_drone_DroneProxy_resume
- .text.Java_com_parrot_freeflight_drone_DroneProxy_setDefaultConfigurationNative
+                0x0001c734                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resume
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDefaultConfigurationNative
                 0x0001c754        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c754                Java_com_parrot_freeflight_drone_DroneProxy_setDefaultConfigurationNative
- .text.Java_com_parrot_freeflight_drone_DroneProxy_pause
+                0x0001c754                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDefaultConfigurationNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_pause
                 0x0001c75c       0x20 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c75c                Java_com_parrot_freeflight_drone_DroneProxy_pause
- .text.Java_com_parrot_freeflight_drone_DroneProxy_connect
+                0x0001c75c                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_pause
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_connect
                 0x0001c77c       0xe4 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c77c                Java_com_parrot_freeflight_drone_DroneProxy_connect
- .text.Java_com_parrot_freeflight_drone_DroneProxy_initNavdata
+                0x0001c77c                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_connect
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_initNavdata
                 0x0001c860       0x80 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
-                0x0001c860                Java_com_parrot_freeflight_drone_DroneProxy_initNavdata
+                0x0001c860                Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_initNavdata
  .text.ardrone_academy_callback_called
                 0x0001c8e0       0x70 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                 0x0001c8e0                ardrone_academy_callback_called
@@ -1227,51 +1227,51 @@ LOAD /home/n-brulez/dev/sdk/android-ndk-r7/platforms/android-14/arch-arm/usr/lib
                 0x0001c950       0xb4 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                 0x0001c950                ardrone_engine_message_received
  .text          0x0001ca04        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .text.Java_com_parrot_freeflight_drone_DroneConfig_getDroneFamily
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneFamily
                 0x0001ca04       0x10 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001ca04                Java_com_parrot_freeflight_drone_DroneConfig_getDroneFamily
- .text.Java_com_parrot_freeflight_drone_DroneConfig_getFtpPortNative
+                0x0001ca04                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneFamily
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getFtpPortNative
                 0x0001ca14        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001ca14                Java_com_parrot_freeflight_drone_DroneConfig_getFtpPortNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_getDroneHostNative
+                0x0001ca14                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getFtpPortNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneHostNative
                 0x0001ca1c       0x14 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001ca1c                Java_com_parrot_freeflight_drone_DroneConfig_getDroneHostNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateRecordOnUsb
+                0x0001ca1c                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneHostNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateRecordOnUsb
                 0x0001ca30       0xa0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001ca30                Java_com_parrot_freeflight_drone_DroneConfig_updateRecordOnUsb
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateVideoCodecNative
+                0x0001ca30                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateRecordOnUsb
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVideoCodecNative
                 0x0001cad0      0x194 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001cad0                Java_com_parrot_freeflight_drone_DroneConfig_updateVideoCodecNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateNetworkNameNative
+                0x0001cad0                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVideoCodecNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateNetworkNameNative
                 0x0001cc64       0x80 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001cc64                Java_com_parrot_freeflight_drone_DroneConfig_updateNetworkNameNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateDeviceTiltMax
+                0x0001cc64                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateNetworkNameNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateDeviceTiltMax
                 0x0001cce4       0x4c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001cce4                Java_com_parrot_freeflight_drone_DroneConfig_updateDeviceTiltMax
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateTiltNative
+                0x0001cce4                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateDeviceTiltMax
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateTiltNative
                 0x0001cd30       0x90 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001cd30                Java_com_parrot_freeflight_drone_DroneConfig_updateTiltNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateVertSpeedMaxNative
+                0x0001cd30                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateTiltNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVertSpeedMaxNative
                 0x0001cdc0       0x84 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001cdc0                Java_com_parrot_freeflight_drone_DroneConfig_updateVertSpeedMaxNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateYawSpeedMaxNative
+                0x0001cdc0                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVertSpeedMaxNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateYawSpeedMaxNative
                 0x0001ce44       0x90 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001ce44                Java_com_parrot_freeflight_drone_DroneConfig_updateYawSpeedMaxNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorFlightNative
+                0x0001ce44                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateYawSpeedMaxNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorFlightNative
                 0x0001ced4       0x78 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001ced4                Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorFlightNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateAltitudeLimit
+                0x0001ced4                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorFlightNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAltitudeLimit
                 0x0001cf4c       0x3c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001cf4c                Java_com_parrot_freeflight_drone_DroneConfig_updateAltitudeLimit
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateOwnerMacNative
+                0x0001cf4c                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAltitudeLimit
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOwnerMacNative
                 0x0001cf88       0x90 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001cf88                Java_com_parrot_freeflight_drone_DroneConfig_updateOwnerMacNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateAdaptiveVideoNative
+                0x0001cf88                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOwnerMacNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAdaptiveVideoNative
                 0x0001d018      0x110 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001d018                Java_com_parrot_freeflight_drone_DroneConfig_updateAdaptiveVideoNative
- .text.Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorHullNative
+                0x0001d018                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAdaptiveVideoNative
+ .text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorHullNative
                 0x0001d128       0x78 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
-                0x0001d128                Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorHullNative
+                0x0001d128                Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorHullNative
  .text          0x0001d1a0        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .text.get_ftp_handle
                 0x0001d1a0       0x4c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
@@ -1331,9 +1331,9 @@ LOAD /home/n-brulez/dev/sdk/android-ndk-r7/platforms/android-14/arch-arm/usr/lib
                 0x0001de90                encoder_stage_transform
  .text.alloc_picture
                 0x0001e454       0x44 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
- .text.Java_com_parrot_freeflight_transcodeservice_TranscodingService_encoderThreadStart
+ .text.Java_com_ne0fhyklabs_freeflight_transcodeservice_TranscodingService_encoderThreadStart
                 0x0001e498       0x3c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
-                0x0001e498                Java_com_parrot_freeflight_transcodeservice_TranscodingService_encoderThreadStart
+                0x0001e498                Java_com_ne0fhyklabs_freeflight_transcodeservice_TranscodingService_encoderThreadStart
  .text.encoderThreadResume
                 0x0001e4d4       0x40 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
                 0x0001e4d4                encoderThreadResume
@@ -1344,15 +1344,15 @@ LOAD /home/n-brulez/dev/sdk/android-ndk-r7/platforms/android-14/arch-arm/usr/lib
                 0x0001e554      0x4fc ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
                 0x0001e554                encoder_stage_open
  .text          0x0001ea50        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
- .text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative
+ .text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative
                 0x0001ea50       0x28 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
-                0x0001ea50                Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative
- .text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative
+                0x0001ea50                Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative
+ .text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative
                 0x0001ea78      0x1f0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
-                0x0001ea78                Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative
- .text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative
+                0x0001ea78                Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative
+ .text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative
                 0x0001ec68      0x1b8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
-                0x0001ec68                Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative
+                0x0001ec68                Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative
  .text          0x0001ee20        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/NavData/nav_data.o
  .text.navdata_get
                 0x0001ee20       0x38 ./obj/local/armeabi-v7a/objs/adfreeflight/NavData/nav_data.o
@@ -1379,9 +1379,9 @@ LOAD /home/n-brulez/dev/sdk/android-ndk-r7/platforms/android-14/arch-arm/usr/lib
  .text.parrot_video_stage_deinit
                 0x0001ef70        0x4 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/video_stage_renderer.o
                 0x0001ef70                parrot_video_stage_deinit
- .text.Java_com_parrot_freeflight_video_VideoStageRenderer_getVideoFrameNative
+ .text.Java_com_ne0fhyklabs_freeflight_video_VideoStageRenderer_getVideoFrameNative
                 0x0001ef74        0x4 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/video_stage_renderer.o
-                0x0001ef74                Java_com_parrot_freeflight_video_VideoStageRenderer_getVideoFrameNative
+                0x0001ef74                Java_com_ne0fhyklabs_freeflight_video_VideoStageRenderer_getVideoFrameNative
  .text          0x0001ef78        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/frame_rate.o
  .text.parrot_frame_rate_init
                 0x0001ef78       0x18 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/frame_rate.o
@@ -3839,91 +3839,91 @@ AcDcPred        0x000963d0      0x430
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Callbacks/java_callbacks.o
  .ARM.extab.text.plf_get_header
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Plf/plf.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_setMagnetoEnabled
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setMagnetoEnabled
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.extab.text.gpsConfigSuccess
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_setLocation
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setLocation
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_triggerConfigUpdateNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerConfigUpdateNative
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.extab.text.getConfigSuccess
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_doFlip
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_doFlip
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_calibrateMagneto
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_calibrateMagneto
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_record
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_record
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_takePhoto
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takePhoto
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_flatTrimNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_flatTrimNative
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_switchCamera
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_switchCamera
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_resetConfigToDefaults
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resetConfigToDefaults
                 0x000a1150        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_takeConfigSnapshot
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeConfigSnapshot
                 0x000a1150        0xc ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.extab.text.checkErrors
                 0x000a115c        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_takeNavDataSnapshot
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeNavDataSnapshot
                 0x000a115c        0xc ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_setDeviceOrientation
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDeviceOrientation
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_setCommandFlag
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setCommandFlag
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_setControlValue
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setControlValue
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_triggerEmergency
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerEmergency
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_triggerTakeOff
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerTakeOff
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_disconnect
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_disconnect
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_resume
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resume
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_setDefaultConfigurationNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDefaultConfigurationNative
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_pause
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_pause
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_connect
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_connect
                 0x000a1168        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneProxy_initNavdata
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_initNavdata
                 0x000a1168        0xc ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.extab.text.ardrone_academy_callback_called
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.extab.text.ardrone_engine_message_received
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_getDroneFamily
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneFamily
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_getFtpPortNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getFtpPortNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_getDroneHostNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneHostNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateRecordOnUsb
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateRecordOnUsb
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateVideoCodecNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVideoCodecNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateNetworkNameNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateNetworkNameNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateDeviceTiltMax
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateDeviceTiltMax
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateTiltNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateTiltNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateVertSpeedMaxNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVertSpeedMaxNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateYawSpeedMaxNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateYawSpeedMaxNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorFlightNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorFlightNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateAltitudeLimit
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAltitudeLimit
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateOwnerMacNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOwnerMacNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateAdaptiveVideoNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAdaptiveVideoNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorHullNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorHullNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
  .ARM.extab.text.get_ftp_handle
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
@@ -3967,7 +3967,7 @@ AcDcPred        0x000963d0      0x430
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
  .ARM.extab.text.alloc_picture
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_transcodeservice_TranscodingService_encoderThreadStart
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_transcodeservice_TranscodingService_encoderThreadStart
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
  .ARM.extab.text.encoderThreadResume
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
@@ -3975,11 +3975,11 @@ AcDcPred        0x000963d0      0x430
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
  .ARM.extab.text.encoder_stage_open
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
- .ARM.extab.text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
  .ARM.extab.text.navdata_get
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/NavData/nav_data.o
@@ -3997,7 +3997,7 @@ AcDcPred        0x000963d0      0x430
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/video_stage_renderer.o
  .ARM.extab.text.parrot_video_stage_deinit
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/video_stage_renderer.o
- .ARM.extab.text.Java_com_parrot_freeflight_video_VideoStageRenderer_getVideoFrameNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_freeflight_video_VideoStageRenderer_getVideoFrameNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/video_stage_renderer.o
  .ARM.extab.text.parrot_frame_rate_init
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/frame_rate.o
@@ -4191,112 +4191,112 @@ AcDcPred        0x000963d0      0x430
                 0x000a128c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Callbacks/java_callbacks.o
  .ARM.exidx.text.plf_get_header
                 0x000a1294        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Plf/plf.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_setMagnetoEnabled
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setMagnetoEnabled
                 0x000a129c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.exidx.text.gpsConfigSuccess
                 0x000a12a4        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_setLocation
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setLocation
                 0x000a12a4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_triggerConfigUpdateNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerConfigUpdateNative
                 0x000a12ac        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.exidx.text.getConfigSuccess
                 0x000a12b4        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_doFlip
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_doFlip
                 0x000a12b4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_calibrateMagneto
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_calibrateMagneto
                 0x000a12bc        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_record
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_record
                 0x000a12c4        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_takePhoto
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takePhoto
                 0x000a12c4        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_flatTrimNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_flatTrimNative
                 0x000a12c4        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_switchCamera
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_switchCamera
                 0x000a12c4        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_resetConfigToDefaults
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resetConfigToDefaults
                 0x000a12c4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_takeConfigSnapshot
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeConfigSnapshot
                 0x000a12cc        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.exidx.text.checkErrors
                 0x000a12d4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_takeNavDataSnapshot
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeNavDataSnapshot
                 0x000a12dc        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_setDeviceOrientation
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDeviceOrientation
                 0x000a12e4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_setCommandFlag
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setCommandFlag
                 0x000a12ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_setControlValue
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setControlValue
                 0x000a12ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_triggerEmergency
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerEmergency
                 0x000a12ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_triggerTakeOff
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_triggerTakeOff
                 0x000a12ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_disconnect
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_disconnect
                 0x000a12ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_resume
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_resume
                 0x000a12ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_setDefaultConfigurationNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_setDefaultConfigurationNative
                 0x000a12ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_pause
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_pause
                 0x000a12ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_connect
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_connect
                 0x000a12ec        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneProxy_initNavdata
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_initNavdata
                 0x000a12f4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.exidx.text.ardrone_academy_callback_called
                 0x000a12fc        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
  .ARM.exidx.text.ardrone_engine_message_received
                 0x000a1304        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_getDroneFamily
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneFamily
                 0x000a130c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_getFtpPortNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getFtpPortNative
                 0x000a1314        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_getDroneHostNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneHostNative
                 0x000a1314        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateRecordOnUsb
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateRecordOnUsb
                 0x000a131c        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateVideoCodecNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVideoCodecNative
                 0x000a131c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateNetworkNameNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateNetworkNameNative
                 0x000a1324        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateDeviceTiltMax
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateDeviceTiltMax
                 0x000a1324        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateTiltNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateTiltNative
                 0x000a132c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateVertSpeedMaxNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVertSpeedMaxNative
                 0x000a1334        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateYawSpeedMaxNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateYawSpeedMaxNative
                 0x000a1334        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorFlightNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorFlightNative
                 0x000a1334        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateAltitudeLimit
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAltitudeLimit
                 0x000a1334        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateOwnerMacNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOwnerMacNative
                 0x000a133c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateAdaptiveVideoNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAdaptiveVideoNative
                 0x000a1344        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorHullNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorHullNative
                 0x000a1344        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/drone_config_stub.o
                                   0x8 (size before relaxing)
  .ARM.exidx.text.get_ftp_handle
@@ -4342,7 +4342,7 @@ AcDcPred        0x000963d0      0x430
                 0x000a13d4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
  .ARM.exidx.text.alloc_picture
                 0x000a13dc        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_transcodeservice_TranscodingService_encoderThreadStart
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_transcodeservice_TranscodingService_encoderThreadStart
                 0x000a13e4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
  .ARM.exidx.text.encoderThreadResume
                 0x000a13ec        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
@@ -4352,11 +4352,11 @@ AcDcPred        0x000963d0      0x430
                                   0x8 (size before relaxing)
  .ARM.exidx.text.encoder_stage_open
                 0x000a13ec        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative
                 0x000a13f4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative
                 0x000a13fc        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
- .ARM.exidx.text.Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative
                 0x000a1404        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/gl_bg_video_sprite_stub.o
  .ARM.exidx.text.navdata_get
                 0x000a140c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/NavData/nav_data.o
@@ -4377,7 +4377,7 @@ AcDcPred        0x000963d0      0x430
  .ARM.exidx.text.parrot_video_stage_deinit
                 0x000a1434        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/video_stage_renderer.o
                                   0x8 (size before relaxing)
- .ARM.exidx.text.Java_com_parrot_freeflight_video_VideoStageRenderer_getVideoFrameNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_freeflight_video_VideoStageRenderer_getVideoFrameNative
                 0x000a1434        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Video/video_stage_renderer.o
                                   0x8 (size before relaxing)
  .ARM.exidx.text.parrot_frame_rate_init

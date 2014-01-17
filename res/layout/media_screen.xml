@@ -8,12 +8,6 @@
     android:orientation="vertical" >
 
     <include
-        android:id="@+id/header_preferences"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/incl_status_bar" />
-
-    <include
         android:id="@+id/navigation_bar"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/settings_header_height"
@@ -44,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginLeft="@dimen/orange_bar_title_text_margin"
-            android:text="@string/sort" 
+            android:text="@string/sort"
             android:lineSpacingExtra="0dp"
             android:lineSpacingMultiplier="1"
             />

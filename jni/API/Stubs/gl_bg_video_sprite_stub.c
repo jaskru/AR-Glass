@@ -64,7 +64,7 @@ void opengl_texture_scale_compute(opengl_texture_t *texture, opengl_size_t scree
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative(JNIEnv *env, jobject obj, jint program, jint textureId)
+Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative(JNIEnv *env, jobject obj, jint program, jint textureId)
 {
 	if (texture_initialized == FALSE) {
 		init_texture();
@@ -114,7 +114,7 @@ Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onUpdateVideoTextureNative(JNIE
 }
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative(JNIEnv *env, jobject obj, jint width, jint height)
+Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative(JNIEnv *env, jobject obj, jint width, jint height)
 {
 	screen_size.width = width;
 	screen_size.height = height;
@@ -124,7 +124,7 @@ Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_onSurfaceChangedNative(JNIEnv *
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative(JNIEnv *env, jobject obj, jobject bitmap, jfloatArray videoSize)
+Java_com_ne0fhyklabs_freeflight_ui_gl_GLBGVideoSprite_getVideoFrameNative(JNIEnv *env, jobject obj, jobject bitmap, jfloatArray videoSize)
 {
 	AndroidBitmapInfo  info;
 	void*              pixels;

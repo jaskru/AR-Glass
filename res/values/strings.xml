@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="app_name">GlassKinesis</string>
-    <string name="app_version">v0.1.0</string>
+    <string name="app_name">AR.Glass</string>
+    <string name="app_version">0.2.0</string>
 
     <!-- Google glass specific strings -->
-    <string name="glass_voice_trigger">Take Flight</string>
+    <string name="glass_voice_trigger">Let\'s fly</string>
 
     <string name="your_changes_will_be_applied_after_rebooting_drone">Your changes will be applied after rebooting the Ar.Drone!</string>
     <string name="quit_app_reboot_drone_connect_to_network">\t- Quit application\n\t- Reboot your AR.Drone\n\t- Connect your {device} on {network} network\n\t- Launch application</string>
@@ -95,6 +95,7 @@
     <string name="Join_Our_Community">Join Our Community</string>
     <string name="Stay_Tuned">Stay Tuned</string>
     <!-- settings strings -->
+    <string name="ar_settings">SETTINGS</string>
     <string name="PERSONAL_SETTINGS">PERSONAL SETTINGS</string>
     <string name="default_settings">DEFAULT SETTINGS</string>
     <string name="flat_trim">FLAT TRIM</string>

@@ -14,7 +14,7 @@ static jobject configObj = NULL;
 static const char* TAG = "DRONE_CONFIG_STUB";
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorHullNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorHullNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -31,7 +31,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorHullNative(JNIEnv *env
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateAdaptiveVideoNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAdaptiveVideoNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -58,7 +58,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateAdaptiveVideoNative(JNIEnv *e
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateOwnerMacNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOwnerMacNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -83,7 +83,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateOwnerMacNative(JNIEnv *env, j
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateAltitudeLimit(JNIEnv *env, jobject obj, jint altitude)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateAltitudeLimit(JNIEnv *env, jobject obj, jint altitude)
 {
 	ardrone_control_config.altitude_max = altitude * 1000;
 	ARDRONE_TOOL_CONFIGURATION_ADDEVENT(altitude_max, &ardrone_control_config.altitude_max, NULL);
@@ -91,7 +91,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateAltitudeLimit(JNIEnv *env, jo
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorFlightNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateOutdoorFlightNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -105,7 +105,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateOutdoorFlightNative(JNIEnv *e
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateYawSpeedMaxNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateYawSpeedMaxNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -121,7 +121,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateYawSpeedMaxNative(JNIEnv *env
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateVertSpeedMaxNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVertSpeedMaxNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -137,7 +137,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateVertSpeedMaxNative(JNIEnv *en
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateTiltNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateTiltNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -153,7 +153,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateTiltNative(JNIEnv *env, jobje
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateDeviceTiltMax(JNIEnv *env, jobject obj, jint tilt)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateDeviceTiltMax(JNIEnv *env, jobject obj, jint tilt)
 {
 	ardrone_control_config.control_iphone_tilt = (float)tilt * DEG_TO_RAD;
 	ARDRONE_TOOL_CONFIGURATION_ADDEVENT(control_iphone_tilt, &ardrone_control_config.control_iphone_tilt, NULL);
@@ -161,7 +161,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateDeviceTiltMax(JNIEnv *env, jo
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateNetworkNameNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateNetworkNameNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -183,7 +183,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateNetworkNameNative(JNIEnv *env
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateVideoCodecNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateVideoCodecNative(JNIEnv *env, jobject obj)
 {
 	jclass configCls = (*env)->GetObjectClass(env, obj);
 
@@ -216,7 +216,7 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateVideoCodecNative(JNIEnv *env,
 
 
 JNIEXPORT void JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_updateRecordOnUsb(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_updateRecordOnUsb(JNIEnv *env, jobject obj)
 {
 	if (IS_ARDRONE2) {
         ardrone_control_config.video_on_usb = java_get_bool_field_value(env, obj, "recordOnUsb");
@@ -229,21 +229,21 @@ Java_com_parrot_freeflight_drone_DroneConfig_updateRecordOnUsb(JNIEnv *env, jobj
 
 
 JNIEXPORT jint JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_getDroneFamily(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneFamily(JNIEnv *env, jobject obj)
 {
 	return ARDRONE_VERSION();
 }
 
 
 JNIEXPORT int JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_getFtpPortNative(JNIEnv *env, jclass class)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getFtpPortNative(JNIEnv *env, jclass class)
 {
 	return FTP_PORT;
 }
 
 
 JNIEXPORT jstring JNICALL
-Java_com_parrot_freeflight_drone_DroneConfig_getDroneHostNative(JNIEnv *env, jclass class)
+Java_com_ne0fhyklabs_freeflight_drone_DroneConfig_getDroneHostNative(JNIEnv *env, jclass class)
 {
 	jstring host = (*env)->NewStringUTF(env, WIFI_ARDRONE_IP);
 	return host;
