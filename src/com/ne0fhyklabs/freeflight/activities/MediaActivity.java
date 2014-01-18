@@ -47,10 +47,6 @@ public class MediaActivity extends FragmentActivity implements
         MediaReadyDelegate,
         MediaStorageReceiverDelegate {
 
-    private enum ActionBarState {
-        BROWSE, EDIT;
-    }
-
     private static final String TAG = MediaActivity.class.getSimpleName();
 
     private final ArrayList<MediaVO> mediaList = new ArrayList<MediaVO>();
@@ -79,7 +75,7 @@ public class MediaActivity extends FragmentActivity implements
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id,
                                               boolean checked) {
-
+            onItemClick(gridView, gridView.getChildAt(position), position, id);
         }
 
         @Override
@@ -213,6 +209,8 @@ public class MediaActivity extends FragmentActivity implements
         gridView = (GridView) findViewById(R.id.grid);
         gridView.setNumColumns(columnCount);
         gridView.setOnItemClickListener(this);
+        gridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE_MODAL);
+        gridView.setMultiChoiceModeListener(mActionModeCallback);
     }
 
     @Override
