@@ -2,11 +2,11 @@
 package com.ne0fhyklabs.freeflight.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
@@ -15,14 +15,11 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.receivers.MediaReadyDelegate;
 import com.ne0fhyklabs.freeflight.receivers.MediaReadyReceiver;
@@ -32,7 +29,6 @@ import com.ne0fhyklabs.freeflight.service.DroneControlService;
 import com.ne0fhyklabs.freeflight.tasks.GetMediaObjectsListTask;
 import com.ne0fhyklabs.freeflight.tasks.GetMediaObjectsListTask.MediaFilter;
 import com.ne0fhyklabs.freeflight.transcodeservice.TranscodingService;
-import com.ne0fhyklabs.freeflight.ui.ActionBar;
 import com.ne0fhyklabs.freeflight.ui.adapters.MediaAdapter;
 import com.ne0fhyklabs.freeflight.ui.adapters.MediaSortSpinnerAdapter;
 import com.ne0fhyklabs.freeflight.utils.ARDroneMediaGallery;
@@ -47,13 +43,11 @@ import java.util.concurrent.ExecutionException;
  * This activity handles the photos and videos taken by the Parrot AR Drone.
  */
 public class MediaActivity extends FragmentActivity implements
-        OnClickListener,
-        OnCheckedChangeListener,
         OnItemClickListener,
         MediaReadyDelegate,
         MediaStorageReceiverDelegate {
 
-    private enum ActionBarState  {
+    private enum ActionBarState {
         BROWSE, EDIT;
     }
 
@@ -65,10 +59,8 @@ public class MediaActivity extends FragmentActivity implements
     private MediaFilter currentFilter = MediaFilter.ALL;
 
     private GridView gridView;
-    private Button btnSelectClear;
     private ARDroneMediaGallery mediaGallery;
-    private ActionBarState currentABState = ActionBarState.BROWSE;
-    
+
     private MediaReadyReceiver mediaReadyReceiver;    // Detects when drone created new media file
     private MediaStorageReceiver mediaStorageReceiver; // Detects when SD Card becomes unmounted
 
@@ -76,26 +68,107 @@ public class MediaActivity extends FragmentActivity implements
      * The action mode is triggered by the 'Edit' menu button.
      */
     private ActionMode mActionMode;
-    
+
+    /**
+     * Callback logic used by the action mode.
+     */
+    private final AbsListView.MultiChoiceModeListener mActionModeCallback = new AbsListView
+            .MultiChoiceModeListener() {
+
+
+        @Override
+        public void onItemCheckedStateChanged(ActionMode mode, int position, long id,
+                                              boolean checked) {
+
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            //Store the passed action mode
+            mActionMode = mode;
+            mode.getMenuInflater().inflate(R.menu.menu_media_action_mode, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            final MenuItem selectClearItem = menu.findItem(R.id.menu_select_clear);
+            if (selectClearItem != null) {
+                selectClearItem.setTitle(selectedItems.size() <= 0
+                        ? R.string.menu_select_all
+                        : R.string.menu_clear_all);
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_delete:
+                    onDeleteMediaClicked();
+                    return true;
+
+                case R.id.menu_select_clear:
+                    switchAllItemState(selectedItems.size() <= 0);
+
+                    ((MediaAdapter) gridView.getAdapter()).notifyDataSetChanged();
+                    mode.invalidate();
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            //Deselect any selected items
+            switchAllItemState(false);
+            final MediaAdapter adapter = (MediaAdapter) gridView.getAdapter();
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+
+            //Unset the action mode instance
+            mActionMode = null;
+        }
+    };
+
     @Override
-    protected void onCreate(final Bundle savedInstanceState)    {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mediaGallery = new ARDroneMediaGallery(this);
         setContentView(R.layout.media_screen);
 
-        final android.app.ActionBar actionBar = getActionBar();
-        if(actionBar != null){
+        final ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowHomeEnabled(false);
             actionBar.setDisplayShowTitleEnabled(false);
 
-            actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_LIST);
-            actionBar.setListNavigationCallbacks(new MediaSortSpinnerAdapter(getApplicationContext()),
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+            actionBar.setListNavigationCallbacks(new MediaSortSpinnerAdapter
+                    (getApplicationContext()),
                     new android.app.ActionBar.OnNavigationListener() {
                         @Override
                         public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                            onCheckedChanged(null, (int)itemId);
+                            switch ((int)itemId) {
+                                case R.id.rbtn_images:
+                                    currentFilter = MediaFilter.IMAGES;
+                                    break;
+
+                                case R.id.rbtn_videos:
+                                    currentFilter = MediaFilter.VIDEOS;
+                                    break;
+
+                                case R.id.rbtn_all:
+                                default:
+                                    currentFilter = MediaFilter.ALL;
+                                    break;
+                            }
+
+                            onApplyMediaFilter(currentFilter);
                             return true;
                         }
                     });
@@ -103,87 +176,51 @@ public class MediaActivity extends FragmentActivity implements
 
         mediaReadyReceiver = new MediaReadyReceiver(this);
         mediaStorageReceiver = new MediaStorageReceiver(this);
-        initListeners();
-        initNavigationBar();
-        initActionBar(currentABState);
         initGallery();
 
-        onApplyMediaFilter(currentFilter);   
+        onApplyMediaFilter(currentFilter);
     }
-    
+
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
 
         MediaAdapter adapter = (MediaAdapter) gridView.getAdapter();
-        
         if (adapter != null) {
             adapter.stopThumbnailLoading();
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_media_activity, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.menu_edit:
-
+                startActionMode(mActionModeCallback);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void initListeners()
-    {
-        final RadioGroup filter = (RadioGroup) findViewById(R.id.filter);
-        filter.setOnCheckedChangeListener(this);
-
-        final Button btnEdit = (Button) findViewById(R.id.btnEdit);
-        btnEdit.setOnClickListener(this);
-
-        final Button btnCancel = (Button) findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(this);
-
-        final Button btnDelete = (Button) findViewById(R.id.btnDelete);
-        btnDelete.setOnClickListener(this);
-
-        btnSelectClear = (Button) findViewById(R.id.btnSelectClear);
-        btnSelectClear.setOnClickListener(this);
-    }
-
-    private void initNavigationBar()
-    {
-        final View viewOrangeBar = findViewById(R.id.navigation_bar);
-
-        final ActionBar orangeHeader = new ActionBar(this, viewOrangeBar);
-        orangeHeader.initTitle(getString(R.string.photos_videos));
-    }
-
-
-    private void initGallery()
-    {
+    private void initGallery() {
         int columnCount = getResources().getInteger(R.integer.media_gallery_columns_count);
         gridView = (GridView) findViewById(R.id.grid);
         gridView.setNumColumns(columnCount);
         gridView.setOnItemClickListener(this);
     }
-    
-    
-    
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
 
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance
+                (getApplicationContext());
 
         IntentFilter mediaReadyFilter = new IntentFilter();
         mediaReadyFilter.addAction(DroneControlService.NEW_MEDIA_IS_AVAILABLE_ACTION);
@@ -193,39 +230,34 @@ public class MediaActivity extends FragmentActivity implements
 
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
-        
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
+
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance
+                (getApplicationContext());
         broadcastManager.unregisterReceiver(mediaReadyReceiver);
     }
 
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
         mediaStorageReceiver.unregisterFromEvents(this);
     }
 
-  
+
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         mediaStorageReceiver.registerForEvents(this);
     }
 
 
     @SuppressLint("NewApi")
-    protected synchronized void onApplyMediaFilter(MediaFilter filter)
-    {
-        GetMediaObjectsListTask mediaWorkerTask = new GetMediaObjectsListTask(this, filter)
-        {
+    protected synchronized void onApplyMediaFilter(MediaFilter filter) {
+        GetMediaObjectsListTask mediaWorkerTask = new GetMediaObjectsListTask(this, filter) {
             @Override
-            protected void onPostExecute(final List<MediaVO> result)
-            {
+            protected void onPostExecute(final List<MediaVO> result) {
                 mediaList.clear();
                 mediaList.addAll(result);
 
@@ -234,18 +266,17 @@ public class MediaActivity extends FragmentActivity implements
                 if (adapter == null) {
                     adapter = new MediaAdapter(MediaActivity.this, mediaList);
                     gridView.setAdapter(adapter);
-                } else {
+                }
+                else {
                     adapter.setFileList(mediaList);
                 }
             }
         };
 
         try {
-            if (Build.VERSION.SDK_INT < 11) {
-                mediaWorkerTask.execute().get();
-            } else {
-                mediaWorkerTask.executeOnExecutor(GetMediaObjectsListTask.THREAD_POOL_EXECUTOR).get(); 
-            }
+
+            mediaWorkerTask.executeOnExecutor(GetMediaObjectsListTask.THREAD_POOL_EXECUTOR).get();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -253,64 +284,31 @@ public class MediaActivity extends FragmentActivity implements
         }
     }
 
-
-    protected void onEditClicked()
-    {
-        currentABState = ActionBarState.EDIT;
-    }
-
-
-    protected void onCancelEditClicked()
-    {
-        switchEditBarToInitialState();
-        currentABState = ActionBarState.BROWSE;
-    }
-
-
-    protected void onSelectAllClicked()
-    {
-        if (selectedItems.size() > 0) {
-            btnSelectClear.setText(getString(R.string.select_all));
-            switchAllItemState(false);
-        } else {
-            btnSelectClear.setText(getString(R.string.clear_all));
-            switchAllItemState(true);
-        }
-
-        final MediaAdapter adapter = (MediaAdapter) gridView.getAdapter();
-        adapter.notifyDataSetChanged();
-    }
-
-
-    protected void onDeleteMediaClicked()
-    {
+    protected void onDeleteMediaClicked() {
         if (selectedItems.size() > 0) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("");
             alert.setMessage(R.string.delete_popup);
 
-            alert.setPositiveButton(getString(R.string.delete_media), new DialogInterface.OnClickListener()
-            {
-                public void onClick(final DialogInterface dialog, final int whichButton)
-                {
-                    onDeleteSelectedMediaItems();
-                }
-            });
-            alert.setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener()
-            {
-                public void onClick(final DialogInterface dialog, final int whichButton)
-                {
-                    dialog.cancel();
-                }
-            });
+            alert.setPositiveButton(getString(R.string.delete_media),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int whichButton) {
+                            onDeleteSelectedMediaItems();
+                        }
+                    });
+            alert.setNegativeButton(getString(android.R.string.cancel),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
 
             alert.show();
         }
     }
 
 
-    private void onDeleteSelectedMediaItems()
-    {
+    private void onDeleteSelectedMediaItems() {
         int size = selectedItems.size();
 
         List<MediaVO> photosToDelete = new ArrayList<MediaVO>();
@@ -323,7 +321,8 @@ public class MediaActivity extends FragmentActivity implements
 
                 if (media.isVideo()) {
                     videosToDelete.add(media);
-                } else {
+                }
+                else {
                     photosToDelete.add(media);
                 }
             }
@@ -357,14 +356,13 @@ public class MediaActivity extends FragmentActivity implements
 
         selectedItems.clear();
 
-        if (countOfPhotos > 0 || countOfVideos > 0) {
-            switchEditBarToInitialState();
+        if (mActionMode != null && (countOfPhotos > 0 || countOfVideos > 0)) {
+            mActionMode.finish();
         }
     }
 
 
-    protected void onPlayMediaItem(int position)
-    {
+    protected void onPlayMediaItem(int position) {
         final Intent intent = new Intent(this, GalleryActivity.class);
         intent.putExtra(GalleryActivity.SELECTED_ELEMENT, position);
         intent.putExtra(GalleryActivity.MEDIA_FILTER, currentFilter.ordinal());
@@ -372,43 +370,11 @@ public class MediaActivity extends FragmentActivity implements
         startActivity(intent);
     }
 
-
-    private void switchEditBarToInitialState()
-    {
-        btnSelectClear.setText(getString(R.string.select_all));
-        switchAllItemState(false);
-        final MediaAdapter adapter = (MediaAdapter) gridView.getAdapter();
-        
-        if (adapter != null) {
-        	adapter.notifyDataSetChanged();
-        }
-    }
-
-
-    private void initActionBar(final ActionBarState state)
-    {
-        final LinearLayout browseBar = (LinearLayout) findViewById(R.id.llayBrowseBar);
-        final LinearLayout editBar = (LinearLayout) findViewById(R.id.llayEditBar);
-
-        switch (state) {
-        case BROWSE:
-            browseBar.setVisibility(View.VISIBLE);
-            editBar.setVisibility(View.GONE);
-            break;
-        case EDIT:
-            browseBar.setVisibility(View.GONE);
-            editBar.setVisibility(View.VISIBLE);
-            break;
-
-        }
-    }
-
-
-    private void switchAllItemState(final boolean isSelected)
-    {
+    private void switchAllItemState(final boolean isSelected) {
         if (isSelected) {
             selectedItems.addAll(mediaList);
-        } else {
+        }
+        else {
             selectedItems.clear();
         }
 
@@ -421,61 +387,15 @@ public class MediaActivity extends FragmentActivity implements
         }
     }
 
-
-    public void onCheckedChanged(final RadioGroup group, final int checkedId)
-    {
-        switch (checkedId) {
-        case R.id.rbtn_images:
-            currentFilter = MediaFilter.IMAGES;
-            break;
-
-        case R.id.rbtn_videos:
-            currentFilter = MediaFilter.VIDEOS;
-            break;
-
-        case R.id.rbtn_all:
-        default:
-            currentFilter = MediaFilter.ALL;
-            break;
-        }
-
-        onApplyMediaFilter(currentFilter);
-    }
-
-
-    public void onClick(final View v)
-    {
-        final int id = v.getId();
-
-        switch (id) {
-        case R.id.btnEdit:
-            onEditClicked();
-            break;
-        case R.id.btnCancel:
-            onCancelEditClicked();
-            break;
-        case R.id.btnSelectClear:
-            onSelectAllClicked();
-            break;
-        case R.id.btnDelete:
-            onDeleteMediaClicked();
-            break;
-        default:
-        }
-
-        initActionBar(currentABState);
-    }
-
-
-    public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long id)
-    {
-        switch (currentABState) {
-        case BROWSE:
+    @Override
+    public void onItemClick(final AdapterView<?> adapterView, final View view,
+                            final int position, final long id) {
+        if (mActionMode == null) {
             onPlayMediaItem(position);
-            break;
-
-        case EDIT:
-            final LinearLayout selectedHolder = (LinearLayout) view.findViewById(R.id.selected_holder);
+        }
+        else {
+            final LinearLayout selectedHolder = (LinearLayout) view.findViewById(R.id
+                    .selected_holder);
 
             if (selectedHolder.isShown()) {
                 selectedHolder.setVisibility(View.GONE);
@@ -484,32 +404,27 @@ public class MediaActivity extends FragmentActivity implements
 
                 selectedItems.remove(media);
 
-            } else {
+            }
+            else {
                 selectedHolder.setVisibility(View.VISIBLE);
                 MediaVO media = mediaList.get(position);
                 media.setSelected(true);
 
                 selectedItems.add(media);
-                btnSelectClear.setText(getString(R.string.clear_all));
+                mActionMode.invalidate();
             }
-
-            break;
-
-        default:
         }
     }
 
     @Override
-    public void onMediaReady(File mediaFile)
-    {
+    public void onMediaReady(File mediaFile) {
         Log.d(TAG, "New file available " + mediaFile.getAbsolutePath());
         onApplyMediaFilter(currentFilter);
     }
 
 
     @Override
-    public void onLowMemory()
-    {
+    public void onLowMemory() {
         super.onLowMemory();
         Log.w(TAG, "Low memory warning received. Trying to cleanum cacne");
 
@@ -519,22 +434,19 @@ public class MediaActivity extends FragmentActivity implements
 
 
     @Override
-    public void onMediaStorageMounted()
-    {
+    public void onMediaStorageMounted() {
         // Nothing to do
     }
 
 
     @Override
-    public void onMediaStorageUnmounted()
-    {
-        
+    public void onMediaStorageUnmounted() {
+
     }
 
 
     @Override
-    public void onMediaEject()
-    {
+    public void onMediaEject() {
         mediaGallery.onDestroy();
         finish();
     }

@@ -7,10 +7,13 @@
         android:id="@+id/menu_select_clear"/>
 
     <item
+        android:title="@string/menu_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:id="@+id/menu_delete"
+        android:showAsAction="ifRoom|withText"/>
+
+    <item
         android:id="@+id/menu_share"
         android:actionProviderClass="android.widget.ShareActionProvider"
         android:title="@string/menu_share"/>
-
-    <item android:title="@string/menu_delete"
-          android:id="@+id/menu_delete" />
 </menu>
