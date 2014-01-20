@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.ne0fhyklabs.freeflight.R;
-import com.ne0fhyklabs.freeflight.utils.FontUtils;
 
 public class WarningDialog extends DialogFragment
         implements OnClickListener
@@ -31,18 +30,18 @@ public class WarningDialog extends DialogFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.hud_popup, container, false);
-        FontUtils.applyFont(getActivity(), v);
+        final View v = inflater.inflate(R.layout.hud_popup, container, false);
 
-        View tv = v.findViewById(R.id.txtMessage);
+        final View tv = v.findViewById(R.id.txtMessage);
         ((TextView) tv).setText(message);
 
         // Watch for button clicks.
-        ImageButton button = (ImageButton) v.findViewById(R.id.btnClose);
+        final ImageButton button = (ImageButton) v.findViewById(R.id.btnClose);
         button.setOnClickListener(this);
-        
+
         if (time != 0) {
-            Runnable runnable = new Runnable() {
+            final Runnable runnable = new Runnable() {
+                @Override
                 public void run()
                 {
                     if (isVisible()) {
@@ -50,7 +49,7 @@ public class WarningDialog extends DialogFragment
                     }
                 }
             };
-            
+
             v.postDelayed(runnable, time);
         }
 
@@ -64,6 +63,7 @@ public class WarningDialog extends DialogFragment
     }
 
 
+    @Override
     public void onClick(View v)
     {
         if (v.getId() == R.id.btnClose) {

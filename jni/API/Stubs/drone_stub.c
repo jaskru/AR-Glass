@@ -382,13 +382,13 @@ void checkErrors(JNIEnv* env, navdata_unpacked_t ctrlnavdata)
 JNIEXPORT jobject JNICALL
 Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeNavDataSnapshot(JNIEnv *env, jobject obj, jobject navdataObj)
 {
-	jclass navdataCls = (*env)->FindClass(env,"com/parrot/freeflight/drone/NavData");
+	jclass navdataCls = (*env)->FindClass(env,"com/ne0fhyklabs/freeflight/drone/NavData");
 
 	if (navdataCls == NULL) {
 		if ((*env)->ExceptionOccurred(env)) {
 				(*env)->ExceptionDescribe(env);
 		}
-		LOGD(TAG, "Failed to get class com.parrot.freeflight.drone.NavData");
+		LOGD(TAG, "Failed to get class com.ne0fhyklabs.freeflight.drone.NavData");
 		return navdataObj;
 	}
 
@@ -441,14 +441,14 @@ Java_com_ne0fhyklabs_freeflight_drone_DroneProxy_takeConfigSnapshot(JNIEnv *env,
 {
 	LOGI(TAG, "takeConfigSnapshot Called");
 
-	jclass configCls = (*env)->FindClass(env,"com/parrot/freeflight/drone/DroneConfig");
+	jclass configCls = (*env)->FindClass(env,"com/ne0fhyklabs/freeflight/drone/DroneConfig");
 
 	if (configCls == NULL) {
 		if ((*env)->ExceptionOccurred(env)) {
 				(*env)->ExceptionDescribe(env);
 		}
 
-		LOGE(TAG, "Failed to get class com.parrot.freeflight.drone.DroneConfig");
+		LOGE(TAG, "Failed to get class com.ne0fhyklabs.freeflight.drone.DroneConfig");
 		return configObj;
 	}
 

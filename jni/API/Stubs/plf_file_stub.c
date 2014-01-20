@@ -32,7 +32,7 @@ static jbyteArray getHeader(JNIEnv* env, jobject obj, jint size)
 
 
 JNIEXPORT jstring JNICALL
-Java_com_parrot_plf_PlfFile_getVersionNative(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_plf_PlfFile_getVersionNative(JNIEnv *env, jobject obj)
 {
 	jbyteArray headerDataArray = getHeader(env, obj, sizeof(plf_phdr));
 

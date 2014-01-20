@@ -28,7 +28,6 @@ import com.ne0fhyklabs.freeflight.ui.hud.Sprite;
 import com.ne0fhyklabs.freeflight.ui.hud.Sprite.Align;
 import com.ne0fhyklabs.freeflight.ui.hud.Text;
 import com.ne0fhyklabs.freeflight.ui.hud.ToggleButton;
-import com.ne0fhyklabs.freeflight.utils.FontUtils.TYPEFACE;
 import com.ne0fhyklabs.freeflight.video.VideoStageRenderer;
 
 public class HudViewController implements OnTouchListener
@@ -103,9 +102,9 @@ public class HudViewController implements OnTouchListener
         initNavdataStrings();
         initGLSurfaceView();
 
-        Resources res = context.getResources();
+        final Resources res = context.getResources();
 
-        Image topBarBg = new Image(res, R.drawable.barre_haut, Align.TOP_CENTER);
+        final Image topBarBg = new Image(res, R.drawable.barre_haut, Align.TOP_CENTER);
         topBarBg.setSizeParams(SizeParams.FILL_SCREEN, SizeParams.NONE);
         topBarBg.setAlphaEnabled(false);
 
@@ -147,7 +146,6 @@ public class HudViewController implements OnTouchListener
             txtRecord.setMargin((int) res.getDimension(R.dimen.hud_rec_text_margin_top),
                     (int) res.getDimension(R.dimen.hud_rec_text_margin_right), 0, 0);
             txtRecord.setTextColor(Color.WHITE);
-            txtRecord.setTypeface(TYPEFACE.Helvetica(context));
             txtRecord.setTextSize(res.getDimensionPixelSize(R.dimen.hud_rec_text_size));
 
             usbIndicator = new Image(res, R.drawable.picto_usb_actif, Align.TOP_RIGHT);
@@ -159,7 +157,6 @@ public class HudViewController implements OnTouchListener
             txtUsbRemaining.setMargin(
                     res.getDimensionPixelOffset(R.dimen.hud_usb_indicator_text_margin_top),
                     res.getDimensionPixelOffset(R.dimen.hud_usb_indicator_text_margin_right), 0, 0);
-            txtUsbRemaining.setTypeface(TYPEFACE.Helvetica(context));
             txtUsbRemaining.setTextSize(res
                     .getDimensionPixelSize(R.dimen.hud_usb_indicator_text_size));
 
@@ -195,13 +192,12 @@ public class HudViewController implements OnTouchListener
             txtPitchValue.setMargin((int) res.getDimension(R.dimen.hud_rec_text_margin_top),
                     (int) res.getDimension(R.dimen.hud_rec_text_margin_right), 0, 0);
             txtPitchValue.setTextColor(Color.WHITE);
-            txtPitchValue.setTypeface(TYPEFACE.Helvetica(context));
             txtPitchValue.setTextSize(res.getDimensionPixelSize(R.dimen.hud_rec_text_size));
 
             renderer.addSprite(PITCH_VALUE_ID, txtPitchValue);
         }
 
-        int batteryIndicatorRes[] = { R.drawable.btn_battery_0,
+        final int batteryIndicatorRes[] = { R.drawable.btn_battery_0,
                                      R.drawable.btn_battery_1,
                                      R.drawable.btn_battery_2,
                                      R.drawable.btn_battery_3
@@ -217,10 +213,9 @@ public class HudViewController implements OnTouchListener
                 (int) res.getDimension(R.dimen.hud_battery_indicator_margin_left) +
                         batteryIndicator.getWidth());
         txtBatteryStatus.setTextColor(Color.WHITE);
-        txtBatteryStatus.setTypeface(TYPEFACE.Helvetica(context));
         txtBatteryStatus.setTextSize((int) res.getDimension(R.dimen.hud_battery_text_size));
 
-        int wifiIndicatorRes[] = {
+        final int wifiIndicatorRes[] = {
                                   R.drawable.btn_wifi_0,
                                   R.drawable.btn_wifi_1,
                                   R.drawable.btn_wifi_2,
@@ -291,7 +286,7 @@ public class HudViewController implements OnTouchListener
 
         final int margin = context.getResources().getDimensionPixelSize(R.dimen.hud_joy_margin);
         for ( int i = 0; i < spritesCount; i++ ) {
-            Sprite sprite = sprites[i];
+            final Sprite sprite = sprites[i];
             sprite.setMargin(0, margin, bottomBarBg.getHeight() + margin, margin);
 
             renderer.addSprite(CONTROLLER_IDS + i, sprite);
@@ -299,7 +294,7 @@ public class HudViewController implements OnTouchListener
     }
 
     public void removeControllerSprites(Sprite[] sprites) {
-        int spritesCount = sprites.length;
+        final int spritesCount = sprites.length;
         if ( spritesCount == 0 )
             return;
         for ( int i = 0; i < spritesCount; i++ )
@@ -384,8 +379,8 @@ public class HudViewController implements OnTouchListener
                     needColor = true;
                 } // No else
 
-                int remMin = seconds / 60;
-                int remSec = seconds % 60;
+                final int remMin = seconds / 60;
+                final int remSec = seconds % 60;
 
                 if ( 0 == remSec && 0 == remMin ) {
                     remainingTime = "FULL";
@@ -472,7 +467,7 @@ public class HudViewController implements OnTouchListener
 
     public void setFpsVisible(final boolean visible)
     {
-        Runnable runnable = new Runnable() {
+        final Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 if ( visible ) {
@@ -491,7 +486,7 @@ public class HudViewController implements OnTouchListener
 
     public void setEmergency(final int code)
     {
-        int res = emergencyStringMap.get(code);
+        final int res = emergencyStringMap.get(code);
 
         if ( res != 0 ) {
             txtAlert.setText(context.getString(res));
@@ -593,7 +588,7 @@ public class HudViewController implements OnTouchListener
     {
         boolean result = false;
 
-        for (Button button: buttons) {
+        for (final Button button: buttons) {
             if ( button.processTouch(v, event) ) {
                 result = true;
                 break;

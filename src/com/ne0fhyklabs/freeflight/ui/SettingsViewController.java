@@ -34,7 +34,6 @@ import com.ne0fhyklabs.freeflight.ui.adapters.SettingsViewAdapter;
 import com.ne0fhyklabs.freeflight.ui.controls.ViewPagerIndicator;
 import com.ne0fhyklabs.freeflight.ui.filters.NetworkNameFilter;
 import com.ne0fhyklabs.freeflight.ui.listeners.OnSeekChangedListener;
-import com.ne0fhyklabs.freeflight.utils.FontUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -217,11 +216,11 @@ public class SettingsViewController
         viewPager = (ViewPager) container.findViewById(R.id.viewPager);
         viewPager.setAdapter(new SettingsViewAdapter(settingsViews));
 
-        ViewPagerIndicator viewPagerIndicator = (ViewPagerIndicator) container.findViewById(R.id.pageIndicator);
+        final ViewPagerIndicator viewPagerIndicator = (ViewPagerIndicator) container.findViewById(R.id.pageIndicator);
         viewPagerIndicator.setViewPager(viewPager);
         viewPagerIndicator.setOnPageChangeListener(this);
 
-        TextView lblTiltMax = (TextView) settingsViews.get(flightPageIdx).findViewById(R.id.labelTiltMax);
+        final TextView lblTiltMax = (TextView) settingsViews.get(flightPageIdx).findViewById(R.id.labelTiltMax);
         String tiltMaxText = lblTiltMax.getText().toString();
         if (tiltMaxText.indexOf("{device}") != -1) {
             tiltMaxText = tiltMaxText.replace("{device}", Build.MANUFACTURER.toUpperCase());
@@ -388,12 +387,10 @@ public class SettingsViewController
 
     private List<View> initializePages(LayoutInflater inflater, int[] pageIds, EDroneVersion version)
     {
-        ArrayList<View> result = new ArrayList<View>(pageIds.length);
+        final ArrayList<View> result = new ArrayList<View>(pageIds.length);
 
         for (int i = 0; i < pageIds.length; ++i) {
-            View view = inflater.inflate(pageIds[i], null);
-
-            FontUtils.applyFont(inflater.getContext(), (ViewGroup) view);
+            final View view = inflater.inflate(pageIds[i], null);
 
             result.add(view);
         }
@@ -592,7 +589,7 @@ public class SettingsViewController
         this.globalOnCheckedChangeListener = listener;
 
         for (int i = 0; i < toggleButtons.length; ++i) {
-            CheckBox button = toggleButtons[i];
+            final CheckBox button = toggleButtons[i];
 
             if (button != null)
                 button.setOnCheckedChangeListener(globalOnCheckedChangeListener);
@@ -992,7 +989,7 @@ public class SettingsViewController
     {
         editNetworkName.setEnabled(enabled);
 
-        for (View btn : clickButtons) {
+        for (final View btn : clickButtons) {
             if (btn != null) {
                 if (btn.getId() != R.id.btnCalibration) {
                     btn.setEnabled(enabled);
@@ -1016,7 +1013,7 @@ public class SettingsViewController
 
     public void setButtonsOnClickListener(OnClickListener listener)
     {
-        for (View button : clickButtons) {
+        for (final View button : clickButtons) {
             if (button != null) {
                 button.setOnClickListener(listener);
             }
@@ -1056,7 +1053,7 @@ public class SettingsViewController
         txtTitle.setText(res.getString(titles[position]));
 
         if (editNetworkName != null) {
-            InputMethodManager imm = (InputMethodManager) editNetworkName.getContext().getSystemService(
+            final InputMethodManager imm = (InputMethodManager) editNetworkName.getContext().getSystemService(
                     Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editNetworkName.getWindowToken(), 0);
         }
@@ -1140,7 +1137,7 @@ public class SettingsViewController
     private void setGroupEnabled(View[] group, boolean enabled, boolean disableOnly)
     {
         for (int i = 0; i < group.length; ++i) {
-            View v = group[i];
+            final View v = group[i];
 
             if (v != null) {
                 if (disableOnly && !enabled && v.isEnabled() == true) {
@@ -1156,7 +1153,7 @@ public class SettingsViewController
     private void setGroupVisible(View[] group, boolean visible)
     {
         for (int i = 0; i < group.length; ++i) {
-            View v = group[i];
+            final View v = group[i];
 
             if (v != null) {
                 v.setVisibility(visible ? View.VISIBLE : View.GONE);

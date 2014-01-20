@@ -151,7 +151,7 @@ public class ControlDroneActivity extends FragmentActivity implements
         /*
          * Initialize the controller
          */
-        mController = Controller.ControllerType.GOOGLE_GLASS.getImpl(this);
+        mController = Controller.ControllerType.VIRTUAL_JOYSTICK.getImpl(this);
 
         DeviceOrientationManager orientationManager = getControllerOrientationManager();
 

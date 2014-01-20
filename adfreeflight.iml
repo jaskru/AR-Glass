@@ -34,7 +34,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="gdk" level="application" />
+    <orderEntry type="library" exported="" name="gdk" level="application" />
   </component>
 </module>
 

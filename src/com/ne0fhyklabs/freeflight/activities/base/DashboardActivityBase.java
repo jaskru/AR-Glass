@@ -107,7 +107,7 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
 		{
 			case R.id.btnFreeFlight:
 				// Open freeflight
-				if (!isFreeFlightEnabled() || !onStartFreeflight())
+				if (/*!isFreeFlightEnabled() ||*/ !onStartFreeflight())
 				{
 					showErrorMessageForTime(v, getString(R.string.wifi_not_available_please_connect_device_to_drone), 2000);
 				}

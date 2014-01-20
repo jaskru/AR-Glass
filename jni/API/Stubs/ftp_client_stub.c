@@ -130,7 +130,7 @@ static void wrapperCallback (_ftp_status status, void *arg, _ftp_t *ftp)
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_ftp_FTPClient_ftpConnect(JNIEnv *env, jobject obj, jstring ip, jint port, jstring username, jstring password)
+Java_com_ne0fhyklabs_ftp_FTPClient_ftpConnect(JNIEnv *env, jobject obj, jstring ip, jint port, jstring username, jstring password)
 {
 	 _ftp_status initResult = FTP_FAIL;
 
@@ -160,7 +160,7 @@ Java_com_parrot_ftp_FTPClient_ftpConnect(JNIEnv *env, jobject obj, jstring ip, j
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_ftp_FTPClient_ftpDisconnect(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_ftp_FTPClient_ftpDisconnect(JNIEnv *env, jobject obj)
 {
 	_ftp_t* ftp = get_ftp_handle(env, obj);
 
@@ -242,7 +242,7 @@ ftp_ftpPut(JNIEnv *env, jobject obj, ftp_callback callback, jstring localName, j
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_ftp_FTPClient_ftpIsConnected(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_ftp_FTPClient_ftpIsConnected(JNIEnv *env, jobject obj)
 {
 	_ftp_t* ftp = get_ftp_handle(env, obj);
 
@@ -255,7 +255,7 @@ Java_com_parrot_ftp_FTPClient_ftpIsConnected(JNIEnv *env, jobject obj)
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_ftp_FTPClient_ftpAbort(JNIEnv *env, jobject obj)
+Java_com_ne0fhyklabs_ftp_FTPClient_ftpAbort(JNIEnv *env, jobject obj)
 {
 	_ftp_t* ftp = get_ftp_handle(env, obj);
 
@@ -280,28 +280,28 @@ Java_com_parrot_ftp_FTPClient_ftpAbort(JNIEnv *env, jobject obj)
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_ftp_FTPClient_ftpPut(JNIEnv *env, jobject obj, jstring localName, jstring remoteName, jboolean useResume)
+Java_com_ne0fhyklabs_ftp_FTPClient_ftpPut(JNIEnv *env, jobject obj, jstring localName, jstring remoteName, jboolean useResume)
 {
 	return ftp_ftpPut(env, obj, wrapperCallback, localName, remoteName, useResume);
 }
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_ftp_FTPClient_ftpPutSync(JNIEnv *env, jobject obj, jstring localName, jstring remoteName, jboolean useResume)
+Java_com_ne0fhyklabs_ftp_FTPClient_ftpPutSync(JNIEnv *env, jobject obj, jstring localName, jstring remoteName, jboolean useResume)
 {
 	return ftp_ftpPut(env, obj, NULL, localName, remoteName, useResume);
 }
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_ftp_FTPClient_ftpGet(JNIEnv *env, jobject obj, jstring remoteName, jstring localName, jboolean useResume)
+Java_com_ne0fhyklabs_ftp_FTPClient_ftpGet(JNIEnv *env, jobject obj, jstring remoteName, jstring localName, jboolean useResume)
 {
 	return ftp_ftpGet(env, obj, wrapperCallback, remoteName, localName, useResume);
 }
 
 
 JNIEXPORT jboolean JNICALL
-Java_com_parrot_ftp_FTPClient_ftpGetSync(JNIEnv *env, jobject obj, jstring remoteName, jstring localName, jboolean useResume)
+Java_com_ne0fhyklabs_ftp_FTPClient_ftpGetSync(JNIEnv *env, jobject obj, jstring remoteName, jstring localName, jboolean useResume)
 {
 	return ftp_ftpGet(env, obj, NULL, remoteName, localName, useResume);
 }

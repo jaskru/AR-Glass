@@ -19,6 +19,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.activities.base.DashboardActivityBase;
+import com.ne0fhyklabs.freeflight.fragments.PreConnectionFragment;
 import com.ne0fhyklabs.freeflight.receivers.DroneAvailabilityDelegate;
 import com.ne0fhyklabs.freeflight.receivers.DroneAvailabilityReceiver;
 import com.ne0fhyklabs.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
@@ -146,12 +147,15 @@ public class DashboardActivity extends DashboardActivityBase implements
 
     @Override
     protected boolean onStartFreeflight() {
-        if (!droneOnNetwork) {
-            return false;
+        if (droneOnNetwork) {
+            Intent connectActivity = new Intent(this, ConnectActivity.class);
+            startActivity(connectActivity);
         }
-
-        Intent connectActivity = new Intent(this, ConnectActivity.class);
-        startActivity(connectActivity);
+        else {
+            //Attempt to connect to the drone wifi network if it's enabled.
+            PreConnectionFragment fragment = new PreConnectionFragment();
+            fragment.show(getSupportFragmentManager(), "Pre-connection dialog");
+        }
 
         return true;
     }

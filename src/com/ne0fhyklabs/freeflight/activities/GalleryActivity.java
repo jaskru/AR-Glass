@@ -44,9 +44,8 @@ public class GalleryActivity extends FragmentActivity implements
         OnClickListener,
         OnPageChangeListener,
         GalleryAdapterDelegate,
-        OnGestureListener
+        OnGestureListener {
 
-{
     private static final String TAG = GalleryActivity.class.getSimpleName();
     public static String SELECTED_ELEMENT = "SELECTED_ELEMENT";
     public static String MEDIA_FILTER = "MEDIA_FILTER";

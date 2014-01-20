@@ -38,7 +38,6 @@ import com.ne0fhyklabs.freeflight.settings.ApplicationSettings.EAppSettingProper
 import com.ne0fhyklabs.freeflight.ui.SettingsDialogDelegate;
 import com.ne0fhyklabs.freeflight.ui.SettingsViewController;
 import com.ne0fhyklabs.freeflight.ui.listeners.OnSeekChangedListener;
-import com.ne0fhyklabs.freeflight.utils.FontUtils;
 
 @SuppressLint("ValidFragment")
 public class SettingsDialog extends DialogFragment
@@ -95,8 +94,7 @@ public class SettingsDialog extends DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        ViewGroup v = (ViewGroup) inflater.inflate(R.layout.ff2_settings_screen, container, false);
-        FontUtils.applyFont(getActivity(), v);
+        final ViewGroup v = (ViewGroup) inflater.inflate(R.layout.ff2_settings_screen, container, false);
 
         view = new SettingsViewController(getActivity(), inflater, v, mService.getDroneVersion(), magnetoAvailable);
 
@@ -120,8 +118,8 @@ public class SettingsDialog extends DialogFragment
 
         loadSettings();
 
-        Context context = mService;
-        WifiManager wifiMgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        final Context context = mService;
+        final WifiManager wifiMgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         ownerMac = wifiMgr.getConnectionInfo().getMacAddress();
     }
 
@@ -187,7 +185,7 @@ public class SettingsDialog extends DialogFragment
             view.setAceModeEnabled(false);
         }
 
-        ControlMode mode = appSettings.getControlMode();
+        final ControlMode mode = appSettings.getControlMode();
 
         view.setAceMode(mode == ControlMode.ACE_MODE);
         view.setAcceleroDisabledChecked(mode != ControlMode.ACCELERO_MODE && mode != ControlMode.ACE_MODE);
@@ -260,7 +258,7 @@ public class SettingsDialog extends DialogFragment
     {
         view.disableControlsThatRequireDroneConnection();
 
-        AsyncTask<Integer, Integer, Boolean> resetSettingsTask = new AsyncTask<Integer, Integer, Boolean>()
+        final AsyncTask<Integer, Integer, Boolean> resetSettingsTask = new AsyncTask<Integer, Integer, Boolean>()
         {
             @Override
             protected Boolean doInBackground(Integer... params)
@@ -309,7 +307,7 @@ public class SettingsDialog extends DialogFragment
         switch (buttonView.getId())
         {
         case R.id.toggleAcceleroDisabled: {
-            ControlMode controlMode = (isChecked ? ControlMode.NORMAL_MODE : ControlMode.ACCELERO_MODE);
+            final ControlMode controlMode = (isChecked ? ControlMode.NORMAL_MODE : ControlMode.ACCELERO_MODE);
             appSettings.setControlMode(controlMode);
             delegate.onOptionChangedApp(this, EAppSettingProperty.CONTROL_MODE_PROP, controlMode);
             break;
@@ -391,7 +389,7 @@ public class SettingsDialog extends DialogFragment
                     event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
 
                 // If ssid has not been changed - skipping
-                String newSsid = v.getText().toString();
+                final String newSsid = v.getText().toString();
                 if (newSsid.equals(droneSettings.getNetworkName())) { return false; }
 
                 if (newSsid == null || newSsid.trim().length() == 0) {
@@ -399,7 +397,7 @@ public class SettingsDialog extends DialogFragment
                     v.setText(droneSettings.getNetworkName());
 
                     // Show error message
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage(
                             R.string.the_network_name_can_only_contain_alphanumeric_characters_and_underscores_and_must_not_be_longer_than_32_characters_)
                             .setTitle(R.string.Bad_network_name)
@@ -413,7 +411,7 @@ public class SettingsDialog extends DialogFragment
                                 }
                             });
 
-                    AlertDialog dialog = builder.create();
+                    final AlertDialog dialog = builder.create();
                     dialog.show();
                 } else {
                     // If ssid is valid saving applying it
@@ -424,7 +422,7 @@ public class SettingsDialog extends DialogFragment
                     message = message.replace("{device}", Build.MANUFACTURER.toUpperCase());
                     message = message.replace("{network}", v.getText());
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage(message)
                             .setTitle(context.getString(R.string.your_changes_will_be_applied_after_rebooting_drone))
                             .setCancelable(false)
@@ -439,7 +437,7 @@ public class SettingsDialog extends DialogFragment
 
                             });
 
-                    AlertDialog dialog = builder.create();
+                    final AlertDialog dialog = builder.create();
                     dialog.show();
                 }
             }

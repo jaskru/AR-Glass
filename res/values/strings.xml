@@ -181,4 +181,7 @@
     <string name="menu_edit">Edit</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_share">Share</string>
+
+    <!-- PreConnection fragment strings -->
+    <string name="select_wifi_ap">Select AR Parrot Wifi</string>
 </resources>

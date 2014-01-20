@@ -1279,41 +1279,41 @@ LOAD /home/n-brulez/dev/sdk/android-ndk-r7/platforms/android-14/arch-arm/usr/lib
                 0x0001d1ec       0x58 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .text.update_conn_handler_field
                 0x0001d244       0x58 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .text.Java_com_parrot_ftp_FTPClient_ftpIsConnected
+ .text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpIsConnected
                 0x0001d29c       0x14 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
-                0x0001d29c                Java_com_parrot_ftp_FTPClient_ftpIsConnected
+                0x0001d29c                Java_com_ne0fhyklabs_ftp_FTPClient_ftpIsConnected
  .text.wrapperCallback
                 0x0001d2b0      0x110 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
                 0x0001d2b0                wrapperCallback
  .text.ftp_ftpGet
                 0x0001d3c0       0xdc ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .text.Java_com_parrot_ftp_FTPClient_ftpGetSync
+ .text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpGetSync
                 0x0001d49c       0x1c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
-                0x0001d49c                Java_com_parrot_ftp_FTPClient_ftpGetSync
- .text.Java_com_parrot_ftp_FTPClient_ftpGet
+                0x0001d49c                Java_com_ne0fhyklabs_ftp_FTPClient_ftpGetSync
+ .text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpGet
                 0x0001d4b8       0x24 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
-                0x0001d4b8                Java_com_parrot_ftp_FTPClient_ftpGet
+                0x0001d4b8                Java_com_ne0fhyklabs_ftp_FTPClient_ftpGet
  .text.ftp_ftpPut
                 0x0001d4dc      0x104 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .text.Java_com_parrot_ftp_FTPClient_ftpPutSync
+ .text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpPutSync
                 0x0001d5e0       0x1c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
-                0x0001d5e0                Java_com_parrot_ftp_FTPClient_ftpPutSync
- .text.Java_com_parrot_ftp_FTPClient_ftpPut
+                0x0001d5e0                Java_com_ne0fhyklabs_ftp_FTPClient_ftpPutSync
+ .text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpPut
                 0x0001d5fc       0x24 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
-                0x0001d5fc                Java_com_parrot_ftp_FTPClient_ftpPut
- .text.Java_com_parrot_ftp_FTPClient_ftpAbort
+                0x0001d5fc                Java_com_ne0fhyklabs_ftp_FTPClient_ftpPut
+ .text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpAbort
                 0x0001d620       0x5c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
-                0x0001d620                Java_com_parrot_ftp_FTPClient_ftpAbort
- .text.Java_com_parrot_ftp_FTPClient_ftpDisconnect
+                0x0001d620                Java_com_ne0fhyklabs_ftp_FTPClient_ftpAbort
+ .text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpDisconnect
                 0x0001d67c       0x60 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
-                0x0001d67c                Java_com_parrot_ftp_FTPClient_ftpDisconnect
- .text.Java_com_parrot_ftp_FTPClient_ftpConnect
+                0x0001d67c                Java_com_ne0fhyklabs_ftp_FTPClient_ftpDisconnect
+ .text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpConnect
                 0x0001d6dc       0xc4 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
-                0x0001d6dc                Java_com_parrot_ftp_FTPClient_ftpConnect
+                0x0001d6dc                Java_com_ne0fhyklabs_ftp_FTPClient_ftpConnect
  .text          0x0001d7a0        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/plf_file_stub.o
- .text.Java_com_parrot_plf_PlfFile_getVersionNative
+ .text.Java_com_ne0fhyklabs_plf_PlfFile_getVersionNative
                 0x0001d7a0      0x134 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/plf_file_stub.o
-                0x0001d7a0                Java_com_parrot_plf_PlfFile_getVersionNative
+                0x0001d7a0                Java_com_ne0fhyklabs_plf_PlfFile_getVersionNative
  .text          0x0001d8d4        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
  .text.encoder_expand_buffer_x2_yuv420p
                 0x0001d8d4       0x9c ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
@@ -3931,29 +3931,29 @@ AcDcPred        0x000963d0      0x430
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .ARM.extab.text.update_conn_handler_field
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_ftp_FTPClient_ftpIsConnected
+ .ARM.extab.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpIsConnected
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .ARM.extab.text.wrapperCallback
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .ARM.extab.text.ftp_ftpGet
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_ftp_FTPClient_ftpGetSync
+ .ARM.extab.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpGetSync
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_ftp_FTPClient_ftpGet
+ .ARM.extab.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpGet
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .ARM.extab.text.ftp_ftpPut
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_ftp_FTPClient_ftpPutSync
+ .ARM.extab.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpPutSync
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_ftp_FTPClient_ftpPut
+ .ARM.extab.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpPut
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_ftp_FTPClient_ftpAbort
+ .ARM.extab.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpAbort
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_ftp_FTPClient_ftpDisconnect
+ .ARM.extab.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpDisconnect
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_ftp_FTPClient_ftpConnect
+ .ARM.extab.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpConnect
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.extab.text.Java_com_parrot_plf_PlfFile_getVersionNative
+ .ARM.extab.text.Java_com_ne0fhyklabs_plf_PlfFile_getVersionNative
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/plf_file_stub.o
  .ARM.extab.text.encoder_expand_buffer_x2_yuv420p
                 0x000a1174        0x0 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o
@@ -4306,29 +4306,29 @@ AcDcPred        0x000963d0      0x430
                 0x000a1344        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .ARM.exidx.text.update_conn_handler_field
                 0x000a134c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_ftp_FTPClient_ftpIsConnected
+ .ARM.exidx.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpIsConnected
                 0x000a1354        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .ARM.exidx.text.wrapperCallback
                 0x000a135c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .ARM.exidx.text.ftp_ftpGet
                 0x000a1364        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_ftp_FTPClient_ftpGetSync
+ .ARM.exidx.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpGetSync
                 0x000a136c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_ftp_FTPClient_ftpGet
+ .ARM.exidx.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpGet
                 0x000a1374        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
  .ARM.exidx.text.ftp_ftpPut
                 0x000a137c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_ftp_FTPClient_ftpPutSync
+ .ARM.exidx.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpPutSync
                 0x000a1384        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_ftp_FTPClient_ftpPut
+ .ARM.exidx.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpPut
                 0x000a138c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_ftp_FTPClient_ftpAbort
+ .ARM.exidx.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpAbort
                 0x000a1394        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_ftp_FTPClient_ftpDisconnect
+ .ARM.exidx.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpDisconnect
                 0x000a139c        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_ftp_FTPClient_ftpConnect
+ .ARM.exidx.text.Java_com_ne0fhyklabs_ftp_FTPClient_ftpConnect
                 0x000a13a4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/ftp_client_stub.o
- .ARM.exidx.text.Java_com_parrot_plf_PlfFile_getVersionNative
+ .ARM.exidx.text.Java_com_ne0fhyklabs_plf_PlfFile_getVersionNative
                 0x000a13ac        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/plf_file_stub.o
  .ARM.exidx.text.encoder_expand_buffer_x2_yuv420p
                 0x000a13b4        0x8 ./obj/local/armeabi-v7a/objs/adfreeflight/Stubs/transcoding_service_stub.o

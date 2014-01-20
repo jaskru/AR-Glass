@@ -82,11 +82,7 @@
                 android:value=".activities.DashboardActivity"/>
             </activity>
 
-        <activity
-            android:name=".activities.GalleryActivity"
-            android:finishOnTaskLaunch="true"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="landscape"/>
+        <activity android:name=".activities.GalleryActivity"/>
 
         <service android:name=".transcodeservice.TranscodingService">
         </service>
