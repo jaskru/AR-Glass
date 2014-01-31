@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.path="$MODULE_DIR$/../../../libs/ARDrone_SDK_2_0_1/Examples/Android/trunk/adfreeflight" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
-  <component name="EclipseModuleManager" forced_jdk="true">
-    <conelement value="com.android.ide.eclipse.adt.DEPENDENCIES" />
-    <src_description expected_position="1">
-      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
-      <src_folder value="file://$MODULE_DIR$/gen" expected_position="1" />
-      <src_folder value="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK" expected_position="2" />
-      <src_folder value="com.android.ide.eclipse.adt.LIBRARIES" expected_position="3" />
-    </src_description>
-  </component>
   <component name="FacetManager">
+    <facet type="android-gradle" name="Android-Gradle">
+      <configuration>
+        <option name="GRADLE_PROJECT_PATH" value=":" />
+      </configuration>
+    </facet>
     <facet type="android" name="Android">
       <configuration>
         <option name="SELECTED_BUILD_VARIANT" value="armDebug" />
@@ -19,18 +15,11 @@
         <option name="SOURCE_GEN_TASK_NAME" value="generateArmDebugSources" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../libs/ARDrone_SDK_2_0_1/Examples/Android/trunk/adfreeflight/res" />
-        <option name="CUSTOM_DEBUG_KEYSTORE_PATH" value="file://$USER_HOME$/.android/debug.keystore" />
-      </configuration>
-    </facet>
-    <facet type="android-gradle" name="Android-Gradle">
-      <configuration>
-        <option name="GRADLE_PROJECT_PATH" value=":" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../../../libs/ARDrone_SDK_2_0_1/Examples/Android/trunk/adfreeflight/build/classes/arm/debug" />
-    <output-test url="file://$MODULE_DIR$/build/classes/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../libs/ARDrone_SDK_2_0_1/Examples/Android/trunk/adfreeflight">
       <sourceFolder url="file://$MODULE_DIR$/../../../libs/ARDrone_SDK_2_0_1/Examples/Android/trunk/adfreeflight/build-types/debug/rs" isTestSource="false" />

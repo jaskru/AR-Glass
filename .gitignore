@@ -6,3 +6,7 @@ gradle
 .gradle
 gradlew*
 *.iml
+.idea
+.idea/*
+build
+.cache
