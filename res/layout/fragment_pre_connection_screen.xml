@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:id="@+id/wifi_scan_progress_bar"
         android:padding="5dp"
         android:visibility="visible"/>
@@ -19,7 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_toStartOf="@+id/wifi_scan_progress_bar"
+        android:layout_toLeftOf="@+id/wifi_scan_progress_bar"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:padding="15dp"
         android:textStyle="italic"
@@ -31,7 +34,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/background_light"
-        android:stackFromBottom="true"
         android:layout_below="@+id/wifi_device_list_title"
         />
 </RelativeLayout>

@@ -166,6 +166,10 @@ public class PreConnectionFragment extends DialogFragment {
         mWifiApsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Don't register the click if connection is already processing on the same view.
+                if(mARParrotApView == view)
+                    return;
+
                 final ScanResult scanResult = (ScanResult) parent.getItemAtPosition(position);
 
                 final WifiConfiguration wifiConf = new WifiConfiguration();

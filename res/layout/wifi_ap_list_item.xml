@@ -3,14 +3,18 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"    >
+    android:layout_height="match_parent"
+    android:gravity="center">
 
     <TextView
         android:id="@+id/wifi_ap_ssid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="?android:attr/listPreferredItemPaddingLeft"
+        android:layout_marginStart="?android:attr/listPreferredItemPaddingLeft"
         android:layout_marginTop="8dip"
+        android:layout_toLeftOf="@+id/wifi_ap_connection_progress"
+        android:layout_toStartOf="@+id/wifi_ap_connection_progress"
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:padding="5dp"
         android:textColor="@android:color/background_dark"        />
@@ -19,6 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
         android:id="@+id/wifi_ap_connection_progress"
         android:visibility="invisible"/>
 
@@ -28,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/wifi_ap_ssid"
         android:layout_alignLeft="@+id/wifi_ap_ssid"
+        android:layout_alignStart="@+id/wifi_ap_ssid"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/background_dark"

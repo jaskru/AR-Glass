@@ -13,41 +13,88 @@
     android:paddingBottom="@dimen/dashboard_content_vertical_padding"
     android:visibility="visible">
 
-    <CheckedTextView
-        android:id="@+id/btnFreeFlight"
-        style="@style/dashboardButton"
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
-        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin"
         android:layout_weight="1"
-        android:clickable="true"
-        android:focusable="true"
-        android:lines="2"
-        android:maxLines="3"
-        android:text="@string/PILOTING"/>
+        android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
+        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin"      >
 
-    <CheckedTextView
-        android:id="@+id/btnPhotosVideos"
-        style="@style/dashboardButton"
+        <CheckedTextView
+            android:id="@+id/btnFreeFlight"
+            style="@style/dashboardButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:lines="2"
+            android:maxLines="3"
+            android:layout_above="@+id/btnFreeFlightShadow"
+            android:text="@string/PILOTING"/>
+
+        <ImageView
+            android:id="@+id/btnFreeFlightShadow"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:src="@drawable/title_bar_shadow"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
-        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin"
-        android:focusable="true"
         android:layout_weight="1"
-        android:text="@string/PHOTOS_VIDEOS"/>
+        android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
+        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin">
+
+        <CheckedTextView
+            android:id="@+id/btnPhotosVideos"
+            style="@style/dashboardButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:layout_above="@+id/btnPhotosVideosShadow"
+            android:text="@string/PHOTOS_VIDEOS"/>
+
+        <ImageView
+            android:id="@+id/btnPhotosVideosShadow"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:src="@drawable/title_bar_shadow"
+            android:scaleType="fitXY"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
+        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin">
 
     <CheckedTextView
         android:id="@+id/btnSettings"
         style="@style/dashboardButton"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/dashboard_button_horizontal_margin"
-        android:layout_marginEnd="@dimen/dashboard_button_horizontal_margin"
         android:focusable="true"
-        android:layout_weight="1"
         android:text="@string/ar_settings"
+        android:layout_above="@+id/btnSettingsShadow"
         android:checked="false"/>
+
+        <ImageView
+            android:id="@+id/btnSettingsShadow"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:src="@drawable/title_bar_shadow"
+            android:scaleType="fitXY"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
 
 </LinearLayout>
