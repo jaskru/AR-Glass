@@ -8,16 +8,17 @@
 package com.ne0fhyklabs.freeflight.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.TextView;
+
 import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.drone.NavData;
 import com.ne0fhyklabs.freeflight.ui.hud.Button;
@@ -30,8 +31,8 @@ import com.ne0fhyklabs.freeflight.ui.hud.Text;
 import com.ne0fhyklabs.freeflight.ui.hud.ToggleButton;
 import com.ne0fhyklabs.freeflight.video.VideoStageRenderer;
 
-public class HudViewController implements OnTouchListener
-{
+public class HudViewController extends GLSurfaceView {
+
     private static final String TAG = HudViewController.class.getName();
 
     private static final int ALERT_ID = 3;
@@ -79,28 +80,25 @@ public class HudViewController implements OnTouchListener
     private Text txtUsbRemaining;
     private Text txtPitchValue;
 
-    private GLSurfaceView glView;
-
     private VideoStageRenderer renderer;
-    private Activity context;
 
     private int prevRemainingTime;
 
     private SparseIntArray emergencyStringMap;
 
-    public HudViewController(Activity context)
-    {
-        this.context = context;
+    public HudViewController(Context context) {
+        this(context, null);
+    }
 
-        glView = new GLSurfaceView(context);
-        glView.setEGLContextClientVersion(2);
+    public HudViewController(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
-        context.setContentView(glView);
+        setEGLContextClientVersion(2);
 
         renderer = new VideoStageRenderer(context, null);
+        setRenderer(renderer);
 
         initNavdataStrings();
-        initGLSurfaceView();
 
         final Resources res = context.getResources();
 
@@ -268,23 +266,13 @@ public class HudViewController implements OnTouchListener
         emergencyStringMap.put(NavData.ERROR_STATE_EMERGENCY_UNKNOWN, R.string.UNKNOWN_EMERGENCY);
     }
 
-    private void initGLSurfaceView() {
-        if ( glView != null ) {
-            glView.setRenderer(renderer);
-            glView.setOnTouchListener(this);
-        }
-    }
-
-    public boolean isInTouchMode() {
-        return glView.isInTouchMode();
-    }
-
     public void addControllerSprites(Sprite[] sprites) {
         final int spritesCount = sprites.length;
         if ( spritesCount == 0 )
             return;
 
-        final int margin = context.getResources().getDimensionPixelSize(R.dimen.hud_joy_margin);
+        final int margin = getContext().getResources().getDimensionPixelSize(R.dimen
+                .hud_joy_margin);
         for ( int i = 0; i < spritesCount; i++ ) {
             final Sprite sprite = sprites[i];
             sprite.setMargin(0, margin, bottomBarBg.getHeight() + margin, margin);
@@ -465,23 +453,14 @@ public class HudViewController implements OnTouchListener
         btnPhoto.setEnabled(enabled);
     }
 
-    public void setFpsVisible(final boolean visible)
-    {
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if ( visible ) {
-                    // txtVideoFps.setVisibility(View.VISIBLE);
-                    txtSceneFps.setVisibility(View.VISIBLE);
-                }
-                else {
-                    // txtVideoFps.setVisibility(View.INVISIBLE);
-                    txtSceneFps.setVisibility(View.INVISIBLE);
-                }
-            }
-        };
-
-        context.runOnUiThread(runnable);
+    public void setFpsVisible(final boolean visible) {
+        if (visible) {
+            // txtVideoFps.setVisibility(View.VISIBLE);
+            txtSceneFps.setVisibility(View.VISIBLE);
+        } else {
+            // txtVideoFps.setVisibility(View.INVISIBLE);
+            txtSceneFps.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void setEmergency(final int code)
@@ -489,7 +468,7 @@ public class HudViewController implements OnTouchListener
         final int res = emergencyStringMap.get(code);
 
         if ( res != 0 ) {
-            txtAlert.setText(context.getString(res));
+            txtAlert.setText(getContext().getString(res));
             txtAlert.setVisibility(Text.VISIBLE);
             txtAlert.blink(true);
         }
@@ -573,23 +552,12 @@ public class HudViewController implements OnTouchListener
         this.btnCameraSwitch.setOnClickListener(listener);
     }
 
-    public void onPause()
-    {
-        glView.onPause();
-    }
-
-    public void onResume()
-    {
-        glView.onResume();
-    }
-
     @Override
-    public boolean onTouch(View v, MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
         boolean result = false;
 
         for (final Button button: buttons) {
-            if ( button.processTouch(v, event) ) {
+            if (button.processTouch(this, event)) {
                 result = true;
                 break;
             }
@@ -609,11 +577,6 @@ public class HudViewController implements OnTouchListener
             return;
 
         btnBack.setOnClickListener(listener);
-    }
-
-    public View getRootView()
-    {
-        return glView;
     }
 
     public void setEmergencyButtonEnabled(boolean enabled)

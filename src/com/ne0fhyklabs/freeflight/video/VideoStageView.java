@@ -7,10 +7,7 @@ import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class VideoStageView extends SurfaceView 
-implements 
-	SurfaceHolder.Callback
-{
+public class VideoStageView extends SurfaceView implements	SurfaceHolder.Callback{
 	public static boolean SHOW_FPS = false;
     //Measure frames per second.
     long now;

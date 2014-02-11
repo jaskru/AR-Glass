@@ -1,0 +1,2 @@
+include ':AndroHud'
+project(':AndroHud').projectDir = new File('/home/fhuya/playground/android/projects/AndroHud')
