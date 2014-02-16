@@ -163,8 +163,7 @@ public class DashboardActivity extends DashboardActivityBase implements
 
     @Override
     protected boolean onStartSettings() {
-        //TODO: complete settings implementation
-		SettingsDialog settings = new SettingsDialog();
+        startActivity(new Intent(this, SettingsActivity.class));
         return true;
     }
 

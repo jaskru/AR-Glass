@@ -57,6 +57,10 @@
         </activity>
 
         <activity
+            android:name=".activities.SettingsActivity"
+            android:launchMode="singleTask"/>
+
+        <activity
             android:name=".activities.ConnectActivity"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"

@@ -38,10 +38,7 @@ import com.ne0fhyklabs.freeflight.ui.listeners.OnSeekChangedListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsViewController
-        implements OnPageChangeListener,
-        OnClickListener
-{
+public class SettingsViewController implements OnPageChangeListener, OnClickListener {
 
     private static final String TAG = "SettingsViewController";
 
@@ -211,7 +208,7 @@ public class SettingsViewController
             throw new IllegalStateException("Can't determine drone version");
         }
 
-        settingsViews = initializePages(inflater, pageIds, droneVersion);
+        settingsViews = initializePages(inflater, pageIds);
 
         viewPager = (ViewPager) container.findViewById(R.id.viewPager);
         viewPager.setAdapter(new SettingsViewAdapter(settingsViews));
@@ -385,7 +382,7 @@ public class SettingsViewController
     }
 
 
-    private List<View> initializePages(LayoutInflater inflater, int[] pageIds, EDroneVersion version)
+    private List<View> initializePages(LayoutInflater inflater, int[] pageIds)
     {
         final ArrayList<View> result = new ArrayList<View>(pageIds.length);
 

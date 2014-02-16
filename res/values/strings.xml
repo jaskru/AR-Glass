@@ -184,4 +184,7 @@
 
     <!-- PreConnection fragment strings -->
     <string name="select_wifi_ap">Select AR Parrot Wifi</string>
+    <string name="key_abs_control">toggleAbsoluteControl</string>
+    <string name="key_abs_control_calibration">absoluteControlCalibration</string>
+    <string name="key_device_tilt">seekDeviceTiltMax</string>
 </resources>

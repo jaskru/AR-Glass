@@ -25,6 +25,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
 import com.ne0fhyklabs.freeflight.FreeFlightApplication;
 import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig;
@@ -40,17 +41,13 @@ import com.ne0fhyklabs.freeflight.ui.SettingsViewController;
 import com.ne0fhyklabs.freeflight.ui.listeners.OnSeekChangedListener;
 
 @SuppressLint("ValidFragment")
-public class SettingsDialog extends DialogFragment
-        implements
+public class SettingsDialog extends DialogFragment implements
         OnCheckedChangeListener,
         OnSeekChangedListener,
         OnEditorActionListener,
         android.widget.RadioGroup.OnCheckedChangeListener,
         android.view.View.OnClickListener,
-        DroneConfigChangedReceiverDelegate
-{
-    public static final int RESULT_OK = 0;
-    public static final int RESULT_CLOSE_APP = 1;
+        DroneConfigChangedReceiverDelegate {
 
     private static final String TAG = SettingsDialog.class.getSimpleName();
     private static final String NULL_MAC = "00:00:00:00:00:00";
@@ -69,9 +66,8 @@ public class SettingsDialog extends DialogFragment
     private boolean magnetoAvailable;
     private boolean acceleroAvailable;
 
-    public SettingsDialog(Context context, SettingsDialogDelegate delegate, DroneControlService service,
-            boolean magnetoAvailable)
-    {
+    public SettingsDialog(Context context, SettingsDialogDelegate delegate,
+                          DroneControlService service, boolean magnetoAvailable) {
         super();
         this.delegate = delegate;
 
@@ -82,21 +78,22 @@ public class SettingsDialog extends DialogFragment
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configChangedReceiver = new DroneConfigChangedReceiver(this);
 
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.FreeFlightTheme_SettingsScreen);
+        setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        final ViewGroup v = (ViewGroup) inflater.inflate(R.layout.ff2_settings_screen, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final ViewGroup v = (ViewGroup) inflater.inflate(R.layout.ff2_settings_screen, container,
+                false);
 
-        view = new SettingsViewController(getActivity(), inflater, v, mService.getDroneVersion(), magnetoAvailable);
+        view = new SettingsViewController(getActivity(), inflater, v, mService.getDroneVersion(),
+                magnetoAvailable);
 
         if (delegate != null) {
             this.delegate.prepareDialog(this);
@@ -107,13 +104,13 @@ public class SettingsDialog extends DialogFragment
 
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
 
         droneSettings = mService.getDroneConfig();
 
-        LocalBroadcastManager.getInstance(mService.getApplicationContext()).registerReceiver(configChangedReceiver,
+        LocalBroadcastManager.getInstance(mService.getApplicationContext()).registerReceiver
+                (configChangedReceiver,
                 new IntentFilter(DroneControlService.DRONE_CONFIG_STATE_CHANGED_ACTION));
 
         loadSettings();
@@ -125,9 +122,9 @@ public class SettingsDialog extends DialogFragment
 
 
     @Override
-    public void onStop()
-    {
-        LocalBroadcastManager.getInstance(mService.getApplicationContext()).unregisterReceiver(configChangedReceiver);
+    public void onStop() {
+        LocalBroadcastManager.getInstance(mService.getApplicationContext()).unregisterReceiver
+                (configChangedReceiver);
 
         if (loadSettingsTask != null) {
             loadSettingsTask.cancel(true);
@@ -136,16 +133,8 @@ public class SettingsDialog extends DialogFragment
         super.onStop();
     }
 
-
-    public void onOkClicked(View v)
-    {
-        dismiss();
-    }
-
-
     @Override
-    public void onDismiss(DialogInterface dialog)
-    {
+    public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
 
         if (delegate != null) {
@@ -154,8 +143,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
-    private void initListeners()
-    {
+    private void initListeners() {
         view.setToggleButtonsCheckedListener(this);
         view.setSeekBarsOnChangeListener(this);
         view.setNetworkNameOnEditorActionListener(this);
@@ -164,8 +152,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
-    private void loadSettings()
-    {
+    private void loadSettings() {
         appSettings = ((FreeFlightApplication) mService.getApplicationContext()).getAppSettings();
 
         fillUiControls();
@@ -176,8 +163,7 @@ public class SettingsDialog extends DialogFragment
     }
 
 
-    protected void fillUiControls()
-    {
+    protected void fillUiControls() {
         view.setLeftHandedChecked(appSettings.isLeftHanded());
 
         if (appSettings.isCombinedControlForced()) {
@@ -188,7 +174,8 @@ public class SettingsDialog extends DialogFragment
         final ControlMode mode = appSettings.getControlMode();
 
         view.setAceMode(mode == ControlMode.ACE_MODE);
-        view.setAcceleroDisabledChecked(mode != ControlMode.ACCELERO_MODE && mode != ControlMode.ACE_MODE);
+        view.setAcceleroDisabledChecked(mode != ControlMode.ACCELERO_MODE && mode != ControlMode
+                .ACE_MODE);
         view.setAcceleroDisabledEnabled(mode != ControlMode.ACE_MODE);
 
         view.setAbsoluteControlChecked(appSettings.isAbsoluteControlEnabled());
@@ -203,25 +190,31 @@ public class SettingsDialog extends DialogFragment
             droneSettings = mService.getDroneConfig();
 
             if (droneSettings != null) {
-                view.setDroneVersion(droneSettings.getHardwareVersion(), droneSettings.getSoftwareVersion());
+                view.setDroneVersion(droneSettings.getHardwareVersion(),
+                        droneSettings.getSoftwareVersion());
 
                 view.setRecordOnUsb(droneSettings.isRecordOnUsb());
 
                 view.setInertialVersion(droneSettings.getInertialHardwareVersion(),
                         droneSettings.getInertialSoftwareVersion());
 
-                view.setMotorVersion(0, droneSettings.getMotor1Vendor(), droneSettings.getMotor1HardVersion(),
+                view.setMotorVersion(0, droneSettings.getMotor1Vendor(),
+                        droneSettings.getMotor1HardVersion(),
                         droneSettings.getMotor1SoftVersion());
-                view.setMotorVersion(1, droneSettings.getMotor2Vendor(), droneSettings.getMotor2HardVersion(),
+                view.setMotorVersion(1, droneSettings.getMotor2Vendor(),
+                        droneSettings.getMotor2HardVersion(),
                         droneSettings.getMotor2SoftVersion());
-                view.setMotorVersion(2, droneSettings.getMotor3Vendor(), droneSettings.getMotor3HardVersion(),
+                view.setMotorVersion(2, droneSettings.getMotor3Vendor(),
+                        droneSettings.getMotor3HardVersion(),
                         droneSettings.getMotor3SoftVersion());
-                view.setMotorVersion(3, droneSettings.getMotor4Vendor(), droneSettings.getMotor4HardVersion(),
+                view.setMotorVersion(3, droneSettings.getMotor4Vendor(),
+                        droneSettings.getMotor4HardVersion(),
                         droneSettings.getMotor4SoftVersion());
 
                 Log.d(TAG, "config.ownerMac = " + droneSettings.getOwnerMac());
 
-                if (droneSettings.getOwnerMac() != null && !droneSettings.getOwnerMac().equalsIgnoreCase(NULL_MAC)) {
+                if (droneSettings.getOwnerMac() != null && !droneSettings.getOwnerMac()
+                        .equalsIgnoreCase(NULL_MAC)) {
                     view.setPairing(true);
                 } else {
                     view.setPairing(false);
@@ -254,15 +247,13 @@ public class SettingsDialog extends DialogFragment
     }
 
 
-    public void onDefaultSettingsClicked(View v)
-    {
+    public void onDefaultSettingsClicked(View v) {
         view.disableControlsThatRequireDroneConnection();
 
-        final AsyncTask<Integer, Integer, Boolean> resetSettingsTask = new AsyncTask<Integer, Integer, Boolean>()
-        {
+        final AsyncTask<Integer, Integer, Boolean> resetSettingsTask = new AsyncTask<Integer,
+                Integer, Boolean>() {
             @Override
-            protected Boolean doInBackground(Integer... params)
-            {
+            protected Boolean doInBackground(Integer... params) {
 
                 appSettings.setInterfaceOpacity(ApplicationSettings.DEFAULT_INTERFACE_OPACITY);
 
@@ -284,8 +275,7 @@ public class SettingsDialog extends DialogFragment
 
 
             @Override
-            protected void onPostExecute(Boolean result)
-            {
+            protected void onPostExecute(Boolean result) {
                 fillUiControls();
                 mService.requestConfigUpdate();
             }
@@ -295,90 +285,89 @@ public class SettingsDialog extends DialogFragment
     }
 
 
-    public void onFlatTrimClicked(View v)
-    {
+    public void onFlatTrimClicked(View v) {
         mService.flatTrim();
     }
 
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-    {
-        switch (buttonView.getId())
-        {
-        case R.id.toggleAcceleroDisabled: {
-            final ControlMode controlMode = (isChecked ? ControlMode.NORMAL_MODE : ControlMode.ACCELERO_MODE);
-            appSettings.setControlMode(controlMode);
-            delegate.onOptionChangedApp(this, EAppSettingProperty.CONTROL_MODE_PROP, controlMode);
-            break;
-        }
-        case R.id.toggleAbsoluteControl:
-            appSettings.setAbsoluteControlEnabled(isChecked);
-            delegate.onOptionChangedApp(this, EAppSettingProperty.MAGNETO_ENABLED_PROP, isChecked);
-            break;
-        case R.id.toggleLeftHanded:
-            appSettings.setLeftHanded(isChecked);
-            delegate.onOptionChangedApp(this, EAppSettingProperty.LEFT_HANDED_PROP, isChecked);
-            break;
-        case R.id.toggleUsbRecord:
-            droneSettings.setRecordOnUsb(isChecked);
-            break;
-        case R.id.toggleLoopingEnabled:
-            appSettings.setFlipEnabled(isChecked);
-            break;
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.toggleAcceleroDisabled: {
+                final ControlMode controlMode = (isChecked ? ControlMode.NORMAL_MODE :
+                        ControlMode.ACCELERO_MODE);
+                appSettings.setControlMode(controlMode);
+                delegate.onOptionChangedApp(this, EAppSettingProperty.CONTROL_MODE_PROP,
+                        controlMode);
+                break;
+            }
+            case R.id.toggleAbsoluteControl:
+                appSettings.setAbsoluteControlEnabled(isChecked);
+                delegate.onOptionChangedApp(this, EAppSettingProperty.MAGNETO_ENABLED_PROP,
+                        isChecked);
+                break;
+            case R.id.toggleLeftHanded:
+                appSettings.setLeftHanded(isChecked);
+                delegate.onOptionChangedApp(this, EAppSettingProperty.LEFT_HANDED_PROP, isChecked);
+                break;
+            case R.id.toggleUsbRecord:
+                droneSettings.setRecordOnUsb(isChecked);
+                break;
+            case R.id.toggleLoopingEnabled:
+                appSettings.setFlipEnabled(isChecked);
+                break;
             case R.id.toggleOculusMode:
                 appSettings.setOculusModeEnabled(isChecked);
                 break;
-        case R.id.toggleOutdoorHull:
-            droneSettings.setOutdoorHull(isChecked);
-            break;
-        case R.id.toggleAdaptiveVideo:
-            droneSettings.setAdaptiveVideo(isChecked);
-            break;
-        case R.id.togglePairing:
-            droneSettings.setOwnerMac(isChecked ? ownerMac : NULL_MAC);
-            break;
-        case R.id.toggleOutdoorFlight:
-            view.setOutdoorFlightControlsEnabled(false);
-            droneSettings.setOutdoorFlight(isChecked);
-            mService.triggerConfigUpdate();
-            break;
-        default:
-            Log.d(TAG, "Unknown button");
+            case R.id.toggleOutdoorHull:
+                droneSettings.setOutdoorHull(isChecked);
+                break;
+            case R.id.toggleAdaptiveVideo:
+                droneSettings.setAdaptiveVideo(isChecked);
+                break;
+            case R.id.togglePairing:
+                droneSettings.setOwnerMac(isChecked ? ownerMac : NULL_MAC);
+                break;
+            case R.id.toggleOutdoorFlight:
+                view.setOutdoorFlightControlsEnabled(false);
+                droneSettings.setOutdoorFlight(isChecked);
+                mService.triggerConfigUpdate();
+                break;
+            default:
+                Log.d(TAG, "Unknown button");
         }
     }
 
 
     @Override
-    public void onChanged(SeekBar seek, int value)
-    {
+    public void onChanged(SeekBar seek, int value) {
         switch (seek.getId()) {
-        case R.id.seekAltitudeLimit:
-            droneSettings.setAltitudeLimit(view.getAltitudeLimit());
-            break;
-        case R.id.seekDeviceTiltMax:
-            droneSettings.setDeviceTiltMax(view.getTiltMax());
-            break;
-        case R.id.seekInterfaceOpacity:
-            appSettings.setInterfaceOpacity(view.getInterfaceOpacity());
-            delegate.onOptionChangedApp(this, EAppSettingProperty.INTERFACE_OPACITY_PROP, value);
-            break;
-        case R.id.seekYawSpeedMax:
-            droneSettings.setYawSpeedMax(view.getYawSpeedMax());
-            break;
-        case R.id.seekVerticalSpeedMax:
-            droneSettings.setVertSpeedMax(view.getVerticalSpeedMax());
-            break;
-        case R.id.seekTiltMax:
-            droneSettings.setTilt(view.getTilt());
-            break;
+            case R.id.seekAltitudeLimit:
+                droneSettings.setAltitudeLimit(view.getAltitudeLimit());
+                break;
+            case R.id.seekDeviceTiltMax:
+                droneSettings.setDeviceTiltMax(view.getTiltMax());
+                break;
+            case R.id.seekInterfaceOpacity:
+                appSettings.setInterfaceOpacity(view.getInterfaceOpacity());
+                delegate.onOptionChangedApp(this, EAppSettingProperty.INTERFACE_OPACITY_PROP,
+                        value);
+                break;
+            case R.id.seekYawSpeedMax:
+                droneSettings.setYawSpeedMax(view.getYawSpeedMax());
+                break;
+            case R.id.seekVerticalSpeedMax:
+                droneSettings.setVertSpeedMax(view.getVerticalSpeedMax());
+                break;
+            case R.id.seekTiltMax:
+                droneSettings.setTilt(view.getTilt());
+                break;
         }
     }
 
 
     @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-    {
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (v.getId() == R.id.editNetworkName) {
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     actionId == EditorInfo.IME_ACTION_DONE ||
@@ -386,11 +375,13 @@ public class SettingsDialog extends DialogFragment
                     actionId == EditorInfo.IME_ACTION_UNSPECIFIED ||
                     (event != null &&
                             event.getAction() == KeyEvent.ACTION_DOWN &&
-                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
 
                 // If ssid has not been changed - skipping
                 final String newSsid = v.getText().toString();
-                if (newSsid.equals(droneSettings.getNetworkName())) { return false; }
+                if (newSsid.equals(droneSettings.getNetworkName())) {
+                    return false;
+                }
 
                 if (newSsid == null || newSsid.trim().length() == 0) {
                     // If ssid is not valid restoring previous one
@@ -405,8 +396,7 @@ public class SettingsDialog extends DialogFragment
                             .setIcon(android.R.drawable.ic_dialog_info)
                             .setNegativeButton(android.R.string.ok, new OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which)
-                                {
+                                public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
                             });
@@ -418,20 +408,21 @@ public class SettingsDialog extends DialogFragment
                     droneSettings.setNetworkName(v.getText().toString());
 
                     // Displaying instructions to reconnect to the drone
-                    String message = context.getString(R.string.quit_app_reboot_drone_connect_to_network);
+                    String message = context.getString(R.string
+                            .quit_app_reboot_drone_connect_to_network);
                     message = message.replace("{device}", Build.MANUFACTURER.toUpperCase());
                     message = message.replace("{network}", v.getText());
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage(message)
-                            .setTitle(context.getString(R.string.your_changes_will_be_applied_after_rebooting_drone))
+                            .setTitle(context.getString(R.string
+                                    .your_changes_will_be_applied_after_rebooting_drone))
                             .setCancelable(false)
                             .setIcon(android.R.drawable.ic_dialog_info)
                             .setPositiveButton(android.R.string.ok, new OnClickListener() {
 
                                 @Override
-                                public void onClick(DialogInterface dialog, int which)
-                                {
+                                public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
 
@@ -450,78 +441,69 @@ public class SettingsDialog extends DialogFragment
 
 
     @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId)
-    {
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
-        case R.id.rbVideoP264:
-            droneSettings.setVideoCodec(DroneConfig.P264_CODEC);
-            break;
-        case R.id.rbVideoVLIB:
-            droneSettings.setVideoCodec(DroneConfig.UVLC_CODEC);
-            break;
+            case R.id.rbVideoP264:
+                droneSettings.setVideoCodec(DroneConfig.P264_CODEC);
+                break;
+            case R.id.rbVideoVLIB:
+                droneSettings.setVideoCodec(DroneConfig.UVLC_CODEC);
+                break;
         }
     }
 
 
     @Override
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
         switch (v.getId()) {
-        case R.id.btnDefaultSettings:
-            onDefaultSettingsClicked(v);
-            break;
-        case R.id.btnFlatTrim:
-            onFlatTrimClicked(v);
-            break;
-        case R.id.btnBack:
-            dismiss();
-            break;
-        case R.id.btnCalibration:
-            onCalibrate();
+            case R.id.btnDefaultSettings:
+                onDefaultSettingsClicked(v);
+                break;
+            case R.id.btnFlatTrim:
+                onFlatTrimClicked(v);
+                break;
+            case R.id.btnBack:
+                dismiss();
+                break;
+            case R.id.btnCalibration:
+                onCalibrate();
         }
     }
 
 
-    private void onCalibrate()
-    {
+    private void onCalibrate() {
         mService.calibrateMagneto();
     }
 
 
-    public void setConnected(boolean connected)
-    {
+    public void setConnected(boolean connected) {
         view.setConnected(connected);
     }
 
 
-    public void setMagnetoAvailable(boolean available)
-    {
+    public void setMagnetoAvailable(boolean available) {
         view.setMagnetoAvailable(available);
     }
 
 
-    public void setAcceleroAvailable(boolean available)
-    {
+    public void setAcceleroAvailable(boolean available) {
         acceleroAvailable = available;
         view.setAcceleroAvailable(available);
     }
 
 
-    public void setFlying(boolean flying)
-    {
+    public void setFlying(boolean flying) {
         view.setFlying(flying);
     }
 
 
-    public void enableAvailableSettings()
-    {
+    public void enableAvailableSettings() {
         view.enableAvailableSettings();
     }
 
 
     @Override
-    public void onDroneConfigChanged()
-    {
+    public void onDroneConfigChanged() {
         fillUiControls();
         view.enableAvailableSettings();
     }
