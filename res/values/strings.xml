@@ -187,4 +187,8 @@
     <string name="key_abs_control">toggleAbsoluteControl</string>
     <string name="key_abs_control_calibration">absoluteControlCalibration</string>
     <string name="key_device_tilt">seekDeviceTiltMax</string>
+    <string name="key_ar_hardware_version">ar_drone_hardware_version</string>
+    <string name="key_ar_software_version">ar_drone_software_version</string>
+    <string name="key_network_name">networkName</string>
+    <string name="key_network_pairing">togglePairing</string>
 </resources>

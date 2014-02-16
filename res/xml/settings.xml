@@ -6,12 +6,12 @@
     <PreferenceScreen android:title="@string/PERSONAL_SETTINGS">
 
         <Preference
-            android:key="networkName"
+            android:key="@string/key_network_name"
             android:summary="@string/network_name"
             android:enabled="false"/>
 
         <CheckBoxPreference
-            android:key="togglePairing"
+            android:key="@string/key_network_pairing"
             android:checked="true"
             android:title="@string/pairing"/>
 
@@ -98,12 +98,12 @@
             android:enabled="false"/>
 
         <Preference
-            android:key="ar_drone_hardware_version"
+            android:key="@string/key_ar_hardware_version"
             android:title="AR Drone Hardware"
             android:enabled="false"/>
 
         <Preference
-            android:key="ar_drone_software_version"
+            android:key="@string/key_ar_software_version"
             android:title="AR Drone Software"
             android:enabled="false"/>
     </PreferenceCategory>

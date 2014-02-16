@@ -93,6 +93,35 @@ public class SettingsFragment extends PreferenceFragment {
         if(deviceTilt != null){
             deviceTilt.setOnPreferenceChangeListener(mPrefChangeListener);
         }
+
+        /*
+        Status section
+         */
+        final Preference arHardwareVersion = prefs.findPreference(getString(R.string
+                .key_ar_hardware_version));
+        if(arHardwareVersion != null){
+
+        }
+
+        final Preference arSoftwareVersion = prefs.findPreference(getString(R.string
+                .key_ar_software_version));
+        if(arSoftwareVersion != null){
+
+        }
+
+        /*
+        Personal settings
+         */
+        final Preference networkPref = prefs.findPreference(getText(R.string.key_network_name));
+        if(networkPref != null){
+
+        }
+
+        final CheckBoxPreference pairingPref = (CheckBoxPreference) prefs.findPreference(getText
+                (R.string.key_network_pairing));
+        if(pairingPref != null){
+
+        }
     }
 
 }
