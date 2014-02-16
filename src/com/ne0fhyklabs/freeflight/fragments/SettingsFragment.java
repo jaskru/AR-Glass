@@ -122,6 +122,49 @@ public class SettingsFragment extends PreferenceFragment {
         if(pairingPref != null){
 
         }
+		
+		final CheckBoxPreference usbRecordPref = (CheckBoxPreference) prefs.findPreference(null);
+		if(usbRecordPref != null){
+			
+		}
+		
+		final CheckBoxPreference flipPref = (CheckBoxPreference) prefs.findPreference(null);
+		if(flipPref != null){
+			
+		}
+		
+		/*
+		Flight section
+		*/
+		final SeekBarPreference altPref = (SeekBarPreference) prefs.findPreference(null);
+		if(altPref!= null){
+			
+		}
+		
+		final SeekBarPreference vertSpeedPref = (SeekBarPreference) prefs.findPreference(null);
+		if(vertSpeedPref != null){
+			
+		}
+		
+		final SeekBarPreference yawSpeedPref = (SeekBarPreference) prefs.findPreference(null);
+		if(yawSpeedPref != null){
+			
+		}
+		
+		final SeekBarPreference tiltPref = (SeekBarPreference) prefs.findPreference(null);
+		if(tiltPref != null){
+			
+		}
+		
+		final CheckBoxPreference outdoorHullPref = (CheckBoxPreference) prefs.findPreference(null);
+		if(outdoorHullPref != null){
+			
+		}
+		
+		final CheckBoxPreference outdoorFlightPref = (CheckBoxPreference) prefs.findPreference(null);
+		if(outdoorFlightPref != null){
+			
+		}
     }
 
 }
