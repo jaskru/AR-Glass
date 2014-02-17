@@ -120,17 +120,17 @@ public class SettingsFragment extends PreferenceFragment {
         final CheckBoxPreference pairingPref = (CheckBoxPreference) prefs.findPreference(getText
                 (R.string.key_network_pairing));
         if(pairingPref != null){
-
+pairingPref.setOnPreferenceChangeListener(mPrefChangeListener);
         }
 		
 		final CheckBoxPreference usbRecordPref = (CheckBoxPreference) prefs.findPreference(null);
 		if(usbRecordPref != null){
-			
+			usbRecordPref.setOnPreferenceChangeListener(mPrefChangeListener);
 		}
 		
 		final CheckBoxPreference flipPref = (CheckBoxPreference) prefs.findPreference(null);
 		if(flipPref != null){
-			
+			flipPref.setOnPreferenceChangeListener(mPrefChangeListener);
 		}
 		
 		/*
@@ -138,32 +138,32 @@ public class SettingsFragment extends PreferenceFragment {
 		*/
 		final SeekBarPreference altPref = (SeekBarPreference) prefs.findPreference(null);
 		if(altPref!= null){
-			
+			altPref.setOnPreferenceChangeListener(mPrefChangeListener);
 		}
 		
 		final SeekBarPreference vertSpeedPref = (SeekBarPreference) prefs.findPreference(null);
 		if(vertSpeedPref != null){
-			
+			vertSpeedPref.setOnPreferenceChangeListener(mPrefChangeListener);
 		}
 		
 		final SeekBarPreference yawSpeedPref = (SeekBarPreference) prefs.findPreference(null);
 		if(yawSpeedPref != null){
-			
+			yawSpeedPref.setOnPreferenceChangeListener(mPrefChangeListener);
 		}
 		
 		final SeekBarPreference tiltPref = (SeekBarPreference) prefs.findPreference(null);
 		if(tiltPref != null){
-			
+			tiltPref.setOnPreferenceChangeListener(mPrefChangeListener);
 		}
 		
 		final CheckBoxPreference outdoorHullPref = (CheckBoxPreference) prefs.findPreference(null);
 		if(outdoorHullPref != null){
-			
+			outdoorHullPref.setOnPreferenceChangeListener(mPrefChangeListener);
 		}
 		
 		final CheckBoxPreference outdoorFlightPref = (CheckBoxPreference) prefs.findPreference(null);
 		if(outdoorFlightPref != null){
-			
+			outdoorFlightPref.setOnPreferenceChangeListener(mPrefChangeListener);
 		}
     }
 
