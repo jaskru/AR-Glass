@@ -16,18 +16,18 @@
             android:title="@string/pairing"/>
 
         <CheckBoxPreference
-            android:key="toggleUsbRecord"
+            android:key="@string/key_usb_record"
             android:title="@string/usb_record"/>
 
         <CheckBoxPreference
-            android:key="toggleLoopingEnabled"
+            android:key="@string/key_flip_enabled"
             android:title="@string/looping_enabled"/>
 
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/FLIGHT_SETTINGS">
 
         <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
-            android:key="seekAltitudeLimit"
+            android:key="@string/key_alt_limit"
             android:title="@string/altitude_limit"
             android:max="100"
             android:defaultValue="3"
@@ -36,7 +36,7 @@
             />
 
         <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
-            android:key="seekVerticalSpeedMax"
+            android:key="@string/key_vert_speed"
             android:title="@string/vertical_speed_max"
             android:max="2000"
             android:defaultValue="200"
@@ -45,7 +45,7 @@
             />
 
         <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
-            android:key="seekYawSpeedMax"
+            android:key="@string/key_yaw_speed"
             android:title="@string/yaw_speed_max"
             android:max="350"
             android:defaultValue="40"
@@ -53,7 +53,7 @@
             robobunny:unitsRight="@string/deg_per_sec"/>
 
         <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
-            android:key="seekTilttMax"
+            android:key="@string/key_drone_tilt"
             android:title="@string/tilt_angle_max"
             android:max="30"
             android:defaultValue="5"
@@ -62,11 +62,11 @@
             />
 
         <CheckBoxPreference
-            android:key="toggleOutdoorHull"
+            android:key="@string/key_outdoor_hull"
             android:title="@string/outdoor_hull"/>
 
         <CheckBoxPreference
-            android:key="toggleOutdoorFlight"
+            android:key="@string/key_outdoor_flight"
             android:title="@string/outdoor_flight"/>
     </PreferenceScreen>
 

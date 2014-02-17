@@ -191,4 +191,12 @@
     <string name="key_ar_software_version">ar_drone_software_version</string>
     <string name="key_network_name">networkName</string>
     <string name="key_network_pairing">togglePairing</string>
+    <string name="key_usb_record">toggleUsbRecord</string>
+    <string name="key_flip_enabled">toggleLoopingEnabled</string>
+    <string name="key_alt_limit">seekAltitudeLimit</string>
+    <string name="key_vert_speed">seekVerticalSpeedMax</string>
+    <string name="key_yaw_speed">seekYawSpeedMax</string>
+    <string name="key_drone_tilt">seekTiltMax</string>
+    <string name="key_outdoor_hull">toggleOutdoorHull</string>
+    <string name="key_outdoor_flight">toggleOutdoorFlight</string>
 </resources>

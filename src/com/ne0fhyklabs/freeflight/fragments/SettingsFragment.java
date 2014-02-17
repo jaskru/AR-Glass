@@ -36,7 +36,7 @@ public class SettingsFragment extends PreferenceFragment {
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             final String prefKey = preference.getKey();
-            if(prefKey.equals(getString(R.string.key_abs_control))){
+            if (prefKey.equals(getString(R.string.key_abs_control))) {
 
             }
             return false;
@@ -44,25 +44,25 @@ public class SettingsFragment extends PreferenceFragment {
     };
 
     @Override
-    public void onAttach(Activity activity){
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if(!(activity instanceof SettingsActivity)){
+        if (!(activity instanceof SettingsActivity)) {
             throw new IllegalStateException("Parent activity must be an instance of" +
-                    SettingsActivity.class                    .getName());
+                    SettingsActivity.class.getName());
         }
 
         mParent = (SettingsActivity) activity;
     }
 
     @Override
-    public void onDetach(){
+    public void onDetach() {
         super.onDetach();
         mParent = null;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
 
@@ -70,7 +70,7 @@ public class SettingsFragment extends PreferenceFragment {
         setupPreferences();
     }
 
-    private void setupPreferences(){
+    private void setupPreferences() {
         final PreferenceManager prefs = getPreferenceManager();
 
         /*
@@ -78,19 +78,19 @@ public class SettingsFragment extends PreferenceFragment {
          */
         final CheckBoxPreference absControlPref = (CheckBoxPreference) prefs.findPreference
                 (getString(R.string.key_abs_control));
-        if(absControlPref != null){
+        if (absControlPref != null) {
             absControlPref.setOnPreferenceChangeListener(mPrefChangeListener);
         }
 
         final Preference calibrationPref = prefs.findPreference(getString(R.string
                 .key_abs_control_calibration));
-        if(calibrationPref != null){
+        if (calibrationPref != null) {
             calibrationPref.setOnPreferenceChangeListener(mPrefChangeListener);
         }
 
         final SeekBarPreference deviceTilt = (SeekBarPreference) prefs.findPreference(getString(R
                 .string.key_device_tilt));
-        if(deviceTilt != null){
+        if (deviceTilt != null) {
             deviceTilt.setOnPreferenceChangeListener(mPrefChangeListener);
         }
 
@@ -99,13 +99,13 @@ public class SettingsFragment extends PreferenceFragment {
          */
         final Preference arHardwareVersion = prefs.findPreference(getString(R.string
                 .key_ar_hardware_version));
-        if(arHardwareVersion != null){
+        if (arHardwareVersion != null) {
 
         }
 
         final Preference arSoftwareVersion = prefs.findPreference(getString(R.string
                 .key_ar_software_version));
-        if(arSoftwareVersion != null){
+        if (arSoftwareVersion != null) {
 
         }
 
@@ -113,58 +113,66 @@ public class SettingsFragment extends PreferenceFragment {
         Personal settings
          */
         final Preference networkPref = prefs.findPreference(getText(R.string.key_network_name));
-        if(networkPref != null){
+        if (networkPref != null) {
 
         }
 
         final CheckBoxPreference pairingPref = (CheckBoxPreference) prefs.findPreference(getText
                 (R.string.key_network_pairing));
-        if(pairingPref != null){
-pairingPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        if (pairingPref != null) {
+            pairingPref.setOnPreferenceChangeListener(mPrefChangeListener);
         }
-		
-		final CheckBoxPreference usbRecordPref = (CheckBoxPreference) prefs.findPreference(null);
-		if(usbRecordPref != null){
-			usbRecordPref.setOnPreferenceChangeListener(mPrefChangeListener);
-		}
-		
-		final CheckBoxPreference flipPref = (CheckBoxPreference) prefs.findPreference(null);
-		if(flipPref != null){
-			flipPref.setOnPreferenceChangeListener(mPrefChangeListener);
-		}
-		
+
+        final CheckBoxPreference usbRecordPref = (CheckBoxPreference) prefs.findPreference
+                (getText(R.string.key_usb_record));
+        if (usbRecordPref != null) {
+            usbRecordPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        }
+
+        final CheckBoxPreference flipPref = (CheckBoxPreference) prefs.findPreference(getText(R
+                .string.key_flip_enabled));
+        if (flipPref != null) {
+            flipPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        }
+
 		/*
 		Flight section
 		*/
-		final SeekBarPreference altPref = (SeekBarPreference) prefs.findPreference(null);
-		if(altPref!= null){
-			altPref.setOnPreferenceChangeListener(mPrefChangeListener);
-		}
-		
-		final SeekBarPreference vertSpeedPref = (SeekBarPreference) prefs.findPreference(null);
-		if(vertSpeedPref != null){
-			vertSpeedPref.setOnPreferenceChangeListener(mPrefChangeListener);
-		}
-		
-		final SeekBarPreference yawSpeedPref = (SeekBarPreference) prefs.findPreference(null);
-		if(yawSpeedPref != null){
-			yawSpeedPref.setOnPreferenceChangeListener(mPrefChangeListener);
-		}
-		
-		final SeekBarPreference tiltPref = (SeekBarPreference) prefs.findPreference(null);
-		if(tiltPref != null){
-			tiltPref.setOnPreferenceChangeListener(mPrefChangeListener);
-		}
-		
-		final CheckBoxPreference outdoorHullPref = (CheckBoxPreference) prefs.findPreference(null);
-		if(outdoorHullPref != null){
-			outdoorHullPref.setOnPreferenceChangeListener(mPrefChangeListener);
-		}
-		
-		final CheckBoxPreference outdoorFlightPref = (CheckBoxPreference) prefs.findPreference(null);
-		if(outdoorFlightPref != null){
-			outdoorFlightPref.setOnPreferenceChangeListener(mPrefChangeListener);
-		}
+        final SeekBarPreference altPref = (SeekBarPreference) prefs.findPreference(getText(R
+                .string.key_alt_limit));
+        if (altPref != null) {
+            altPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        }
+
+        final SeekBarPreference vertSpeedPref = (SeekBarPreference) prefs.findPreference(getText(R
+                .string.key_vert_speed));
+        if (vertSpeedPref != null) {
+            vertSpeedPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        }
+
+        final SeekBarPreference yawSpeedPref = (SeekBarPreference) prefs.findPreference(getText(R
+                .string.key_yaw_speed));
+        if (yawSpeedPref != null) {
+            yawSpeedPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        }
+
+        final SeekBarPreference tiltPref = (SeekBarPreference) prefs.findPreference(getText(R
+                .string.key_drone_tilt));
+        if (tiltPref != null) {
+            tiltPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        }
+
+        final CheckBoxPreference outdoorHullPref = (CheckBoxPreference) prefs.findPreference(getText(R
+                .string.key_outdoor_hull));
+        if (outdoorHullPref != null) {
+            outdoorHullPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        }
+
+        final CheckBoxPreference outdoorFlightPref = (CheckBoxPreference) prefs.findPreference(getText(R
+                .string.key_outdoor_flight));
+        if (outdoorFlightPref != null) {
+            outdoorFlightPref.setOnPreferenceChangeListener(mPrefChangeListener);
+        }
     }
 
 }
