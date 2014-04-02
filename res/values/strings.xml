@@ -152,6 +152,8 @@
     <string name="browser_done">Done</string>
     <string name="ARDRONE_ACADEMY">AR.DRONE\nACADEMY</string>
     <string name="PHOTOS_VIDEOS">PHOTOS\nVIDEOS</string>
+    <string name="PHOTOS">PHOTOS</string>
+    <string name="VIDEOS">VIDEOS</string>
     <string name="ARDRONE_UPDATE">AR.DRONE\nUPDATE</string>
     <string name="PILOTING">PILOTING</string>
     <string name="GAMES">GAMES</string>
@@ -183,6 +185,21 @@
     <string name="menu_share">Share</string>
 
     <!-- PreConnection fragment strings -->
+    <string name="key_abs_control">toggleAbsoluteControl</string>
+    <string name="key_device_tilt">seekDeviceTiltMax</string>
+    <string name="key_ar_hardware_version">ar_drone_hardware_version</string>
+    <string name="key_ar_software_version">ar_drone_software_version</string>
+    <string name="key_network_name">networkName</string>
+    <string name="key_network_pairing">togglePairing</string>
+    <string name="key_usb_record">toggleUsbRecord</string>
+    <string name="key_flip_enabled">toggleLoopingEnabled</string>
+    <string name="key_alt_limit">seekAltitudeLimit</string>
+    <string name="key_vert_speed">seekVerticalSpeedMax</string>
+    <string name="key_yaw_speed">seekYawSpeedMax</string>
+    <string name="key_drone_tilt">seekTiltMax</string>
+    <string name="key_outdoor_hull">toggleOutdoorHull</string>
+    <string name="key_outdoor_flight">toggleOutdoorFlight</string>
+    <string name="key_flat_trim">flatTrim</string>
     <string name="select_wifi_ap">Select AR Parrot Wifi</string>
     <string name="status_flying">FLYING</string>
     <string name="status_landed">LANDED</string>

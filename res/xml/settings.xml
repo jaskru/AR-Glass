@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:robobunny="http://robobunny.com">
+
+    <Preference
+        android:key="@string/key_network_name"
+        android:summary="@string/network_name"
+        android:enabled="false"/>
+
+    <PreferenceCategory android:title="@string/preferences">
+        <PreferenceScreen android:title="@string/PERSONAL_SETTINGS">
+
+            <CheckBoxPreference
+                android:key="@string/key_network_pairing"
+                android:checked="true"
+                android:title="@string/pairing"
+                android:persistent="false"
+                android:dependency="@string/key_network_name"/>
+
+            <CheckBoxPreference
+                android:key="@string/key_usb_record"
+                android:title="@string/usb_record"
+                android:persistent="false"
+                android:dependency="@string/key_network_name"/>
+
+            <CheckBoxPreference
+                android:key="@string/key_flip_enabled"
+                android:title="@string/looping_enabled"/>
+
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/FLIGHT_SETTINGS">
+
+            <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
+                android:key="@string/key_alt_limit"
+                android:title="@string/altitude_limit"
+                android:max="100"
+                android:defaultValue="3"
+                robobunny:min="3"
+                robobunny:unitsRight="m"
+                android:persistent="false"
+                android:dependency="@string/key_network_name"
+                />
+
+            <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
+                android:key="@string/key_vert_speed"
+                android:title="@string/vertical_speed_max"
+                android:max="2000"
+                android:defaultValue="200"
+                robobunny:min="200"
+                robobunny:unitsRight="mm/s"
+                android:persistent="false"
+                android:dependency="@string/key_network_name"
+                />
+
+            <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
+                android:key="@string/key_yaw_speed"
+                android:title="@string/yaw_speed_max"
+                android:max="350"
+                android:defaultValue="40"
+                robobunny:min="40"
+                robobunny:unitsRight="°/s"
+                android:persistent="false"
+                android:dependency="@string/key_network_name"
+                />
+
+            <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
+                android:key="@string/key_drone_tilt"
+                android:title="@string/tilt_angle_max"
+                android:max="30"
+                android:defaultValue="5"
+                robobunny:min="5"
+                robobunny:unitsRight="°"
+                android:persistent="false"
+                android:dependency="@string/key_network_name"
+                />
+
+            <CheckBoxPreference
+                android:key="@string/key_outdoor_hull"
+                android:title="@string/outdoor_hull"
+                android:persistent="false"
+                android:dependency="@string/key_network_name"/>
+
+            <CheckBoxPreference
+                android:key="@string/key_outdoor_flight"
+                android:title="@string/outdoor_flight"
+                android:persistent="false"
+                android:dependency="@string/key_network_name"/>
+
+            <Preference
+                android:key="@string/key_flat_trim"
+                android:title="@string/flat_trim"
+                android:dependency="@string/key_network_name"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen android:title="@string/PILOTING_MODE">
+            <CheckBoxPreference
+                android:key="@string/key_abs_control"
+                android:title="@string/absolute_control"/>
+
+            <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
+                android:key="@string/key_device_tilt"
+                android:title="@string/tilt_max"
+                android:max="50"
+                android:defaultValue="5"
+                android:dependency="@string/key_network_name"
+                robobunny:min="5"
+                robobunny:unitsRight="°"/>
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/STATUS">
+        <Preference
+            android:title="@string/app_name"
+            android:summary="@string/app_version"
+            android:enabled="true"/>
+
+        <Preference
+            android:key="@string/key_ar_hardware_version"
+            android:title="AR Drone Hardware"
+            android:dependency="@string/key_network_name"/>
+
+        <Preference
+            android:key="@string/key_ar_software_version"
+            android:title="AR Drone Software"
+            android:dependency="@string/key_network_name"/>
+    </PreferenceCategory>
+</PreferenceScreen>

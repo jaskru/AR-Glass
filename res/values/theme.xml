@@ -28,7 +28,6 @@
     </style>
     
     <style name="FreeFlightTheme.Dashboard" parent="FreeFlightTheme">
-        <item name="android:windowBackground">@drawable/ff2_flying_drone</item>
     </style>
     
     <style name="FreeFlightTheme.TipsScreen" parent="FreeFlightTheme">

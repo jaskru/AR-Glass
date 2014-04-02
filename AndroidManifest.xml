@@ -58,6 +58,13 @@
         </activity>
 
         <activity
+            android:name=".activities.SettingsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+            />
+
+        <activity
             android:name=".activities.ConnectActivity"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
@@ -88,7 +95,7 @@
                   android:screenOrientation="landscape"/>
 
         <activity
-            android:name=".activities.GlassMediaActivity"
+            android:name=".activities.GlassGalleryActivity"
             android:screenOrientation="landscape"
             android:parentActivityName=".activities.DashboardActivity"
             >
@@ -96,15 +103,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.DashboardActivity"
                 />
-        </activity>
-
-        <activity
-            android:name=".activities.GlassGalleryActivity"
-            android:screenOrientation="landscape"
-            android:parentActivityName=".activities.GlassMediaActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.GlassMediaActivity"/>
         </activity>
 
         <service android:name=".transcodeservice.TranscodingService">

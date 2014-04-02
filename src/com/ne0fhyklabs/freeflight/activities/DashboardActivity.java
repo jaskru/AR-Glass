@@ -17,9 +17,10 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.activities.base.DashboardActivityBase;
-import com.ne0fhyklabs.freeflight.fragments.PreConnectionFragment;
 import com.ne0fhyklabs.freeflight.receivers.DroneAvailabilityDelegate;
 import com.ne0fhyklabs.freeflight.receivers.DroneAvailabilityReceiver;
 import com.ne0fhyklabs.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
@@ -34,7 +35,6 @@ import com.ne0fhyklabs.freeflight.tasks.CheckDroneNetworkAvailabilityTask;
 import com.ne0fhyklabs.freeflight.tasks.CheckMediaAvailabilityTask;
 import com.ne0fhyklabs.freeflight.transcodeservice.TranscodingService;
 import com.ne0fhyklabs.freeflight.utils.GPSHelper;
-import com.ne0fhyklabs.freeflight.utils.GlassUtils;
 
 import java.io.File;
 
@@ -96,7 +96,6 @@ public class DashboardActivity extends DashboardActivityBase implements
                 .NETWORK_STATE_CHANGED_ACTION));
     }
 
-
     private void unregisterReceivers() {
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance
                 (getApplicationContext());
@@ -105,7 +104,6 @@ public class DashboardActivity extends DashboardActivityBase implements
         broadcastManager.unregisterReceiver(droneConnectionChangeReceiver);
         unregisterReceiver(networkChangeReceiver);
     }
-
 
     @Override
     protected void onDestroy() {
@@ -151,32 +149,25 @@ public class DashboardActivity extends DashboardActivityBase implements
         if (droneOnNetwork) {
             Intent connectActivity = new Intent(this, ConnectActivity.class);
             startActivity(connectActivity);
-        }
-        else {
-            //Attempt to connect to the drone wifi network if it's enabled.
-            PreConnectionFragment fragment = new PreConnectionFragment();
-            fragment.show(getSupportFragmentManager(), "Pre-connection dialog");
+            return true;
         }
 
-        return true;
-    }
-
-
-    @Override
-    protected boolean onStartSettings() {
-        //TODO: complete settings implementation
+        Toast.makeText(getApplicationContext(), "Please connect to the AR Drone wifi network!",
+                Toast.LENGTH_LONG).show();
         return false;
     }
 
 
     @Override
+    protected boolean onStartSettings() {
+        startActivity(new Intent(this, SettingsActivity.class));
+        return true;
+    }
+
+
+    @Override
     protected boolean onStartPhotosVideos() {
-        if(GlassUtils.instance$.isGlassDevice()){
-            startActivity(new Intent(this, GlassMediaActivity.class));
-        }
-        else {
-            startActivity(new Intent(this, MediaActivity.class));
-        }
+        startActivity(new Intent(this, MediaActivity.class));
         return true;
     }
 

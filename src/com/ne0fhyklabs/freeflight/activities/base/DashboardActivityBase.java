@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
@@ -22,8 +23,10 @@ import com.google.android.glass.app.Card;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 import com.ne0fhyklabs.freeflight.R;
+import com.ne0fhyklabs.freeflight.activities.GlassGalleryActivity;
 import com.ne0fhyklabs.freeflight.receivers.MediaStorageReceiver;
 import com.ne0fhyklabs.freeflight.receivers.MediaStorageReceiverDelegate;
+import com.ne0fhyklabs.freeflight.tasks.GetMediaObjectsListTask;
 import com.ne0fhyklabs.freeflight.utils.GlassUtils;
 
 @SuppressLint("Registered")
@@ -41,8 +44,11 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
     /**
      * Set of dashboard screen names.
      */
-    private static final int[] sDashboardScreenNames = {R.string.PILOTING,
-            R.string.PHOTOS_VIDEOS, R.string.ar_settings};
+    private static final int[] sDashboardScreenNames = {
+            R.string.PILOTING,
+            R.string.PHOTOS,
+            R.string.VIDEOS,
+            R.string.ar_settings};
 
     private CheckedTextView btnFreeFlight;
     private ImageView mBtnFreeFlightShadow;
@@ -151,8 +157,18 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
                         onStartFreeflight();
                         break;
 
-                    case R.string.PHOTOS_VIDEOS:
-                        onStartPhotosVideos();
+                    case R.string.PHOTOS:
+                        startActivity(new Intent(DashboardActivityBase.this,
+                                GlassGalleryActivity.class).putExtra
+                                (GlassGalleryActivity.IntentExtras.instance$.getMEDIA_FILTER(),
+                                        GetMediaObjectsListTask.MediaFilter.IMAGES.ordinal()));
+                        break;
+
+                    case R.string.VIDEOS:
+                        startActivity(new Intent(DashboardActivityBase.this,
+                                GlassGalleryActivity.class).putExtra
+                                (GlassGalleryActivity.IntentExtras.instance$.getMEDIA_FILTER(),
+                                        GetMediaObjectsListTask.MediaFilter.VIDEOS.ordinal()));
                         break;
 
                     case R.string.ar_settings:
