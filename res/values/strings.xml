@@ -184,4 +184,7 @@
 
     <!-- PreConnection fragment strings -->
     <string name="select_wifi_ap">Select AR Parrot Wifi</string>
+    <string name="status_flying">FLYING</string>
+    <string name="status_landed">LANDED</string>
+    <string name="video_play">PLAY</string>
 </resources>

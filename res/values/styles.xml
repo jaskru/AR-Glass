@@ -245,4 +245,12 @@
         <item name="android:width">@dimen/media_screen_filter_photo_width</item>
     </style>
 
+    <style name="HudTextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+
 </resources>

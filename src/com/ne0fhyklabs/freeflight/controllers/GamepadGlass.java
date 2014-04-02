@@ -23,8 +23,8 @@ public class GamepadGlass extends Controller {
 
     GamepadGlass(final ControlDroneActivity droneControl) {
         super(droneControl);
-        mGamepad = Controller.ControllerType.GAMEPAD.getImpl(droneControl);
-        mGlass = Controller.ControllerType.GOOGLE_GLASS.getImpl(droneControl);
+        mGamepad = (Gamepad) Controller.ControllerType.GAMEPAD.getImpl(droneControl);
+        mGlass = (GoogleGlass) Controller.ControllerType.GOOGLE_GLASS.getImpl(droneControl);
         mGlass.setGlassMode(isGlassMode());
     }
 
@@ -43,26 +43,6 @@ public class GamepadGlass extends Controller {
     @Override
     protected boolean initImpl() {
         return mGamepad.init() && mGlass.init();
-    }
-
-    /* (non-Javadoc)
-     * @see com.parrot.freeflight.controllers.Controller#getSpritesImpl()
-     */
-    @Override
-    protected Sprite[] getSpritesImpl() {
-        Sprite[] gamepadSprites = mGamepad.getSprites();
-        Sprite[] glassSprites = mGlass.getSprites();
-
-        int gamepadSpritesCount = gamepadSprites.length;
-        int glassSpritesCount = glassSprites.length;
-        int totalSpritesCount = gamepadSpritesCount + glassSpritesCount;
-        if ( totalSpritesCount == 0 )
-            return NO_SPRITES;
-
-        Sprite[] sprites = new Sprite[totalSpritesCount];
-        System.arraycopy(gamepadSprites, 0, sprites, 0, gamepadSpritesCount);
-        System.arraycopy(glassSprites, 0, sprites, gamepadSpritesCount, glassSpritesCount);
-        return sprites;
     }
 
     /* (non-Javadoc)

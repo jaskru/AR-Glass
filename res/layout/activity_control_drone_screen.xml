@@ -1,13 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:hud="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <com.ne0fhyklabs.freeflight.ui.HudViewController
         android:id="@+id/drone_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        />
 
-</FrameLayout>
+    <View
+        android:id="@+id/hud_info_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        android:layout_above="@+id/hud_info_bar"
+        />
+
+    <com.ne0fhyklabs.androhud.widget.SimplePitchRoll
+        android:id="@+id/hud_pitch_roll_widget"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/hud_info_separator"
+        hud:pitch="0"
+        hud:roll="0"
+        hud:pitchScaleWidth="25dp"
+        hud:pitchScaleMargin="15dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/hud_info_bar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="#90000000"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/hud_battery_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="70%"
+            style="@style/HudTextView"
+            android:drawableLeft="@drawable/battery_signal"
+            android:drawablePadding="5dp"
+            />
+
+        <ImageView
+            android:id="@+id/hud_wifi_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/wifi_signal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:contentDescription="Display the current wifi connection strength level"
+            />
+
+        <TextView
+            android:id="@+id/hud_status_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/HudTextView"
+            android:text="@string/status_flying"
+            android:textColor="@android:color/holo_green_light"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            />
+
+        <TextView
+            android:id="@+id/hud_rec_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="REC"
+            style="@style/HudTextView"
+            android:drawablePadding="-30dp"
+            android:drawableLeft="@drawable/btn_record"
+            />
+
+        <TextView
+            android:id="@+id/hud_usb_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="KO"
+            style="@style/HudTextView"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/picto_usb_actif"
+            android:visibility="invisible"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

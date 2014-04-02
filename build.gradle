@@ -1,15 +1,33 @@
 buildscript {
+    ext.kotlin_version = '0.7.258'
     repositories {
         mavenCentral()
+        maven {
+            url 'http://oss.sonatype.org/content/repositories/snapshots'
+        }
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.8.+'
+        classpath "com.android.tools.build:gradle:0.9.+"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+
 apply plugin: 'android'
+apply plugin: 'kotlin-android'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
 
 dependencies {
+    compile 'com.android.support:support-v4:+'
     compile fileTree(dir: 'libs', include: '*.jar')
+    compile project(':AndroHud')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 
@@ -18,14 +36,14 @@ android {
     buildToolsVersion "19.0.1"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 19
     }
 
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
+            java.srcDirs = ['src', 'src/main/kotlin']
             resources.srcDirs = ['src']
             aidl.srcDirs = ['src']
             renderscript.srcDirs = ['src']

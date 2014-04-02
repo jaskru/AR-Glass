@@ -49,16 +49,6 @@ public class Gamepad extends Controller {
     /*
      * (non-Javadoc)
      *
-     * @see com.parrot.freeflight.controllers.Controller#getSpritesImpl()
-     */
-    @Override
-    protected Sprite[] getSpritesImpl() {
-        return NO_SPRITES;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see com.parrot.freeflight.controllers.Controller#getDeviceOrientationManagerImpl()
      */
     @Override
@@ -221,7 +211,7 @@ public class Gamepad extends Controller {
     }
 
     private static float getCenteredAxis(MotionEvent event, InputDevice device, int axis,
-            int historyPos) {
+                                         int historyPos) {
         final InputDevice.MotionRange range = device.getMotionRange(axis, event.getSource());
         if ( range != null ) {
             final float flat = range.getFlat();

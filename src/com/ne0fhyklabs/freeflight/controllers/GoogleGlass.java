@@ -9,33 +9,26 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.ne0fhyklabs.freeflight.activities.ControlDroneActivity;
-import com.ne0fhyklabs.freeflight.drone.DroneConfig;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig.EDroneVersion;
 import com.ne0fhyklabs.freeflight.sensors.DeviceOrientationManager;
 import com.ne0fhyklabs.freeflight.settings.ApplicationSettings;
-import com.ne0fhyklabs.freeflight.ui.hud.Sprite;
+import com.ne0fhyklabs.freeflight.utils.GlassUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * EnhancedGestureDetector detects double tap gesture of second pointer when using multi touch in
- * addition to
- * standard GestureDetecror gestures.
+ * addition to standard GestureDetector gestures.
  */
 public class GoogleGlass extends Controller {
     private static final String TAG = GoogleGlass.class.getSimpleName();
 
     private static final int YAW_CONTROL_TRIGGER = 2;
-    private static final int TILT_SCROLL_DAMPER = 20;
-    private static final int GLASS_DRONE_TILT = 10;
-    private static final int GLASS_YAW_SPEED = DroneConfig.YAW_MAX;
     private static final float RAD_TO_DEG = (float) (180f / Math.PI);
-
-    private int mTiltMax = DroneConfig.TILT_MAX;
-    private int mYawMax = DroneConfig.YAW_MAX;
 
     private boolean magnetoEnabled;
     private boolean mIsGlassMode;
@@ -55,46 +48,39 @@ public class GoogleGlass extends Controller {
 
             switch (event.sensor.getType()) {
                 case Sensor.TYPE_GRAVITY:
-                    int referenceTilt = DroneConfig.TILT_MAX;//Math.min(mTiltMax *2,
-//                        DroneConfig.TILT_MAX);
+                    final int deviceTiltMax = mDroneControl.getDeviceTilt();
 
                     // Angle are in degrees
-                    final float minRatio = (1f / 6f);
-
                     float rollAngle = RAD_TO_DEG * computeRollOrientation(event);
-                    float rollRatio = rollAngle / referenceTilt;
+                    float rollRatio = rollAngle / deviceTiltMax;
 
                     if (rollRatio > 1f)
                         rollRatio = 1f;
                     else if (rollRatio < -1f)
                         rollRatio = -1f;
-                    else if (Math.abs(rollRatio) <= minRatio)
-                        rollRatio = 0;
 
                     float pitchAngle = RAD_TO_DEG * computePitchOrientation(event);
-                    float pitchRatio = pitchAngle / referenceTilt;
+                    float pitchRatio = pitchAngle / deviceTiltMax;
 
                     if (pitchRatio > 1f)
                         pitchRatio = 1f;
                     else if (pitchRatio < -1f)
                         pitchRatio = -1f;
-                    else if (Math.abs(pitchRatio) <= minRatio)
-                        pitchRatio = 0;
 
                     // Set the tilt angle
                     mDroneControl.setDroneRoll(rollRatio);
                     mDroneControl.setDronePitch(pitchRatio);
+
+                    mDroneControl.getHudView().setPitchRoll(pitchRatio, -rollRatio);
                     break;
 
                 case Sensor.TYPE_GYROSCOPE:
                     if(mYawControlEnabled.get()){
                         //Get the rotation speed around the y axis.
-                        final int yawReference = DroneConfig.YAW_MAX;//Math.min(mYawMax * 2,
-//                                DroneConfig.YAW_MAX);
+                        final int yawReference = mDroneControl.getDroneYawSpeed();
                         float angRadSpeed = event.values[1];
                         float angDegSpeed = RAD_TO_DEG * angRadSpeed;
 
-//                        Log.i(TAG, "Angular speed: " + angDegSpeed);
                         float angSpeedRatio = angDegSpeed / yawReference;
 
                         if(angSpeedRatio > 1f)
@@ -112,7 +98,6 @@ public class GoogleGlass extends Controller {
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
             // TODO Auto-generated method stub
-
         }
 
         /**
@@ -139,8 +124,7 @@ public class GoogleGlass extends Controller {
         super(droneControl);
 
         mIsGlassMode = true;
-        mSensorManager = (SensorManager) droneControl
-                .getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) droneControl.getSystemService(Context.SENSOR_SERVICE);
 
         mSettings = droneControl.getSettings();
 
@@ -168,7 +152,6 @@ public class GoogleGlass extends Controller {
         mGestureDetector.setScrollListener(new GestureDetector.ScrollListener() {
             @Override
             public boolean onScroll(float displacement, float delta, float velocity) {
-                //TODO: Check this is correct.
                 if (delta >= 0)
                     mDroneControl.setDroneGaz(1f);
                 else
@@ -198,28 +181,6 @@ public class GoogleGlass extends Controller {
             }
         });
 
-        mGestureDetector.setTwoFingerScrollListener(new GestureDetector.TwoFingerScrollListener() {
-            @Override
-            public boolean onTwoFingerScroll(float displacement, float delta, float velocity) {
-                if (Math.abs(delta) >= TILT_SCROLL_DAMPER) {
-
-                    //Update the drone speed.
-                    int currentTilt = mDroneControl.getDroneTilt();
-                    if (currentTilt != DroneConfig.INVALID_TILT) {
-                        int newTilt = currentTilt + (int) (delta / TILT_SCROLL_DAMPER);
-
-                        if (newTilt > DroneConfig.TILT_MAX)
-                            newTilt = DroneConfig.TILT_MAX;
-                        else if (newTilt < DroneConfig.TILT_MIN)
-                            newTilt = DroneConfig.TILT_MIN;
-
-                        mDroneControl.setDroneTilt(newTilt);
-                        mTiltMax = newTilt;
-                    }
-                }
-                return true;
-            }
-        });
     }
 
     public void setGlassMode(boolean glassMode) {
@@ -233,7 +194,7 @@ public class GoogleGlass extends Controller {
     @Override
     protected boolean initImpl() {
         Log.v(TAG, "Initializing Google Glass controller");
-        if (mDroneControl.isInTouchMode())
+        if (!GlassUtils.instance$.isGlassDevice())
             return false;
 
         magnetoEnabled = mSettings.isAbsoluteControlEnabled();
@@ -247,19 +208,6 @@ public class GoogleGlass extends Controller {
         }
 
         mDroneControl.setMagntoEnabled(magnetoEnabled);
-
-        // Set the drone speed for google glass
-        mDroneControl.setDroneTilt(GLASS_DRONE_TILT);
-        mDroneControl.setDroneYawSpeed(GLASS_YAW_SPEED);
-
-        mTiltMax = mDroneControl.getDroneTilt();
-        if(mTiltMax == DroneConfig.INVALID_TILT)
-            mTiltMax = DroneConfig.TILT_MAX;
-
-        mYawMax = mDroneControl.getDroneYawSpeed();
-        if(mYawMax == DroneConfig.INVALID_TILT)
-            mYawMax = DroneConfig.YAW_MAX;
-
         return true;
     }
 
@@ -271,13 +219,39 @@ public class GoogleGlass extends Controller {
 
     @Override
     protected boolean onKeyDownImpl(int keyCode, KeyEvent event) {
-        // TODO: check if glass sends any key events
+        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+            event.startTracking();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    protected boolean onKeyLongPressImpl(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+            mDroneControl.onRecord();
+            return true;
+        }
+
         return false;
     }
 
     @Override
     protected boolean onKeyUpImpl(int keyCode, KeyEvent event) {
-        // TODO: check if glass sends any key events
+        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+            final boolean isLongPress = (event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == KeyEvent
+                    .FLAG_CANCELED_LONG_PRESS;
+            if (!isLongPress) {
+                if(mDroneControl.isRecording())
+                    mDroneControl.onRecord();
+                else {
+                    mDroneControl.onTakePhoto();
+                }
+            }
+
+            return true;
+        }
         return false;
     }
 
@@ -286,23 +260,12 @@ public class GoogleGlass extends Controller {
         return false;
     }
 
-    @Override
-    protected Sprite[] getSpritesImpl() {
-        return NO_SPRITES;
-    }
-
     /**
      * Restore the google glass drone settings
      * {@inheritDoc}
      */
     @Override
     protected void resumeImpl() {
-        // Set the drone speed for google glass
-        mDroneControl.setDroneTilt(GLASS_DRONE_TILT);
-
-       //Set the drone yaw speed
-        mDroneControl.setDroneYawSpeed(GLASS_YAW_SPEED);
-
         registerListeners();
     }
 

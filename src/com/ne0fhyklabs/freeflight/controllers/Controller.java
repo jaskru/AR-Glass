@@ -26,12 +26,6 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
                 return new Gamepad(droneControl);
             }
         },
-        VIRTUAL_JOYSTICK {
-            @Override
-            public VirtualJoystick getImpl(final ControlDroneActivity droneControl) {
-                return new VirtualJoystick(droneControl);
-            }
-        },
         GOOGLE_GLASS {
             @Override
             public GoogleGlass getImpl(final ControlDroneActivity droneControl) {
@@ -45,11 +39,8 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
             }
         };
 
-        public abstract <T extends Controller> T getImpl(
-                final ControlDroneActivity droneControl);
+        public abstract Controller getImpl(final ControlDroneActivity droneControl);
     }
-
-    protected static final Sprite[] NO_SPRITES = new Sprite[0];
 
     private boolean mWasDestroyed;
     protected final ControlDroneActivity mDroneControl;
@@ -62,22 +53,10 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
         checkIfAlive();
         boolean initStatus = initImpl();
 
-        // Add the controller sprites (if any)
-        HudViewController view = mDroneControl.getHudView();
-        if (view != null)
-            view.addControllerSprites(getSprites());
-
         return initStatus;
     }
 
     protected abstract boolean initImpl();
-
-    public Sprite[] getSprites() {
-        checkIfAlive();
-        return getSpritesImpl();
-    }
-
-    protected abstract Sprite[] getSpritesImpl();
 
     public DeviceOrientationManager getDeviceOrientationManager() {
         checkIfAlive();
@@ -107,7 +86,7 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
         checkIfAlive();
-        return false;
+        return onKeyLongPressImpl(keyCode, event);
     }
 
     @Override
@@ -123,6 +102,10 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
     }
 
     protected abstract boolean onKeyDownImpl(int keyCode, KeyEvent event);
+
+    protected boolean onKeyLongPressImpl(int keyCode, KeyEvent event){
+        return false;
+    }
 
     protected abstract boolean onKeyUpImpl(int keyCode, KeyEvent event);
 
@@ -146,11 +129,6 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
 
     public void destroy() {
         checkIfAlive();
-
-        // Remove controller sprites (if any)
-        HudViewController view = mDroneControl.getHudView();
-        if (view != null)
-            view.removeControllerSprites(getSprites());
 
         destroyImpl();
         mWasDestroyed = true;

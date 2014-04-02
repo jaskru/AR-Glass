@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
 import com.ne0fhyklabs.freeflight.drone.DroneAcademyMediaListener;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig.EDroneVersion;
@@ -181,7 +182,12 @@ LocationListener
 	    disconnect();
 		Log.d(TAG, "All threads have been stopped");
 		stopWorkerThreads();
-	}
+
+        // TODO: This is not correct but without killing our process
+        // ArDrone lib will hang on next launch. Should be removed when
+        // library is fixed.
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 
 
 	private void initIntents()
