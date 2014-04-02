@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_video_play"
+        android:title="@string/video_play"
+        android:icon="@drawable/ic_music_play_50"/>
+
+    <!-- GDK doesn't yet support share intent -->
+    <!--<item android:id="@+id/menu_media_share"
+          android:title="@string/share_capit"
+          android:icon="@drawable/ic_share_50" />-->
+
+    <item android:id="@+id/menu_media_delete"
+          android:title="@string/delete"
+          android:icon="@drawable/ic_delete_50" />
+
+</menu>

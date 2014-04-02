@@ -34,6 +34,7 @@ import com.ne0fhyklabs.freeflight.tasks.CheckDroneNetworkAvailabilityTask;
 import com.ne0fhyklabs.freeflight.tasks.CheckMediaAvailabilityTask;
 import com.ne0fhyklabs.freeflight.transcodeservice.TranscodingService;
 import com.ne0fhyklabs.freeflight.utils.GPSHelper;
+import com.ne0fhyklabs.freeflight.utils.GlassUtils;
 
 import java.io.File;
 
@@ -170,7 +171,12 @@ public class DashboardActivity extends DashboardActivityBase implements
 
     @Override
     protected boolean onStartPhotosVideos() {
-        startActivity(new Intent(this, MediaActivity.class));
+        if(GlassUtils.instance$.isGlassDevice()){
+            startActivity(new Intent(this, GlassMediaActivity.class));
+        }
+        else {
+            startActivity(new Intent(this, MediaActivity.class));
+        }
         return true;
     }
 

@@ -43,6 +43,7 @@
             android:name=".activities.DashboardActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name"
+            android:screenOrientation="landscape"
             android:theme="@style/FreeFlightTheme.Dashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -76,13 +77,35 @@
         <service android:name=".service.DroneControlService"/>
 
         <activity android:name=".activities.MediaActivity"
+                  android:screenOrientation="landscape"
             android:parentActivityName=".activities.DashboardActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.DashboardActivity"/>
             </activity>
 
-        <activity android:name=".activities.GalleryActivity"/>
+        <activity android:name=".activities.GalleryActivity"
+                  android:screenOrientation="landscape"/>
+
+        <activity
+            android:name=".activities.GlassMediaActivity"
+            android:screenOrientation="landscape"
+            android:parentActivityName=".activities.DashboardActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.DashboardActivity"
+                />
+        </activity>
+
+        <activity
+            android:name=".activities.GlassGalleryActivity"
+            android:screenOrientation="landscape"
+            android:parentActivityName=".activities.GlassMediaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.GlassMediaActivity"/>
+        </activity>
 
         <service android:name=".transcodeservice.TranscodingService">
         </service>

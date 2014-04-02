@@ -4,7 +4,7 @@
     <color name="black">#ff000000</color>
     <color name="white_half_transparent">#7cffffff</color>
     <color name="gray">#FF808080</color>
-    <color name="window_background">@color/white</color>
+    <color name="window_background">@color/black</color>
     <color name="video_window_background">@color/black</color>
     <color name="text_color_normal">#ff7f7f7f</color>
     <color name="text_color_disabled">#667f7f7f</color>

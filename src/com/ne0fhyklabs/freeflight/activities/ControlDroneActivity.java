@@ -26,6 +26,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 
 import com.ne0fhyklabs.freeflight.FreeFlightApplication;
 import com.ne0fhyklabs.freeflight.R;
@@ -133,6 +134,8 @@ public class ControlDroneActivity extends FragmentActivity implements
         mHudProxy = new HudViewProxy(this);
 
         settings = getSettings();
+        bindService(new Intent(this, DroneControlService.class), mConnection,
+                Context.BIND_AUTO_CREATE);
 
         wifiSignalReceiver = new WifiSignalStrengthChangedReceiver(this);
         videoRecordingStateReceiver = new DroneVideoRecordingStateReceiver(this);
@@ -305,21 +308,9 @@ public class ControlDroneActivity extends FragmentActivity implements
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        bindService(new Intent(this, DroneControlService.class), mConnection,
-                Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        unbindService(mConnection);
-    }
-
-    @Override
     protected void onDestroy() {
         destroyController();
+        unbindService(mConnection);
 
         if (mDroneView != null) {
             mDroneView.onDestroy();
@@ -736,6 +727,7 @@ public class ControlDroneActivity extends FragmentActivity implements
 
     public void onTakePhoto() {
         if (droneControlService.isMediaStorageAvailable()) {
+            mDroneView.playSoundEffect(SoundEffectConstants.CLICK);
             droneControlService.takePhoto();
         } else {
             onNotifyNoMediaStorageAvailable();
