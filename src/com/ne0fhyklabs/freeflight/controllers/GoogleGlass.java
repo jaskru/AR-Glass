@@ -16,6 +16,7 @@ import com.ne0fhyklabs.freeflight.activities.ControlDroneActivity;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig.EDroneVersion;
 import com.ne0fhyklabs.freeflight.sensors.DeviceOrientationManager;
 import com.ne0fhyklabs.freeflight.settings.ApplicationSettings;
+import com.ne0fhyklabs.freeflight.ui.HudViewProxy;
 import com.ne0fhyklabs.freeflight.utils.GlassUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -136,13 +137,11 @@ public class GoogleGlass extends Controller {
                     case TWO_TAP:
                         //Do a flip
                         mDroneControl.doLeftFlip();
-                        Log.i(TAG, "Double tap event");
                         return true;
 
                     case TAP:
                         //For now, take off, or land, but update to launch the menu instead
-                        mDroneControl.triggerDroneTakeOff();
-                        Log.i(TAG, "Tap event");
+                        mDroneControl.openOptionsMenu();
                         return true;
                 }
                 return false;
@@ -266,12 +265,30 @@ public class GoogleGlass extends Controller {
      */
     @Override
     protected void resumeImpl() {
+        resetControls();
         registerListeners();
     }
 
     @Override
     protected void pauseImpl() {
         unregisterListeners();
+        resetControls();
+    }
+
+    /**
+     * Used to reset the drone control.
+     */
+    private void resetControls(){
+        if(mDroneControl != null){
+            mDroneControl.setDronePitch(0);
+            mDroneControl.setDroneRoll(0);
+            mDroneControl.setDroneYaw(0);
+
+            final HudViewProxy hud = mDroneControl.getHudView();
+            if(hud != null){
+                hud.setPitchRoll(0, 0);
+            }
+        }
     }
 
     @Override

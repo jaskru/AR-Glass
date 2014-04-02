@@ -25,8 +25,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
+import android.widget.Toast;
 
 import com.ne0fhyklabs.freeflight.FreeFlightApplication;
 import com.ne0fhyklabs.freeflight.R;
@@ -374,6 +377,57 @@ public class ControlDroneActivity extends FragmentActivity implements
                 // Reduce the live video stream resolution
                 droneConfig.setVideoCodec(DroneConfig.H264_360P_CODEC);
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_control_drone, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        MenuItem takeoff = menu.findItem(R.id.menu_drone_takeoff);
+        if(takeoff != null){
+            takeoff.setTitle(flying? R.string.LAND: R.string.TAKE_OFF);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.menu_drone_takeoff:
+                final boolean needCalibration = !flying && false;
+                if(needCalibration){
+                    Toast.makeText(getApplicationContext(),
+                            R.string.keep_your_distance_with_your_ardrone,
+                            Toast.LENGTH_LONG).show();
+                }
+
+                triggerDroneTakeOff();
+
+                if(needCalibration){
+                    droneControlService.calibrateMagneto();
+                }
+                return true;
+
+            case R.id.menu_switch_camera:
+                switchDroneCamera();
+                return true;
+
+            case R.id.menu_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+
+            case R.id.menu_emergency:
+                droneControlService.triggerEmergency();
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

@@ -31,14 +31,14 @@ public class FreeFlightApplication extends Application {
 		settings = new ApplicationSettings(this);
 
         //If we're on debug mode, enable strict mode (android.os.StrictMode)
-        if (BuildConfig.DEBUG) {
-            Log.d(TAG, "Enabling strict mode");
-
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectAll().penaltyLog().build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectAll().penaltyLog().build());
-        }
+//        if (BuildConfig.DEBUG) {
+//            Log.d(TAG, "Enabling strict mode");
+//
+//            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//                    .detectAll().penaltyLog().build());
+//            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//                    .detectAll().penaltyLog().build());
+//        }
 	}
 
 	

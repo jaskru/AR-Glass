@@ -44,7 +44,9 @@
     <string name="SHARE">SHARE</string>
     <string name="RECORD">RECORD</string>
     <string name="SWITCH">SWITCH</string>
+    <string name="switch_camera">SWITCH CAMERA</string>
     <string name="ALTITUDE">ALTITUDE</string>
+    <string name="LAND">LAND</string>
     <string name="LANDING">LANDING</string>
     <string name="GEOLOCATION">GEOLOCATION</string>
     <string name="HOVERING">HOVERING</string>

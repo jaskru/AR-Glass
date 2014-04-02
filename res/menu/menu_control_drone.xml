@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_drone_takeoff"
+        android:title="@string/TAKE_OFF"/>
+
+    <item android:id="@+id/menu_switch_camera"
+        android:title="@string/switch_camera"/>
+
+    <item android:id="@+id/menu_settings"
+          android:title="@string/ar_settings" />
+
+    <item android:id="@+id/menu_emergency"
+          android:title="@string/EMERGENCY" />
+
+</menu>
