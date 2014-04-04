@@ -8,6 +8,9 @@
 package com.ne0fhyklabs.freeflight.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -19,9 +22,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
+import android.view.View;
 import android.widget.Toast;
 
 import com.ne0fhyklabs.freeflight.FreeFlightApplication;
@@ -37,6 +39,7 @@ import com.ne0fhyklabs.freeflight.controllers.Controller;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig.EDroneVersion;
 import com.ne0fhyklabs.freeflight.drone.NavData;
+import com.ne0fhyklabs.freeflight.fragments.SettingsFragment;
 import com.ne0fhyklabs.freeflight.receivers.DroneBatteryChangedReceiver;
 import com.ne0fhyklabs.freeflight.receivers.DroneBatteryChangedReceiverDelegate;
 import com.ne0fhyklabs.freeflight.receivers.DroneCameraReadyActionReceiverDelegate;
@@ -67,9 +70,10 @@ import java.io.File;
  * TODO: Map the record functionality to a menu or glass button
  * TODO: Map the take photo functionality to a menu or glass button
  * TODO: Map takeoff/land functionality to ...
+ * TODO: perform drone calibration if absolute mode is enabled on drone takeoff.
  */
 public class ControlDroneActivity extends FragmentActivity implements
-        WifiSignalStrengthReceiverDelegate,
+        WifiSignalStrengthReceiverDelegate, SettingsFragment.OnSettingsHandler,
         DroneVideoRecordStateReceiverDelegate, DroneEmergencyChangeReceiverDelegate,
         DroneBatteryChangedReceiverDelegate, DroneFlyingStateReceiverDelegate,
         DroneCameraReadyActionReceiverDelegate, DroneRecordReadyActionReceiverDelegate {
@@ -155,13 +159,6 @@ public class ControlDroneActivity extends FragmentActivity implements
          * Initialize the controller
          */
         mController = Controller.ControllerType.GOOGLE_GLASS.getImpl(this);
-
-        DeviceOrientationManager orientationManager = getControllerOrientationManager();
-
-        if (orientationManager != null && !orientationManager.isAcceleroAvailable()) {
-            settings.setControlMode(ControlMode.NORMAL_MODE);
-        }
-
         settings.setFirstLaunch(false);
     }
 
@@ -172,14 +169,6 @@ public class ControlDroneActivity extends FragmentActivity implements
 
     public boolean isRecording(){
         return recording;
-    }
-
-    private DeviceOrientationManager getControllerOrientationManager() {
-        DeviceOrientationManager orientationManager = null;
-        if (mController != null)
-            orientationManager = mController.getDeviceOrientationManager();
-
-        return orientationManager;
     }
 
     private void destroyController() {
@@ -237,10 +226,11 @@ public class ControlDroneActivity extends FragmentActivity implements
     }
 
     public void setDronePitch(float pitch) {
-        if (droneControlService != null)
+        if (droneControlService != null) {
             if (Math.abs(pitch) <= MIN_TILT_ANGLE_THRESHOLD)
                 pitch = 0;
-        droneControlService.setPitch(pitch);
+            droneControlService.setPitch(pitch);
+        }
     }
 
     public void setDroneGaz(float gaz) {
@@ -418,7 +408,7 @@ public class ControlDroneActivity extends FragmentActivity implements
                 return true;
 
             case R.id.menu_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+                showSettingsFragment();
                 return true;
 
             case R.id.menu_emergency:
@@ -429,6 +419,57 @@ public class ControlDroneActivity extends FragmentActivity implements
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showSettingsFragment(){
+        final View settingsView = findViewById(R.id.control_settings_container);
+        settingsView.setVisibility(View.VISIBLE);
+
+        final FragmentManager fm = getFragmentManager();
+        final FragmentTransaction ft = fm.beginTransaction();
+        Fragment settingsFragment = fm.findFragmentById(R.id.control_settings_container);
+        if(settingsFragment == null){
+            settingsFragment = new SettingsFragment();
+            ft.add(R.id.control_settings_container, settingsFragment, "Settings Fragment").commit();
+        }
+    }
+
+    @Override
+    public DroneControlService getDroneControlService() {
+        return droneControlService;
+    }
+
+    @Override
+    public Controller getController() {
+        return mController;
+    }
+
+    public void hideSettingsFragment(){
+        FragmentManager fm = getFragmentManager();
+        Fragment settingsFragment = fm.findFragmentById(R.id.control_settings_container);
+        if(settingsFragment != null){
+            fm.beginTransaction().remove(settingsFragment).commit();
+        }
+
+        final View settingsView = findViewById(R.id.control_settings_container);
+        settingsView.setVisibility(View.GONE);
+
+        if(mController != null){
+            mController.resume();
+        }
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu){
+        if(mController != null)
+        mController.pause();
+        return true;
+    }
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu){
+        if(mController != null)
+        mController.resume();
     }
 
     @Override
@@ -489,6 +530,7 @@ public class ControlDroneActivity extends FragmentActivity implements
                 //Perform a flat trim for the drone
                 droneControlService.flatTrim();
             }
+
         } else {
             Log.w(TAG, "DroneServiceConnected event ignored as DroneControlService is null");
         }
@@ -592,6 +634,12 @@ public class ControlDroneActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
+        final Fragment settingsFragment = getSettingsFragment();
+        if(settingsFragment != null && settingsFragment.isVisible()){
+            hideSettingsFragment();
+            return;
+        }
+
         if (canGoBack()) {
             super.onBackPressed();
         }
@@ -657,6 +705,10 @@ public class ControlDroneActivity extends FragmentActivity implements
         return mHudProxy;
     }
 
+    public Fragment getSettingsFragment(){
+        return getFragmentManager().findFragmentById(R.id              .control_settings_container);
+    }
+
     public boolean isDroneFlying() {
         return flying;
     }
@@ -678,8 +730,8 @@ public class ControlDroneActivity extends FragmentActivity implements
     }
 
     private void showWarningDialog(final String message, final int forTime) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment prev = getSupportFragmentManager().findFragmentByTag(message);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag(message);
 
         if (prev != null) {
             return;

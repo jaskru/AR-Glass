@@ -4,15 +4,19 @@
 
     <item
         android:id="@+id/menu_drone_takeoff"
-        android:title="@string/TAKE_OFF"/>
+        android:title="@string/TAKE_OFF"
+        android:icon="@drawable/ic_action_rocket"/>
 
     <item android:id="@+id/menu_switch_camera"
-        android:title="@string/switch_camera"/>
+        android:title="@string/switch_camera"
+        android:icon="@drawable/ic_sync_50"/>
 
     <item android:id="@+id/menu_settings"
-          android:title="@string/ar_settings" />
+          android:title="@string/ar_settings"
+        android:icon="@drawable/ic_gear_50"/>
 
     <item android:id="@+id/menu_emergency"
-          android:title="@string/EMERGENCY" />
+          android:title="@string/EMERGENCY"
+        android:icon="@drawable/ic_warning_50"/>
 
 </menu>

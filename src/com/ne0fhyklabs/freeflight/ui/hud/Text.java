@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.ui.gl.GLSprite;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -33,8 +36,7 @@ public class Text extends Sprite{
 		res = context.getResources();
 		this.paint = new Paint();
 
-		Resources res = context.getResources();
-		paint.setColor(res.getColor(android.R.color.primary_text_dark));
+		paint.setColor(Color.WHITE);
 		paint.setTextSize(24);
 		paint.setAntiAlias(true);
 		paint.setSubpixelText(true);

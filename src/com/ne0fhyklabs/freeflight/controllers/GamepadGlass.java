@@ -46,18 +46,6 @@ public class GamepadGlass extends Controller {
     }
 
     /* (non-Javadoc)
-     * @see com.parrot.freeflight.controllers.Controller#getDeviceOrientationManagerImpl()
-     */
-    @Override
-    protected DeviceOrientationManager getDeviceOrientationManagerImpl() {
-        // Favor the glass controller device orientation manager
-        DeviceOrientationManager dom = mGlass.getDeviceOrientationManager();
-        if ( dom == null )
-            dom = mGamepad.getDeviceOrientationManager();
-        return dom;
-    }
-
-    /* (non-Javadoc)
      * @see com.parrot.freeflight.controllers.Controller#onKeyDownImpl(int, android.view.KeyEvent)
      */
     @Override

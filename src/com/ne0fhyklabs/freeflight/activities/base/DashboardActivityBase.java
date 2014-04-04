@@ -47,8 +47,22 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
     private static final int[] sDashboardScreenNames = {
             R.string.PILOTING,
             R.string.PHOTOS,
-            R.string.VIDEOS,
-            R.string.ar_settings};
+            R.string.VIDEOS};
+
+    /**
+     * Set of dashboard screen pics.
+     */
+    private static final int[] sDashboardScreenPics = {
+            R.drawable.dashboard_piloting_pic,
+            0,
+            0
+    };
+
+    private static final int[] sDashboardScreenDisconnectedPics = {
+            R.drawable.dashboard_piloting_disconnected_pic,
+            0,
+            0
+    };
 
     private CheckedTextView btnFreeFlight;
     private ImageView mBtnFreeFlightShadow;
@@ -56,12 +70,11 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
     private CheckedTextView btnPhotosVideos;
     private ImageView mBtnPhotosVideosShadow;
 
-    private CheckedTextView btnSettings;
-    private ImageView mBtnSettingsShadow;
-
     private AlertDialog alertDialog;
 
     private MediaStorageReceiver externalStorageStateReceiver;
+
+    private DashboardAdapter mDashboardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,16 +135,6 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
             }
         });
         mBtnPhotosVideosShadow = (ImageView) findViewById(R.id.btnPhotosVideosShadow);
-
-        btnSettings = (CheckedTextView) findViewById(R.id.btnSettings);
-        btnSettings.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open drone settings
-                onStartSettings();
-            }
-        });
-        mBtnSettingsShadow = (ImageView) findViewById(R.id.btnSettingsShadow);
     }
 
     private void setupRegularDashboard(){
@@ -142,8 +145,11 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
     private void setupGlassDashboard(){
         setContentView(R.layout.activity_glass_dashboard);
 
+        mDashboardAdapter = new DashboardAdapter(getApplicationContext());
+        mDashboardAdapter.setDroneAvailable(isFreeFlightEnabled());
+
         final CardScrollView cardsView = (CardScrollView) findViewById(R.id.glass_dashboard);
-        cardsView.setAdapter(new DashboardAdapter(getApplicationContext()));
+        cardsView.setAdapter(mDashboardAdapter);
         cardsView.setHorizontalScrollBarEnabled(true);
         cardsView.activate();
         cardsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -169,10 +175,6 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
                                 GlassGalleryActivity.class).putExtra
                                 (GlassGalleryActivity.IntentExtras.instance$.getMEDIA_FILTER(),
                                         GetMediaObjectsListTask.MediaFilter.VIDEOS.ordinal()));
-                        break;
-
-                    case R.string.ar_settings:
-                        onStartSettings();
                         break;
                 }
             }
@@ -221,12 +223,11 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
                 btnPhotosVideos.setChecked(false);
                 mBtnPhotosVideosShadow.setVisibility(View.INVISIBLE);
             }
-
-            btnSettings.setChecked(true);
-            mBtnSettingsShadow.setVisibility(View.VISIBLE);
         }
         else{
-            //TODO: complete
+            if(mDashboardAdapter != null){
+                mDashboardAdapter.setDroneAvailable(isFreeFlightEnabled());
+            }
         }
     }
 
@@ -237,8 +238,6 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
     protected abstract boolean onStartFreeflight();
 
     protected abstract boolean onStartPhotosVideos();
-
-    protected abstract boolean onStartSettings();
 
     private void showErrorMessageForTime(View v, String string, int i) {
         final View oldView = v;
@@ -300,9 +299,19 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
 
         private final Context mContext;
 
+        /**
+         * Used to track when the drone is available on the network
+         */
+        private boolean mIsDroneAvailable;
+
         public DashboardAdapter(Context context){
             super();
             mContext = context;
+        }
+
+        public void setDroneAvailable(boolean isAvailable){
+            mIsDroneAvailable = isAvailable;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -318,6 +327,13 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             final Card card = new Card(mContext);
+            final int dashboardPic = mIsDroneAvailable ? sDashboardScreenPics[i]
+                    : sDashboardScreenDisconnectedPics[i];
+
+            if(dashboardPic != 0) {
+                card.setImageLayout(Card.ImageLayout.FULL);
+                card.addImage(dashboardPic);
+            }
             card.setText(sDashboardScreenNames[i]);
 
             return card.toView();

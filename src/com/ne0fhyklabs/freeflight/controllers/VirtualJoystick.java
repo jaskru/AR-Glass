@@ -447,7 +447,6 @@ public class VirtualJoystick extends Controller implements DeviceOrientationChan
      *
      * @see com.parrot.freeflight.controllers.Controller#getDeviceOrientationManager()
      */
-    @Override
     protected DeviceOrientationManager getDeviceOrientationManagerImpl() {
         return mOrientationManager;
     }

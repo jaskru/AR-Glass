@@ -2,7 +2,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="FreeFlightBase" parent="@android:Theme.DeviceDefault" />
 
-    <style name="ARDroneDashboard.Label" parent="@android:style/TextAppearance.Widget.TextView"></style>
+    <style name="ARDroneDashboard.Label" parent="@android:style/TextAppearance.Widget.TextView"/>
 
     <style name="FreeFlightTheme" parent="FreeFlightBase">
         <item name="android:windowBackground">@color/window_background</item>
@@ -13,12 +13,8 @@
         <item name="viewPagerIndicatorStyle">@style/ViewPagerIndicatorStyle</item>
     </style>
     
-    <style name="FreeFlightTheme.HudScreen" parent="FreeFlightTheme">
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-    
+    <style name="FreeFlightTheme.HudScreen" parent="@android:Theme.Holo.NoActionBar.Fullscreen"/>
+
     <style name="FreeFlightTheme.SettingsScreen" parent="FreeFlightTheme">
         <item name="android:windowBackground">@color/transparent</item>
          <item name="android:textViewStyle">@style/SettingsTextView</item>

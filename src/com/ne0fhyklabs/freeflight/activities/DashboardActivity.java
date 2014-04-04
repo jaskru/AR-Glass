@@ -157,14 +157,6 @@ public class DashboardActivity extends DashboardActivityBase implements
         return false;
     }
 
-
-    @Override
-    protected boolean onStartSettings() {
-        startActivity(new Intent(this, SettingsActivity.class));
-        return true;
-    }
-
-
     @Override
     protected boolean onStartPhotosVideos() {
         startActivity(new Intent(this, MediaActivity.class));

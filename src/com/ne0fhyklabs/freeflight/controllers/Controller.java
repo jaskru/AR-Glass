@@ -43,6 +43,7 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
     }
 
     private boolean mWasDestroyed;
+    private boolean mIsActive;
     protected final ControlDroneActivity mDroneControl;
 
     Controller(final ControlDroneActivity droneControl) {
@@ -58,35 +59,32 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
 
     protected abstract boolean initImpl();
 
-    public DeviceOrientationManager getDeviceOrientationManager() {
-        checkIfAlive();
-        return getDeviceOrientationManagerImpl();
+    public boolean isActive(){
+        return mIsActive;
     }
-
-    protected abstract DeviceOrientationManager getDeviceOrientationManagerImpl();
 
     @Override
     public boolean onGenericMotion(View view, MotionEvent event) {
         checkIfAlive();
-        return onGenericMotionImpl(view, event);
+        return mIsActive && onGenericMotionImpl(view, event);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         checkIfAlive();
-        return onKeyDownImpl(keyCode, event);
+        return mIsActive && onKeyDownImpl(keyCode, event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         checkIfAlive();
-        return onKeyUpImpl(keyCode, event);
+        return mIsActive && onKeyUpImpl(keyCode, event);
     }
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
         checkIfAlive();
-        return onKeyLongPressImpl(keyCode, event);
+        return mIsActive && onKeyLongPressImpl(keyCode, event);
     }
 
     @Override
@@ -98,7 +96,7 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         checkIfAlive();
-        return onTouchImpl(view, event);
+        return mIsActive && onTouchImpl(view, event);
     }
 
     protected abstract boolean onKeyDownImpl(int keyCode, KeyEvent event);
@@ -116,6 +114,7 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
     public void resume() {
         checkIfAlive();
         resumeImpl();
+        mIsActive = true;
     }
 
     protected abstract void resumeImpl();
@@ -123,6 +122,7 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
     public void pause() {
         checkIfAlive();
         pauseImpl();
+        mIsActive = false;
     }
 
     protected abstract void pauseImpl();
@@ -132,6 +132,7 @@ public abstract class Controller implements KeyEvent.Callback, OnGenericMotionLi
 
         destroyImpl();
         mWasDestroyed = true;
+        mIsActive = false;
     }
 
     protected abstract void destroyImpl();

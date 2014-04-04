@@ -49,18 +49,6 @@ public class Gamepad extends Controller {
     /*
      * (non-Javadoc)
      *
-     * @see com.parrot.freeflight.controllers.Controller#getDeviceOrientationManagerImpl()
-     */
-    @Override
-    protected DeviceOrientationManager getDeviceOrientationManagerImpl() {
-        // TODO: implement a stub device orientation manager with isMagnetoAvailable returning true.
-        // Will be used to enable absolute control mode with gamepad.
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see com.parrot.freeflight.controllers.Controller#onEventImpl(android.view.View,
      * android.view.MotionEvent)
      */

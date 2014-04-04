@@ -12,11 +12,10 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.SeekBar;
 
 import com.ne0fhyklabs.freeflight.FreeFlightApplication;
 import com.ne0fhyklabs.freeflight.R;
-import com.ne0fhyklabs.freeflight.activities.SettingsActivity;
+import com.ne0fhyklabs.freeflight.controllers.Controller;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig;
 import com.ne0fhyklabs.freeflight.receivers.DroneConfigChangedReceiver;
 import com.ne0fhyklabs.freeflight.receivers.DroneConfigChangedReceiverDelegate;
@@ -30,16 +29,25 @@ import com.ne0fhyklabs.freeflight.receivers.DroneConnectionChangeReceiverDelegat
 
 /**
  * AR Glass preference fragment.
- * TODO: perform drone calibration if absolute mode is enabled on drone takeoff.
  */
 public class SettingsFragment extends PreferenceFragment {
+
+    /**
+     * Activities hosting this fragment must implement this interface.
+     */
+    public interface OnSettingsHandler {
+        public DroneControlService getDroneControlService();
+
+        public Controller getController();
+
+    }
 
     private static final String NULL_MAC = "00:00:00:00:00:00";
 
     /**
      * Provides access to the parent activity.
      */
-    private SettingsActivity mParent;
+    private OnSettingsHandler mParent;
 
     /**
      * Handle to the drone configuration.
@@ -153,12 +161,12 @@ public class SettingsFragment extends PreferenceFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if (!(activity instanceof SettingsActivity)) {
+        if (!(activity instanceof OnSettingsHandler)) {
             throw new IllegalStateException("Parent activity must be an instance of" +
-                    SettingsActivity.class.getName());
+                    OnSettingsHandler.class.getName());
         }
 
-        mParent = (SettingsActivity) activity;
+        mParent = (OnSettingsHandler) activity;
     }
 
     @Override
@@ -170,6 +178,8 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().getWindow().addFlags(android.view.WindowManager.LayoutParams
+                .FLAG_KEEP_SCREEN_ON);
         addPreferencesFromResource(R.xml.settings);
 
         mDroneService = mParent.getDroneControlService();
@@ -192,6 +202,11 @@ public class SettingsFragment extends PreferenceFragment {
 
         getActivity().registerReceiver(mNetChangeReceiver, new IntentFilter(WifiManager
                 .NETWORK_STATE_CHANGED_ACTION));
+
+        Controller controller = mParent.getController();
+        if(controller != null){
+            controller.pause();
+        }
     }
 
     @Override

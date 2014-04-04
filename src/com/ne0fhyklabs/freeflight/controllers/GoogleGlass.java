@@ -283,6 +283,7 @@ public class GoogleGlass extends Controller {
             mDroneControl.setDronePitch(0);
             mDroneControl.setDroneRoll(0);
             mDroneControl.setDroneYaw(0);
+            mDroneControl.setDroneGaz(0);
 
             final HudViewProxy hud = mDroneControl.getHudView();
             if(hud != null){
@@ -294,6 +295,7 @@ public class GoogleGlass extends Controller {
     @Override
     protected void destroyImpl() {
         unregisterListeners();
+        resetControls();
     }
 
     /**
@@ -315,11 +317,6 @@ public class GoogleGlass extends Controller {
      */
     private void unregisterListeners() {
         mSensorManager.unregisterListener(mSensorListener);
-    }
-
-    @Override
-    protected DeviceOrientationManager getDeviceOrientationManagerImpl() {
-        return null;
     }
 
 }

@@ -46,6 +46,7 @@ public class ConnectActivity extends FragmentActivity implements ServiceConnecti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Random random = new Random(System.currentTimeMillis());
         int tipNumber = random.nextInt(TIPS.length);
@@ -111,6 +112,7 @@ public class ConnectActivity extends FragmentActivity implements ServiceConnecti
         droneControlActivity.putExtra("USE_SOFTWARE_RENDERING", false);
         droneControlActivity.putExtra("FORCE_COMBINED_CONTROL_MODE", false);
         startActivity(droneControlActivity);
+        finish();
     }
 
 
