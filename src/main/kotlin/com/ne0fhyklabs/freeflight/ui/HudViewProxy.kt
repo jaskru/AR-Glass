@@ -32,7 +32,7 @@ public class HudViewProxy(private val activity: ControlDroneActivity) {
     /**
      * Update rate for the pitch and roll value.
      */
-    private val UPDATE_RATE = 15 //fps
+    private val UPDATE_RATE = 24 //fps
 
     /**
      * Delay between successive updates in order to attain the desired update rate.
@@ -177,11 +177,18 @@ public class HudViewProxy(private val activity: ControlDroneActivity) {
         val pitchMax = mHudPitchRoll.getPitchMax()
 
         //Limit the rate of updates
-        val timeSinceLastUpdate = System.currentTimeMillis() - mLastPitchRollUpdate
+        val currentTime = System.currentTimeMillis()
+        val timeSinceLastUpdate = currentTime - mLastPitchRollUpdate
         if (timeSinceLastUpdate > UPDATE_DELAY) {
             val actualRoll = roll * rollMax
             val actualPitch = pitch * pitchMax
             mHudPitchRoll.setPitchRoll(actualPitch, actualRoll)
+            mLastPitchRollUpdate = currentTime
         }
     }
+
+    /**
+     * Used to reset the hud pitch and roll crosshair
+     */
+    fun resetPitchRoll() = mHudPitchRoll.setPitchRoll(0f, 0f)
 }

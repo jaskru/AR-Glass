@@ -250,9 +250,13 @@ public class SeekBarPreference extends DialogPreference implements OnSeekBarChan
 		
 	}
 
+    public void setValue(int value){
+        persistInt(value);
+        mCurrentValue = value;
+    }
+
 	@Override
 	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-
 		if(restoreValue) {
 			mCurrentValue = getPersistedInt(mCurrentValue);
 		}

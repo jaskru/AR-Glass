@@ -141,7 +141,7 @@
     <string name="deg_per_sec">°/s</string>
     <string name="meters">m</string>
     <string name="none">none</string>
-    <string name="network_name">AR.DRONE NETWORK NAME</string>
+    <string name="network_name">AR.DRONE NETWORK</string>
     <string name="looping_enabled">FLIP ENABLED</string>
     <string name="freeflight">AR.FREEFLIGHT</string>
     <string name="FLIGHT_SETTINGS">FLIGHT SETTINGS</string>

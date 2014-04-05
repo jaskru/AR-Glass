@@ -133,33 +133,13 @@ public class VideoStageRenderer implements Renderer {
             }
 
         startTime = System.currentTimeMillis();
-        boolean isOculusModeEnabled = mSettings.isOculusModeEnabled();
 
-        if ( isOculusModeEnabled ) {
-            // Drawing scene on the left half of the screen
-            GLES20.glViewport(0, 0, screenWidth / 2, screenHeight);
-            GLES20.glScissor(0, 0, screenWidth / 2, screenHeight);
-            bgSprite.onDraw(gl, 0, 0);
-            GLES20.glFlush();
+        // Set the viewport to the full screen
+        GLES20.glViewport(0, 0, screenWidth, screenHeight);
+        GLES20.glScissor(0, 0, screenWidth, screenHeight);
 
-            // Drawing scene on the right half of the screen
-            GLES20.glViewport(screenWidth / 2, 0, screenWidth / 2, screenHeight);
-            GLES20.glScissor(screenWidth / 2, 0, screenWidth / 2, screenHeight);
-            bgSprite.onDraw(gl, 0, 0);
-            GLES20.glFlush();
-
-            // Restore the viewport to the full screen
-            GLES20.glViewport(0, 0, screenWidth, screenHeight);
-            GLES20.glScissor(0, 0, screenWidth, screenHeight);
-        }
-        else {
-            // Set the viewport to the full screen
-            GLES20.glViewport(0, 0, screenWidth, screenHeight);
-            GLES20.glScissor(0, 0, screenWidth, screenHeight);
-
-            bgSprite.onDraw(gl, 0, 0);
-            GLES20.glFlush();
-        }
+        bgSprite.onDraw(gl, 0, 0);
+        GLES20.glFlush();
 
         synchronized (sprites) {
             int spritesSize = sprites.size();

@@ -5,7 +5,7 @@
 
     <Preference
         android:key="@string/key_network_name"
-        android:summary="@string/network_name"
+        android:title="@string/network_name"
         android:enabled="false"/>
 
     <PreferenceCategory android:title="@string/preferences">
@@ -94,16 +94,13 @@
         </PreferenceScreen>
 
         <PreferenceScreen android:title="@string/PILOTING_MODE">
-            <CheckBoxPreference
-                android:key="@string/key_abs_control"
-                android:title="@string/absolute_control"/>
-
             <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
                 android:key="@string/key_device_tilt"
                 android:title="@string/tilt_max"
                 android:max="50"
-                android:defaultValue="5"
+                android:defaultValue="10"
                 android:dependency="@string/key_network_name"
+                android:persistent="false"
                 robobunny:min="5"
                 robobunny:unitsRight="°"/>
 

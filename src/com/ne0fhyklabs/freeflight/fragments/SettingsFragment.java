@@ -148,9 +148,7 @@ public class SettingsFragment extends PreferenceFragment {
             if (prefKey == null)
                 return false;
 
-            if (prefKey.equals(getString(R.string.key_abs_control))) {
-                appSettings.setAbsoluteControlEnabled((Boolean) newValue);
-            } else if (prefKey.equals(getString(R.string.key_flip_enabled))) {
+            if (prefKey.equals(getString(R.string.key_flip_enabled))) {
                 appSettings.setFlipEnabled((Boolean) newValue);
             }
             return true;
@@ -231,20 +229,12 @@ public class SettingsFragment extends PreferenceFragment {
                 .getApplicationContext()).getAppSettings();
         final PreferenceManager prefs = getPreferenceManager();
 
-        final CheckBoxPreference absControlPref = (CheckBoxPreference) prefs.findPreference
-                (getString(R.string.key_abs_control));
-        if (absControlPref != null) {
-            absControlPref.setChecked(appSettings.isAbsoluteControlEnabled());
-            absControlPref.setOnPreferenceChangeListener(mAppPrefChangeListener);
-        }
-
         final CheckBoxPreference flipPref = (CheckBoxPreference) prefs.findPreference(getText(R
                 .string.key_flip_enabled));
         if (flipPref != null) {
             flipPref.setChecked(appSettings.isFlipEnabled());
             flipPref.setOnPreferenceChangeListener(mAppPrefChangeListener);
         }
-
     }
 
     /**
@@ -258,7 +248,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         final Preference networkPref = prefs.findPreference(getText(R.string.key_network_name));
         if (networkPref != null) {
-            networkPref.setTitle(isDroneConnected ? droneConfig.getNetworkName(): "DISCONNECTED");
+            networkPref.setSummary(isDroneConnected ? droneConfig.getNetworkName(): "---");
             networkPref.setEnabled(isDroneConnected);
         }
 
@@ -300,7 +290,7 @@ public class SettingsFragment extends PreferenceFragment {
         final SeekBarPreference deviceTilt = (SeekBarPreference) prefs.findPreference(getString(R
                 .string.key_device_tilt));
         if (deviceTilt != null) {
-            deviceTilt.setDefaultValue(droneConfig.getDeviceTiltMax());
+            deviceTilt.setValue(droneConfig.getDeviceTiltMax());
             deviceTilt.setOnPreferenceChangeListener(mDronePrefChangeListener);
         }
 
@@ -318,28 +308,28 @@ public class SettingsFragment extends PreferenceFragment {
         final SeekBarPreference altPref = (SeekBarPreference) prefs.findPreference(getText(R
                 .string.key_alt_limit));
         if (altPref != null) {
-            altPref.setDefaultValue(droneConfig.getAltitudeLimit());
+            altPref.setValue(droneConfig.getAltitudeLimit());
             altPref.setOnPreferenceChangeListener(mDronePrefChangeListener);
         }
 
         final SeekBarPreference vertSpeedPref = (SeekBarPreference) prefs.findPreference(getText(R
                 .string.key_vert_speed));
         if (vertSpeedPref != null) {
-            vertSpeedPref.setDefaultValue(droneConfig.getVertSpeedMax());
+            vertSpeedPref.setValue(droneConfig.getVertSpeedMax());
             vertSpeedPref.setOnPreferenceChangeListener(mDronePrefChangeListener);
         }
 
         final SeekBarPreference yawSpeedPref = (SeekBarPreference) prefs.findPreference(getText(R
                 .string.key_yaw_speed));
         if (yawSpeedPref != null) {
-            yawSpeedPref.setDefaultValue(droneConfig.getYawSpeedMax());
+            yawSpeedPref.setValue(droneConfig.getYawSpeedMax());
             yawSpeedPref.setOnPreferenceChangeListener(mDronePrefChangeListener);
         }
 
         final SeekBarPreference tiltPref = (SeekBarPreference) prefs.findPreference(getText(R
                 .string.key_drone_tilt));
         if (tiltPref != null) {
-            tiltPref.setDefaultValue(droneConfig.getTilt());
+            tiltPref.setValue(droneConfig.getTilt());
             tiltPref.setOnPreferenceChangeListener(mDronePrefChangeListener);
         }
 

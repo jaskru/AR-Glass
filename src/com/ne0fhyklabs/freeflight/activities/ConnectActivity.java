@@ -48,10 +48,11 @@ public class ConnectActivity extends FragmentActivity implements ServiceConnecti
         super.onCreate(savedInstanceState);
         getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        Random random = new Random(System.currentTimeMillis());
-        int tipNumber = random.nextInt(TIPS.length);
-
-        setContentView(TIPS[tipNumber]);
+//        Random random = new Random(System.currentTimeMillis());
+//        int tipNumber = random.nextInt(TIPS.length);
+//
+//        setContentView(TIPS[tipNumber]);
+        setContentView(R.layout.tips_header);
 
         droneReadyReceiver = new DroneReadyReceiver(this);
         droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);

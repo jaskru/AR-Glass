@@ -389,18 +389,7 @@ public class ControlDroneActivity extends FragmentActivity implements
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.menu_drone_takeoff:
-                final boolean needCalibration = !flying && false;
-                if(needCalibration){
-                    Toast.makeText(getApplicationContext(),
-                            R.string.keep_your_distance_with_your_ardrone,
-                            Toast.LENGTH_LONG).show();
-                }
-
                 triggerDroneTakeOff();
-
-                if(needCalibration){
-                    droneControlService.calibrateMagneto();
-                }
                 return true;
 
             case R.id.menu_switch_camera:
@@ -414,7 +403,6 @@ public class ControlDroneActivity extends FragmentActivity implements
             case R.id.menu_emergency:
                 droneControlService.triggerEmergency();
                 return true;
-
 
             default:
                 return super.onOptionsItemSelected(item);
