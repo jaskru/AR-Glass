@@ -5,6 +5,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -13,6 +15,7 @@ import android.view.View;
 
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
+import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.activities.ControlDroneActivity;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig.EDroneVersion;
 import com.ne0fhyklabs.freeflight.settings.ApplicationSettings;
@@ -28,7 +31,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class GoogleGlass extends Controller {
     private static final String TAG = GoogleGlass.class.getSimpleName();
 
-    /*Only applicable from Android 2.3+ (https://developer.android
+    /*
+    Only applicable from Android 2.3+ (https://developer.android
      .com/reference/android/hardware/SensorManager.html#registerListener(android.hardware
      .SensorEventListener, android.hardware.Sensor, int))
      */
@@ -39,6 +43,11 @@ public class GoogleGlass extends Controller {
 
     private boolean magnetoEnabled;
     private boolean mIsGlassMode;
+
+    private final SoundPool mSoundPool;
+    private final int mShutterSound;
+    private final int mVideoStartSound;
+    private final int mVideoStopSound;
 
     private final ApplicationSettings mSettings;
     private final GestureDetector mGestureDetector;
@@ -90,7 +99,7 @@ public class GoogleGlass extends Controller {
                         float angRadSpeed = event.values[1];
                         float angDegSpeed = RAD_TO_DEG * angRadSpeed;
 
-                        float angSpeedRatio = angDegSpeed / mDroneYawSpeed;
+                        float angSpeedRatio = (angDegSpeed + angDegSpeed) / mDroneYawSpeed;
 
                         if(angSpeedRatio > 1f)
                             angSpeedRatio = 1f;
@@ -131,12 +140,19 @@ public class GoogleGlass extends Controller {
     GoogleGlass(final ControlDroneActivity droneControl) {
         super(droneControl);
 
+        final Context context = droneControl.getApplicationContext();
+
+        mSoundPool = new SoundPool(3, AudioManager.STREAM_NOTIFICATION, 0);
+        mShutterSound = mSoundPool.load(context, R.raw.sound_photo_shutter, 1);
+        mVideoStartSound = mSoundPool.load(context, R.raw.sound_video_start, 1);
+        mVideoStopSound = mSoundPool.load(context, R.raw.sound_video_stop, 1);
+
         mIsGlassMode = true;
         mSensorManager = (SensorManager) droneControl.getSystemService(Context.SENSOR_SERVICE);
 
         mSettings = droneControl.getSettings();
 
-        mGestureDetector = new GestureDetector(droneControl.getApplicationContext());
+        mGestureDetector = new GestureDetector(context);
         mGestureDetector.setBaseListener(new GestureDetector.BaseListener() {
             @Override
             public boolean onGesture(Gesture gesture) {
@@ -238,6 +254,7 @@ public class GoogleGlass extends Controller {
     protected boolean onKeyLongPressImpl(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_CAMERA) {
             mDroneControl.onRecord();
+            mSoundPool.play(mVideoStartSound, 1f, 1f, 0, 0, 1);
             return true;
         }
 
@@ -250,9 +267,12 @@ public class GoogleGlass extends Controller {
             final boolean isLongPress = (event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == KeyEvent
                     .FLAG_CANCELED_LONG_PRESS;
             if (!isLongPress) {
-                if(mDroneControl.isRecording())
+                if(mDroneControl.isRecording()) {
                     mDroneControl.onRecord();
+                    mSoundPool.play(mVideoStopSound, 1f, 1f, 0, 0, 1);
+                }
                 else {
+                    mSoundPool.play(mShutterSound, 1f, 1f, 0, 0, 1);
                     mDroneControl.onTakePhoto();
                 }
             }

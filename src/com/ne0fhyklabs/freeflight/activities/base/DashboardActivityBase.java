@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.glass.app.Card;
+import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 import com.ne0fhyklabs.freeflight.R;
@@ -54,14 +56,14 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
      */
     private static final int[] sDashboardScreenPics = {
             R.drawable.dashboard_piloting_pic,
-            0,
-            0
+            R.drawable.dashboard_photos_screen,
+            R.drawable.dashboard_videos_screen
     };
 
     private static final int[] sDashboardScreenDisconnectedPics = {
             R.drawable.dashboard_piloting_disconnected_pic,
-            0,
-            0
+            R.drawable.dashboard_photos_screen,
+            R.drawable.dashboard_videos_screen
     };
 
     private CheckedTextView btnFreeFlight;
@@ -76,8 +78,13 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
 
     private DashboardAdapter mDashboardAdapter;
 
+    private AudioManager mAudioMgr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mAudioMgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
         super.onCreate(savedInstanceState);
         if(GlassUtils.instance$.isGlassDevice()){
             setupGlassDashboard();
@@ -160,7 +167,8 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
                 final int screenNameRes = (Integer) parent.getItemAtPosition(position);
                 switch(screenNameRes){
                     case R.string.PILOTING:
-                        onStartFreeflight();
+                        if(!onStartFreeflight())
+                            mAudioMgr.playSoundEffect(Sounds.ERROR);
                         break;
 
                     case R.string.PHOTOS:
@@ -193,6 +201,11 @@ public abstract class DashboardActivityBase extends FragmentActivity implements 
         externalStorageStateReceiver.unregisterFromEvents(this);
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mAudioMgr.playSoundEffect(Sounds.DISMISSED);
+    }
 
     @Override
     protected void onResume() {

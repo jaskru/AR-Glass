@@ -106,7 +106,7 @@ public class DashboardActivity extends DashboardActivityBase implements
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         unbindService(this);
         super.onDestroy();
     }

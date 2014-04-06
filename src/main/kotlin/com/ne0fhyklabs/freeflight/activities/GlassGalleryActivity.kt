@@ -15,7 +15,6 @@ import com.google.android.glass.widget.CardScrollAdapter
 import android.view.View
 import android.view.ViewGroup
 import android.content.Context
-import com.google.android.glass.app.Card
 import kotlin.properties.Delegates
 import android.view.KeyEvent
 import android.view.Menu
@@ -29,9 +28,12 @@ import android.widget.ImageView
 import android.view.LayoutInflater
 import com.ne0fhyklabs.freeflight.tasks.LoadMediaThumbTask
 import android.widget.ImageView.ScaleType
+import com.google.android.glass.media.Sounds
+import android.media.AudioManager
 
 /**
  * Created by fhuya on 3/19/14.
+ * TODO: Fix the default screen when there's no more pictures.
  */
 public class GlassGalleryActivity : FragmentActivity() {
 
@@ -79,12 +81,15 @@ public class GlassGalleryActivity : FragmentActivity() {
         cardsScroller
     }
 
+    private var mDisablePauseSound = false
+
     private val mNoMediaView : TextView by Delegates.lazy {
         findViewById(R.id.glass_gallery_no_media) as TextView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWindow()?.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_glass_gallery)
 
         val intent = getIntent()
@@ -105,6 +110,15 @@ public class GlassGalleryActivity : FragmentActivity() {
         if (mInitMediaTask != null && mInitMediaTask!!.getStatus() == Status.RUNNING) {
             mInitMediaTask?.cancel(false)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(!mDisablePauseSound) {
+            val audio = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            audio.playSoundEffect(Sounds.DISMISSED);
+        }
+        mDisablePauseSound = false
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -151,6 +165,7 @@ public class GlassGalleryActivity : FragmentActivity() {
             return
         }
 
+        mDisablePauseSound = true
         val videoIntent = Intent("com.google.glass.action.VIDEOPLAYER").putExtra("video_url",
                 video.getUri().toString())
         startActivity(videoIntent)
@@ -177,6 +192,7 @@ public class GlassGalleryActivity : FragmentActivity() {
         }
 
         mAdapter.remove(media)
+        updateView(null)
     }
 
     private fun initMediaTask(filter: MediaFilter, selectedElem: Int) {
@@ -204,16 +220,21 @@ public class GlassGalleryActivity : FragmentActivity() {
         mAdapter.clear()
         mAdapter.addAll(result)
 
-        if(mAdapter.getCount() > 0) {
+        updateView(selectedElem)
+    }
+
+    private fun updateView(selectedElem: Int?) {
+        if (mAdapter.getCount() > 0) {
             mNoMediaView.setVisibility(View.GONE)
 
             mCardsScroller.setVisibility(View.VISIBLE)
-            mCardsScroller.setSelection(selectedElem)
+            if (selectedElem != null)
+                mCardsScroller.setSelection(selectedElem)
+
             mCardsScroller.updateViews(true)
             if (!mCardsScroller.isActivated())
                 mCardsScroller.activate()
-        }
-        else{
+        } else {
             mNoMediaView.setVisibility(View.VISIBLE)
 
             mCardsScroller.deactivate()

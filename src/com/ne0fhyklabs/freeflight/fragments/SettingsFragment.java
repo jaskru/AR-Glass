@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.google.android.glass.media.Sounds;
 import com.ne0fhyklabs.freeflight.FreeFlightApplication;
 import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.controllers.Controller;
@@ -210,10 +212,14 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onStop(){
         super.onStop();
-		LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
+        final Context context = getActivity().getApplicationContext();
+		LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
                 lbm.unregisterReceiver(mConfigChangedReceiver);
 				lbm.unregisterReceiver(mConnChangedReceiver);
         getActivity().unregisterReceiver(mNetChangeReceiver);
+
+        AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        audio.playSoundEffect(Sounds.DISMISSED);
     }
 
     private void setupPreferences() {
@@ -248,7 +254,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         final Preference networkPref = prefs.findPreference(getText(R.string.key_network_name));
         if (networkPref != null) {
-            networkPref.setSummary(isDroneConnected ? droneConfig.getNetworkName(): "---");
+            networkPref.setSummary(isDroneConnected ? droneConfig.getNetworkName() : "---");
             networkPref.setEnabled(isDroneConnected);
         }
 

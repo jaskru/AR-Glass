@@ -33,6 +33,7 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.glass.media.Sounds;
 import com.ne0fhyklabs.freeflight.FreeFlightApplication;
 import com.ne0fhyklabs.freeflight.R;
 import com.ne0fhyklabs.freeflight.controllers.Controller;
@@ -500,6 +501,10 @@ public class ControlDroneActivity extends FragmentActivity implements
         stopEmergencySound();
 
         System.gc();
+
+        final AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audio.playSoundEffect(Sounds.DISMISSED);
+
         super.onPause();
     }
 
@@ -821,7 +826,6 @@ public class ControlDroneActivity extends FragmentActivity implements
 
     public void onTakePhoto() {
         if (droneControlService.isMediaStorageAvailable()) {
-            mDroneView.playSoundEffect(SoundEffectConstants.CLICK);
             droneControlService.takePhoto();
         } else {
             onNotifyNoMediaStorageAvailable();
