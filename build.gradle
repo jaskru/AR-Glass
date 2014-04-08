@@ -1,3 +1,6 @@
+import groovy.swing.SwingBuilder
+import com.android.builder.DefaultManifestParser
+
 buildscript {
     ext.kotlin_version = '0.7.258'
     repositories {
@@ -35,11 +38,6 @@ android {
     compileSdkVersion 19
     buildToolsVersion "19.0.1"
 
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 19
-    }
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -66,8 +64,11 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file('/home/fhuya/.android/debug.keystore')
+        release {
+            storeFile file(System.getenv("ANDROID_KEYSTORE"))
+            storePassword ""
+            keyAlias "${System.getenv("ANDROID_KEYALIAS")}"
+            keyPassword ""
         }
     }
 
@@ -77,6 +78,58 @@ android {
                 abiFilters "armeabi-v7a", "armeabi"
             }
         }
+    }
 
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                def file = variant.outputFile
+                def versionName = defaultConfig.versionName ?: new DefaultManifestParser().getVersionName(android.sourceSets.main.manifest.srcFile)
+                variant.outputFile = new File(file.parent, file.name.replace(".apk",
+                        "-${defaultConfig.versionName}.apk"))
+            }
+        }
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(':assembleRelease') || taskGraph.hasTask(':installArmRelease')) {
+        def pass = ''
+        if (System.console() == null) {
+            new SwingBuilder().edt {
+                dialog(modal: true, //Otherwise the build will continue running
+                        title: 'Enter password', //Dialog title
+                        alwaysOnTop: true,
+                        resizable: false,
+                        locationRelativeTo: null, //Place dialog in center of the screen
+                        pack: true, //We need to pack the dialog (so it will take the size of its children
+                        show: true
+                ){
+                    vbox { //Put everything below each other
+                        label(text: "Please enter key passphrase:")
+                        input = passwordField()
+                        button(defaultButton: true, text: 'OK', actionPerformed: {
+                            pass = new String(input.password); //set pass variable to value of input
+                            // field
+                            dispose(); //close dialog
+                        })
+                    }
+                }
+            }
+        }
+        else{
+            pass = new String(System.console().readPassword("\nPlease enter key passphrase: "))
+        }
+
+        if(pass.size() <= 0){
+            throw new InvalidUserDataException("You must enter a password to proceed.")
+        }
+
+        // -----
+        // Do what you need to do with pass here!
+        // -----
+        android.signingConfigs.release.storePassword = pass
+        android.signingConfigs.release.keyPassword = pass
     }
 }

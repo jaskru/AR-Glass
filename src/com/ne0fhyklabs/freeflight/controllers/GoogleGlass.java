@@ -36,7 +36,7 @@ public class GoogleGlass extends Controller {
      .com/reference/android/hardware/SensorManager.html#registerListener(android.hardware
      .SensorEventListener, android.hardware.Sensor, int))
      */
-    private static final int SENSOR_DELAY = 600000; //microseconds
+    private static final int SENSOR_DELAY = SensorManager.SENSOR_DELAY_NORMAL; //microseconds
 
     private static final int YAW_CONTROL_TRIGGER = 2;
     private static final float RAD_TO_DEG = (float) (180f / Math.PI);

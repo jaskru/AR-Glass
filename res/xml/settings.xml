@@ -109,8 +109,8 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/STATUS">
         <Preference
+            android:key="@string/key_app_version"
             android:title="@string/app_name"
-            android:summary="@string/app_version"
             android:enabled="true"/>
 
         <Preference

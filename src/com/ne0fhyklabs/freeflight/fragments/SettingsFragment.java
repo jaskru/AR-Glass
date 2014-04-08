@@ -1,9 +1,10 @@
 package com.ne0fhyklabs.freeflight.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
@@ -13,6 +14,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.google.android.glass.media.Sounds;
 import com.ne0fhyklabs.freeflight.FreeFlightApplication;
@@ -21,18 +23,23 @@ import com.ne0fhyklabs.freeflight.controllers.Controller;
 import com.ne0fhyklabs.freeflight.drone.DroneConfig;
 import com.ne0fhyklabs.freeflight.receivers.DroneConfigChangedReceiver;
 import com.ne0fhyklabs.freeflight.receivers.DroneConfigChangedReceiverDelegate;
+import com.ne0fhyklabs.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
+import com.ne0fhyklabs.freeflight.receivers.DroneConnectionChangedReceiver;
 import com.ne0fhyklabs.freeflight.receivers.NetworkChangeReceiver;
 import com.ne0fhyklabs.freeflight.receivers.NetworkChangeReceiverDelegate;
 import com.ne0fhyklabs.freeflight.service.DroneControlService;
 import com.ne0fhyklabs.freeflight.settings.ApplicationSettings;
 import com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference;
-import com.ne0fhyklabs.freeflight.receivers.DroneConnectionChangedReceiver;
-import com.ne0fhyklabs.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
 
 /**
  * AR Glass preference fragment.
  */
 public class SettingsFragment extends PreferenceFragment {
+
+    /**
+     * Used as tag for logging.
+     */
+    private static final String TAG = SettingsFragment.class.getSimpleName();
 
     /**
      * Activities hosting this fragment must implement this interface.
@@ -231,8 +238,8 @@ public class SettingsFragment extends PreferenceFragment {
      * Setup the app preferences.
      */
     private void setupAppPreferences() {
-        final ApplicationSettings appSettings = ((FreeFlightApplication) getActivity()
-                .getApplicationContext()).getAppSettings();
+        final Context context = getActivity().getApplicationContext();
+        final ApplicationSettings appSettings = ((FreeFlightApplication) context).getAppSettings();
         final PreferenceManager prefs = getPreferenceManager();
 
         final CheckBoxPreference flipPref = (CheckBoxPreference) prefs.findPreference(getText(R
@@ -240,6 +247,17 @@ public class SettingsFragment extends PreferenceFragment {
         if (flipPref != null) {
             flipPref.setChecked(appSettings.isFlipEnabled());
             flipPref.setOnPreferenceChangeListener(mAppPrefChangeListener);
+        }
+
+        final Preference appVersion = prefs.findPreference(getText(R.string.key_app_version));
+        if(appVersion != null){
+            try {
+                final PackageInfo pInfo = context.getPackageManager().getPackageInfo(context
+                        .getPackageName(), 0);
+                appVersion.setSummary(pInfo.versionName);
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.w(TAG, "Unable to get app version.", e);
+            }
         }
     }
 
