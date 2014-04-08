@@ -87,7 +87,7 @@ android {
                 def file = variant.outputFile
                 def versionName = defaultConfig.versionName ?: new DefaultManifestParser().getVersionName(android.sourceSets.main.manifest.srcFile)
                 variant.outputFile = new File(file.parent, file.name.replace(".apk",
-                        "-${defaultConfig.versionName}.apk"))
+                        "-${versionName}.apk"))
             }
         }
     }

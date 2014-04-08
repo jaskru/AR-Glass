@@ -99,7 +99,7 @@ public class GoogleGlass extends Controller {
                         float angRadSpeed = event.values[1];
                         float angDegSpeed = RAD_TO_DEG * angRadSpeed;
 
-                        float angSpeedRatio = (angDegSpeed + angDegSpeed) / mDroneYawSpeed;
+                        float angSpeedRatio = (angDegSpeed *4) / mDroneYawSpeed;
 
                         if(angSpeedRatio > 1f)
                             angSpeedRatio = 1f;
