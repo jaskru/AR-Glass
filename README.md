@@ -9,4 +9,4 @@ for best performance, it's recommended to use this app in an indoor environment.
 
 ## Installation
 * Download and install the app on a Google Glass device.
-* Check the [wiki](./wiki) for additional setup information, and usage guide.
+* Check the [wiki](https://github.com/ne0fhyk/AR-Glass/wiki) for additional setup information, and usage guide.
