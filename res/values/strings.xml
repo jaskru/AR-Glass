@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
     <string name="app_name">AR.Glass</string>
-    <string name="app_version">0.2.0</string>
+    <string name="app_version">1.0</string>
 
     <!-- Google glass specific strings -->
     <string name="glass_voice_trigger">Let\'s fly</string>
