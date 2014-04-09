@@ -30,5 +30,4 @@ Google Glass device.
 ![screenshot_2014-04-08-19-26-05](https://cloud.githubusercontent.com/assets/914968/2650629/0f88769a-bf76-11e3-9a90-6403293c90cb.png)
 
 
- For additional **usage information**, please check the [user guide](https://github
-.com/ne0fhyk/AR-Glass/wiki)
+ For additional **usage information**, please check the [user guide](https://github.com/ne0fhyk/AR-Glass/wiki)
