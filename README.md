@@ -8,7 +8,7 @@ for **best performance**, it's recommended to use this app in an **indoor enviro
 - Google Glass might become **warm** while using the app.
 
 ## Installation
-* [Download](https://github.com/ne0fhyk/AR-Glass/releases/tag/v1.0) and install the app on a
+* [Download](https://github.com/ne0fhyk/AR-Glass/releases/latest) and install the app on a
 Google Glass device.
 
 ### Quick Launch Guide
