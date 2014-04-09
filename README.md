@@ -22,6 +22,7 @@ Google Glass device.
 
 
 * Once connected, launch the app:
+
   **1. "ok glass"**
 ![screenshot_2014-04-08-19-24-29](https://cloud.githubusercontent.com/assets/914968/2650613/e6672dc4-bf75-11e3-9d69-a4c3f0e60e42.png)
 
