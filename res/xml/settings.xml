@@ -15,17 +15,20 @@
                 android:key="@string/key_network_pairing"
                 android:checked="true"
                 android:title="@string/pairing"
+                android:summary="Enable to restrict pairing with the current Glass device"
                 android:persistent="false"
                 android:dependency="@string/key_network_name"/>
 
             <CheckBoxPreference
                 android:key="@string/key_usb_record"
                 android:title="@string/usb_record"
+                android:summary="Enable to record videos on the USB flash drive connected to the AR Drone. Disable to record on Glass"
                 android:persistent="false"
                 android:dependency="@string/key_network_name"/>
 
             <CheckBoxPreference
                 android:key="@string/key_flip_enabled"
+                android:summary="Enable to use the Flip function. Swipe up with one finger to trigger"
                 android:title="@string/looping_enabled"/>
 
         </PreferenceScreen>
@@ -34,6 +37,7 @@
             <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
                 android:key="@string/key_alt_limit"
                 android:title="@string/altitude_limit"
+                android:summary="Restrict the maximum altitude of the AR Drone"
                 android:max="100"
                 android:defaultValue="3"
                 robobunny:min="3"
@@ -45,6 +49,7 @@
             <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
                 android:key="@string/key_vert_speed"
                 android:title="@string/vertical_speed_max"
+                android:summary="Vertical climb and descend speed of the AR Drone"
                 android:max="2000"
                 android:defaultValue="200"
                 robobunny:min="200"
@@ -56,6 +61,7 @@
             <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
                 android:key="@string/key_yaw_speed"
                 android:title="@string/yaw_speed_max"
+                android:summary="Speed of rotation of the AR Drone"
                 android:max="350"
                 android:defaultValue="40"
                 robobunny:min="40"
@@ -67,6 +73,7 @@
             <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
                 android:key="@string/key_drone_tilt"
                 android:title="@string/tilt_angle_max"
+                android:summary="AR Drone tilt angle limit"
                 android:max="30"
                 android:defaultValue="5"
                 robobunny:min="5"
@@ -78,18 +85,21 @@
             <CheckBoxPreference
                 android:key="@string/key_outdoor_hull"
                 android:title="@string/outdoor_hull"
+                android:summary="Enable if the outdoor hull is installed"
                 android:persistent="false"
                 android:dependency="@string/key_network_name"/>
 
             <CheckBoxPreference
                 android:key="@string/key_outdoor_flight"
                 android:title="@string/outdoor_flight"
+                android:summary="Enable if flying outdoors"
                 android:persistent="false"
                 android:dependency="@string/key_network_name"/>
 
             <Preference
                 android:key="@string/key_flat_trim"
                 android:title="@string/flat_trim"
+                android:summary="Sets the horizontal reference of the AR Drone"
                 android:dependency="@string/key_network_name"/>
         </PreferenceScreen>
 
@@ -97,8 +107,9 @@
             <com.ne0fhyklabs.freeflight.ui.controls.SeekBarPreference
                 android:key="@string/key_device_tilt"
                 android:title="@string/tilt_max"
+                android:summary="Glass tilt angle limit"
                 android:max="50"
-                android:defaultValue="10"
+                android:defaultValue="20"
                 android:dependency="@string/key_network_name"
                 android:persistent="false"
                 robobunny:min="5"
