@@ -1,7 +1,7 @@
 # AR Glass
 AR Glass is a Google Glass app used to control the Parrot AR Drone via head gestures.
 
-## Caveats
+## Caveats!
 - Google Glass wifi sensor has a lower range than a typical Android device,
 resulting in a very limited range with the Parrot AR Drone wifi when used outside. As such,
 for best performance, it's recommended to use this app in an indoor environment.
